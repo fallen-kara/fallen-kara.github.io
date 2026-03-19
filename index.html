@@ -463,7 +463,7 @@ const db  = getFirestore(app);
 // ── loader typewriter ──
 (function(){
   var el=document.getElementById("ld-type");if(!el)return;
-  var msgs=["entering the fallen earth","loading soul data","oh god forgive me","still here..."];
+  var msgs=["entering the fallen page","loading soul data","oh god forgive me","still here..."];
   var mi=0,ci=0,del=false,wait=0;
   function step(){if(wait>0){wait--;setTimeout(step,80);return;}var m=msgs[mi];if(!del){el.textContent=m.slice(0,++ci);if(ci>=m.length){del=true;wait=22;setTimeout(step,80);}else setTimeout(step,65);}else{el.textContent=m.slice(0,--ci);if(ci<=0){del=false;mi=(mi+1)%msgs.length;wait=8;setTimeout(step,80);}else setTimeout(step,38);}}
   setTimeout(step,600);
