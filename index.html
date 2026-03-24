@@ -157,6 +157,16 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .vid-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;}
 .now-playing-label{font-family:var(--mono);font-size:12px;color:rgba(148,102,35,.50);letter-spacing:.10em;margin-top:7px;padding:4px 8px;background:rgba(0,0,0,.40);border-left:2px solid rgba(158,78,14,.28);animation:npBlink 2.8s step-start infinite;}
 @keyframes npBlink{0%,100%{opacity:.50;}45%{opacity:.22;}}
+
+/* ── photo box ── */
+.photo-box{padding:10px 10px 8px;text-align:center;}
+.photo-frame{position:relative;width:100%;overflow:hidden;border:1px solid var(--border);background:#000;box-shadow:0 0 28px rgba(100,40,0,.30),inset 0 0 20px rgba(0,0,0,.60);}
+.photo-frame img{display:block;width:100%;height:auto;object-fit:cover;filter:sepia(.18) brightness(.88) contrast(1.06);transition:filter .4s ease;}
+.photo-frame:hover img{filter:sepia(.06) brightness(.96) contrast(1.04);}
+.photo-frame::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0px,transparent 3px,rgba(0,0,0,.06) 3px,rgba(0,0,0,.06) 4px);pointer-events:none;z-index:2;}
+.photo-frame::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(180,80,0,.14),transparent 55%),radial-gradient(ellipse at 50% 100%,rgba(0,0,0,.55),transparent 60%);pointer-events:none;z-index:3;}
+.photo-caption{font-family:var(--mono);font-size:11px;color:rgba(148,100,36,.44);letter-spacing:.14em;text-transform:uppercase;margin-top:6px;}
+
 /* GUESTBOOK */
 .guest-count-badge{font-family:var(--mono);font-size:12px;color:rgba(158,108,38,.55);letter-spacing:.10em;background:rgba(0,0,0,.45);border:1px solid rgba(138,78,18,.20);padding:2px 8px;margin-left:4px;vertical-align:middle;}
 .guest-row-fields{display:flex;gap:10px;flex-wrap:wrap;}
@@ -297,6 +307,14 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
           <dt>locale</dt><dd><span class="t-ghost">fallen earth</span></dd>
           <dt>status</dt><dd><span class="t-ember">"still here."</span></dd>
         </dl>
+      </div>
+
+      <!-- photo box — placed right after dossier -->
+      <div class="box photo-box">
+        <div class="photo-frame">
+          <img src="https://i.ibb.co/d4hH55JG/682eb483bbd4de34a29e6e8c01058a60.jpg" alt="kara" loading="lazy" draggable="false"/>
+        </div>
+        <div class="photo-caption">☽ &nbsp; kara &nbsp; ☽</div>
       </div>
 
       <div class="box" style="padding:10px 12px;">
