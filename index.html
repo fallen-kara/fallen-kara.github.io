@@ -1078,10 +1078,10 @@ const db=getFirestore(app);
         last = ts;
 
         if (reverse) {
-          pos -= speed * (dt / 1000);
+          pos -= speed * (dt / 50);
           if (pos <= -copyW) pos += copyW;
         } else {
-          pos -= speed * (dt / 1000);
+          pos -= speed * (dt / 50);
           if (pos <= -copyW) pos += copyW;
         }
 
