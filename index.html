@@ -260,6 +260,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .vid-ratio{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:1px solid var(--border);border-radius:6px;box-shadow:0 0 22px rgba(8,20,42,.12),inset 0 0 16px rgba(0,0,0,.50);}
 .vid-ratio::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(12,30,55,.12),transparent 52%);box-shadow:inset 0 0 32px rgba(0,0,0,.38);border-radius:6px;}
 .vid-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;}
+.vid-shield{position:absolute;inset:0;z-index:2;cursor:pointer;background:transparent;}
 .now-playing-bar{font-family:var(--mono);font-size:12px;color:rgba(60,100,135,.38);letter-spacing:.10em;margin-top:7px;padding:5px 10px;background:rgba(2,4,10,.52);border-left:2px solid rgba(35,60,100,.20);border-radius:0 4px 4px 0;display:flex;justify-content:space-between;align-items:center;}
 .np-anim{display:inline-flex;gap:2px;align-items:flex-end;height:14px;margin-right:4px;}
 .np-anim span{display:inline-block;width:3px;background:var(--accent);border-radius:1px;animation:npBar 1.4s ease-in-out infinite;}
@@ -570,6 +571,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
         <div class="box-title">now playing</div>
         <div class="vid-ratio">
           <iframe src="https://www.youtube.com/embed/F02iMCEEQWs?si=Xrhk_ADcqBIpDBmz" title="now playing" frameborder="0" loading="lazy" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+          <div class="vid-shield" id="vid-shield"></div>
         </div>
         <p class="now-playing-bar">
           <span><span class="np-anim"><span></span><span></span><span></span><span></span></span> fallen · now playing</span>
@@ -724,9 +726,40 @@ const db  = getFirestore(app);
 // ── lockdown ──
 (function(){
   document.body.classList.add("lock");
-  document.addEventListener("contextmenu",function(e){if(e.target.closest('#guest-form'))return;e.preventDefault();});
-  ["copy","cut","paste","dragstart","selectstart"].forEach(function(ev){document.addEventListener(ev,function(e){if(e.target.closest('#guest-form'))return;e.preventDefault();});});
-  document.addEventListener("keydown",function(e){if(e.target.closest('#guest-form'))return;var k=(e.key||"").toLowerCase(),c=e.ctrlKey||e.metaKey;if(k==="f12"||(c&&(k==="u"||k==="s"||k==="p"||k==="c"||k==="x"||k==="a"||k==="v"||k==="g"||k==="h"))||(c&&e.shiftKey&&(k==="i"||k==="j"||k==="c"||k==="k"))){e.preventDefault();e.stopPropagation();}},true);
+  function isForm(e){return e.target&&e.target.closest&&e.target.closest('#guest-form');}
+  // block context menu (capture phase)
+  document.addEventListener("contextmenu",function(e){if(isForm(e))return;e.preventDefault();e.stopPropagation();return false;},true);
+  // block text/drag events (capture phase)
+  ["copy","cut","paste","dragstart","selectstart","drag","drop"].forEach(function(ev){document.addEventListener(ev,function(e){if(isForm(e))return;e.preventDefault();e.stopPropagation();return false;},true);});
+  // block keyboard shortcuts (capture phase)
+  document.addEventListener("keydown",function(e){
+    if(isForm(e))return;
+    var k=(e.key||"").toLowerCase(),c=e.ctrlKey||e.metaKey,s=e.shiftKey;
+    // F-keys
+    if(k==="f12"||k==="f5"){e.preventDefault();e.stopPropagation();return false;}
+    // Ctrl/Cmd + key
+    if(c&&"u s p c x a v g h d e f j i r w l".split(" ").indexOf(k)>-1){e.preventDefault();e.stopPropagation();return false;}
+    // Ctrl/Cmd + Shift + key
+    if(c&&s&&"i j c k m s e".split(" ").indexOf(k)>-1){e.preventDefault();e.stopPropagation();return false;}
+  },true);
+  // video shield — blocks right-click, passes left-click through to iframe
+  var shield=document.getElementById('vid-shield');
+  if(shield){
+    shield.addEventListener('contextmenu',function(e){e.preventDefault();e.stopPropagation();},true);
+    shield.addEventListener('click',function(){shield.style.pointerEvents='none';setTimeout(function(){shield.style.pointerEvents='auto';},400);});
+    shield.addEventListener('dblclick',function(){shield.style.pointerEvents='none';setTimeout(function(){shield.style.pointerEvents='auto';},400);});
+  }
+  // devtools detection — clear page if devtools opened
+  var _dt=false;
+  function chkDT(){
+    var w=window.outerWidth-window.innerWidth>160,h=window.outerHeight-window.innerHeight>160;
+    if((w||h)&&!_dt){_dt=true;document.title='☩';document.body.innerHTML='<div style="background:#000;color:#111;position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:14px;letter-spacing:.2em">☩</div>';}
+  }
+  setInterval(chkDT,800);window.addEventListener('resize',chkDT);
+  // block print
+  window.addEventListener('beforeprint',function(e){e.preventDefault();});
+  // disable image drag globally
+  document.addEventListener('mousedown',function(e){if(e.target.tagName==='IMG')e.preventDefault();},true);
 })();
 
 // ══════════════════════════════════════════════
