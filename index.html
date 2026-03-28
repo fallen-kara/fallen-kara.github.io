@@ -639,7 +639,6 @@ const db  = getFirestore(app);
 (function(){
   document.body.classList.add("lock");
   document.addEventListener("contextmenu",function(e){if(e.target.closest('#guest-form'))return;e.preventDefault();});
-  document.addEventListener("click",function(e){if(e.target.closest('iframe')||e.target.tagName==='IFRAME'){e.preventDefault();e.stopPropagation();}},{capture:true});
   ["copy","cut","paste","dragstart","selectstart"].forEach(function(ev){document.addEventListener(ev,function(e){if(e.target.closest('#guest-form'))return;e.preventDefault();});});
   document.addEventListener("keydown",function(e){if(e.target.closest('#guest-form'))return;var k=(e.key||"").toLowerCase(),c=e.ctrlKey||e.metaKey;if(k==="f12"||(c&&(k==="u"||k==="s"||k==="p"||k==="c"||k==="x"||k==="a"||k==="v"||k==="g"||k==="h"))||(c&&e.shiftKey&&(k==="i"||k==="j"||k==="c"||k==="k"))){e.preventDefault();e.stopPropagation();}},true);
 })();
