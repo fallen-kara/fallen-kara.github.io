@@ -416,16 +416,18 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
   width:clamp(120px,12vw,200px);
   transform:translateY(-50%);
   pointer-events:none;
-  opacity:.18;
-  filter:brightness(.6) contrast(1.1) saturate(.5) sepia(.1);
+  opacity:.38;
+  filter:brightness(.78) contrast(1.08) saturate(.55) sepia(.08);
   border-radius:6px;
   transition:opacity .4s ease;
-  mask-image:linear-gradient(to bottom,transparent 0%,black 15%,black 85%,transparent 100%);
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 15%,black 85%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,black 18%,black 82%,transparent 100%),linear-gradient(to right,transparent 0%,black 14%,black 86%,transparent 100%);
+  mask-composite:intersect;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 18%,black 82%,transparent 100%),linear-gradient(to right,transparent 0%,black 14%,black 86%,transparent 100%);
+  -webkit-mask-composite:source-in;
 }
 .side-img-left{left:12px;}
 .side-img-right{right:12px;}
-@media(max-width:1100px){.side-img{opacity:.10;width:clamp(80px,10vw,140px);}}
+@media(max-width:1100px){.side-img{opacity:.24;width:clamp(80px,10vw,140px);}}
 @media(max-width:860px){.side-img{display:none;}}
 
 /* ── responsive ── */
@@ -811,7 +813,7 @@ const db  = getFirestore(app);
   document.body.classList.add("lock");
   function isForm(e){return e.target&&e.target.closest&&e.target.closest('#guest-form');}
   // block context menu (capture phase)
-  document.addEventListener("contextmenu",function(e){if(isForm(e))return;e.preventDefault();e.stopPropagation();return false;},true);
+  document.addEventListener("contextmenu",function(e){e.preventDefault();e.stopPropagation();return false;},true);
   // block text/drag events (capture phase)
   ["copy","cut","paste","dragstart","selectstart","drag","drop"].forEach(function(ev){document.addEventListener(ev,function(e){if(isForm(e))return;e.preventDefault();e.stopPropagation();return false;},true);});
   // block keyboard shortcuts (capture phase)
