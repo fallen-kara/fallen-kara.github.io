@@ -32,6 +32,10 @@
   --accent:#4a7a9e;
   --accent-bright:#7aacce;
   --accent-dim:rgba(70,118,156,.16);
+  --glass-bg:rgba(4,6,14,0.82);
+  --glass-border:rgba(40,70,120,.14);
+  --glass-shine:rgba(55,100,150,.06);
+  --radius:12px;
   --frak:"UnifrakturMaguntia",serif;
   --fell:"IM Fell English","Crimson Text",Georgia,serif;
   --mono:"VT323",monospace;
@@ -87,12 +91,12 @@ body.lock{-webkit-user-select:none;user-select:none;}
 .ld-sub{font-family:var(--mono);font-size:12px;color:rgba(70,110,150,.42);letter-spacing:.18em;text-transform:uppercase;animation:ldSubFade 5s ease-in-out forwards;}
 @keyframes ldSubFade{0%{opacity:0;}20%{opacity:.50;}80%{opacity:.50;}100%{opacity:0;}}
 
-/* ── page wrapper ── */
-#page{max-width:1020px;margin:0 auto;padding:18px 12px 64px;opacity:0;transition:opacity .8s ease .2s;}
+/* ── page wrapper — single-column centered ── */
+#page{max-width:720px;margin:0 auto;padding:24px 18px 64px;opacity:0;transition:opacity .8s ease .2s;}
 #page.show{opacity:1;}
 
 /* ── header ── */
-#header{text-align:center;padding:28px 14px 14px;position:relative;}
+#header{text-align:center;padding:32px 14px 18px;position:relative;}
 .header-poles{display:flex;align-items:center;justify-content:center;gap:20px;margin:0 0 4px;}
 .h-pole{display:flex;flex-direction:column;align-items:center;opacity:.70;}
 .h-pole-glow{width:14px;height:14px;background:radial-gradient(circle,rgba(110,165,210,1) 18%,rgba(70,120,170,.50) 50%,transparent 78%);border-radius:50%;filter:blur(1px);box-shadow:0 0 16px 5px rgba(80,130,185,.30);animation:hpGlow 2.8s ease-in-out infinite;}
@@ -136,7 +140,7 @@ body.lock{-webkit-user-select:none;user-select:none;}
 
 /* ── blinkies ── */
 .blinkie-strip{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:8px 0;}
-.blinkie{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 7px;border:1px solid;white-space:nowrap;letter-spacing:.07em;animation:blinkF 3s step-start infinite;}
+.blinkie{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 7px;border:1px solid;white-space:nowrap;letter-spacing:.07em;animation:blinkF 3s step-start infinite;border-radius:3px;}
 .blinkie:nth-child(2n){animation-delay:.6s;}.blinkie:nth-child(3n){animation-delay:1.2s;}.blinkie:nth-child(4n){animation-delay:1.8s;}.blinkie:nth-child(5n){animation-delay:2.5s;}.blinkie:nth-child(7n){animation-delay:.3s;}
 @keyframes blinkF{0%,100%{opacity:.78;}45%,55%{opacity:.22;}}
 .bk-red{color:#8a2840;border-color:#4a1420;background:rgba(30,4,12,.70);}
@@ -146,36 +150,62 @@ body.lock{-webkit-user-select:none;user-select:none;}
 .bk-rust{color:var(--accent);border-color:rgba(30,50,80,.40);background:rgba(3,8,18,.75);}
 
 /* ── divider ── */
-.divider{display:flex;align-items:center;gap:12px;margin:14px 0;}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
 .divider::before,.divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(45,80,120,.22) 35%,rgba(45,80,120,.12) 65%,transparent);}
 .div-sym{font-size:12px;color:rgba(50,90,125,.34);white-space:nowrap;letter-spacing:.24em;flex:0 0 auto;animation:symGlow 4s ease-in-out infinite;}
 @keyframes symGlow{0%,100%{text-shadow:0 0 5px rgba(45,80,120,.14);}50%{text-shadow:0 0 12px rgba(60,105,150,.30);}}
 
-/* ── layout ── */
-.columns{display:grid;grid-template-columns:200px 1fr 262px;gap:14px;align-items:start;margin-top:14px;}
-@media(max-width:880px){.columns{grid-template-columns:180px 1fr;}.col-right{display:none;}}
-@media(max-width:640px){.columns{grid-template-columns:1fr;}}
-
-/* ── box ── */
-.box{background:var(--box-bg);border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:12px;position:relative;
-  box-shadow:0 4px 28px rgba(0,0,0,.72),inset 0 1px 0 rgba(40,75,120,.03);
-  transition:box-shadow .3s ease,border-color .3s ease;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
-.box:hover{box-shadow:0 6px 34px rgba(0,0,0,.80),0 0 0 1px rgba(40,65,105,.08),0 0 18px rgba(25,55,90,.05);}
-.box::before{content:"";position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(50,90,140,.10),transparent);pointer-events:none;}
-.box-title{font-family:var(--frak);font-size:22px;color:rgba(100,150,190,.78);text-shadow:0 0 12px rgba(45,85,130,.22);border-bottom:1px solid rgba(35,60,100,.12);padding-bottom:6px;margin-bottom:10px;letter-spacing:.02em;line-height:1;display:flex;align-items:center;gap:8px;}
+/* ── box (glassmorphism upgrade) ── */
+.box{
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  margin-bottom:0;
+  position:relative;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,.60),
+    0 2px 8px rgba(0,0,0,.40),
+    inset 0 1px 0 var(--glass-shine),
+    inset 0 0 30px rgba(2,6,16,.25);
+  transition:box-shadow .35s ease,border-color .35s ease,transform .35s ease;
+  backdrop-filter:blur(12px) saturate(1.1);
+  -webkit-backdrop-filter:blur(12px) saturate(1.1);
+  overflow:hidden;
+}
+.box:hover{
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.68),
+    0 0 1px rgba(50,90,140,.12),
+    0 0 24px rgba(30,65,110,.06),
+    inset 0 1px 0 var(--glass-shine),
+    inset 0 0 30px rgba(2,6,16,.25);
+  border-color:rgba(50,85,135,.20);
+}
+.box::before{content:"";position:absolute;top:0;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,rgba(60,105,155,.12),transparent);pointer-events:none;}
+.box::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(40,70,110,.06),transparent);pointer-events:none;}
+.box-title{font-family:var(--frak);font-size:22px;color:rgba(100,150,190,.78);text-shadow:0 0 12px rgba(45,85,130,.22);border-bottom:1px solid rgba(35,60,100,.12);padding-bottom:8px;margin-bottom:12px;letter-spacing:.02em;line-height:1;display:flex;align-items:center;gap:8px;}
 .box-title::before{content:"☽";font-size:12px;opacity:.35;font-family:inherit;}
 
+/* ── card grid (2-col for sidebar items) ── */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:540px){.card-grid{grid-template-columns:1fr;}}
+
+/* ── clock + counter row ── */
+.utility-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:540px){.utility-row{grid-template-columns:1fr;}}
+
 /* ── portrait/sidebar ── */
-.portrait-box{text-align:center;padding:16px 12px 14px;}
-.portrait-art{width:140px;height:140px;margin:0 auto 12px;border:1px solid rgba(40,70,110,.20);border-radius:8px;
+.portrait-box{text-align:center;padding:20px 16px 18px;}
+.portrait-art{width:150px;height:150px;margin:0 auto 14px;border:1px solid rgba(40,70,110,.20);border-radius:var(--radius);
   background:radial-gradient(ellipse at 50% 38%,rgba(8,18,40,.22),transparent 68%),rgba(1,2,6,.92);
   display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
   box-shadow:0 0 32px rgba(20,45,80,.10),inset 0 0 24px rgba(0,0,0,.65);}
-.portrait-art svg{width:124px;height:108px;filter:drop-shadow(0 0 16px rgba(70,115,170,.28));}
+.portrait-art svg{width:130px;height:114px;filter:drop-shadow(0 0 16px rgba(70,115,170,.28));}
 .portrait-art::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(30,60,110,.18),transparent 65%);animation:pBreath 5s ease-in-out infinite;}
 @keyframes pBreath{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.06);}}
 .portrait-art::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0px,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none;z-index:2;}
-.handle{font-family:var(--frak);font-size:22px;color:rgba(100,150,190,.78);text-shadow:0 0 12px rgba(45,85,130,.25);line-height:1;}
+.handle{font-family:var(--frak);font-size:24px;color:rgba(100,150,190,.78);text-shadow:0 0 12px rgba(45,85,130,.25);line-height:1;}
 .handle-sub{font-family:var(--mono);font-size:12px;color:var(--text2);letter-spacing:.12em;margin-top:4px;}
 .handle-status{display:inline-block;font-family:var(--mono);font-size:11px;color:rgba(70,115,150,.48);letter-spacing:.10em;margin-top:8px;padding:3px 10px;border:1px solid rgba(35,60,100,.18);border-radius:12px;background:rgba(4,8,18,.55);animation:statGlow 5s ease-in-out infinite;}
 @keyframes statGlow{0%,100%{box-shadow:none;}50%{box-shadow:0 0 8px rgba(40,80,125,.10);border-color:rgba(50,90,135,.25);}}
@@ -190,20 +220,20 @@ body.lock{-webkit-user-select:none;user-select:none;}
 .stat-grid dd:last-child{border-bottom:none;}
 
 /* ── clock ── */
-.clock-wrap{text-align:center;padding:12px 10px 10px;}
+.clock-wrap{text-align:center;padding:14px 10px 12px;}
 .clock-title{font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(50,85,120,.36);margin-bottom:8px;}
-.clock-display{font-family:var(--mono);font-size:28px;letter-spacing:.12em;color:rgba(100,155,200,.72);text-shadow:0 0 18px rgba(50,100,155,.28);animation:clockPulse 4s ease-in-out infinite;}
+.clock-display{font-family:var(--mono);font-size:30px;letter-spacing:.12em;color:rgba(100,155,200,.72);text-shadow:0 0 18px rgba(50,100,155,.28);animation:clockPulse 4s ease-in-out infinite;}
 @keyframes clockPulse{0%,100%{text-shadow:0 0 12px rgba(50,100,155,.22);}50%{text-shadow:0 0 22px rgba(70,125,175,.40);}}
 .clock-date{font-family:var(--fell);font-style:italic;font-size:12px;color:rgba(70,110,145,.38);margin-top:4px;letter-spacing:.06em;}
 .clock-sep{display:inline;animation:clockBlink 1s step-start infinite;}
 @keyframes clockBlink{0%,100%{opacity:1;}50%{opacity:.30;}}
 
 /* ── counter ── */
-.counter-wrap{text-align:center;padding:14px 10px 10px;}
+.counter-wrap{text-align:center;padding:14px 10px 12px;}
 .counter-title{font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(50,85,120,.36);margin-bottom:10px;}
 .counter{display:flex;justify-content:center;align-items:center;gap:3px;margin-bottom:6px;}
-.cnt-digit{display:inline-flex;align-items:center;justify-content:center;width:26px;height:34px;
-  background:linear-gradient(180deg,rgba(5,10,20,.92),rgba(2,5,14,.96));border:1px solid rgba(35,60,100,.15);border-radius:4px;
+.cnt-digit{display:inline-flex;align-items:center;justify-content:center;width:28px;height:36px;
+  background:linear-gradient(180deg,rgba(5,10,20,.92),rgba(2,5,14,.96));border:1px solid rgba(35,60,100,.15);border-radius:5px;
   font-family:var(--mono);font-size:24px;color:var(--accent-bright);position:relative;overflow:hidden;
   box-shadow:inset 0 1px 0 rgba(60,100,150,.04),inset 0 0 10px rgba(0,0,0,.50),0 2px 8px rgba(0,0,0,.40);}
 .cnt-digit::after{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(35,60,100,.08);pointer-events:none;}
@@ -217,34 +247,34 @@ body.lock{-webkit-user-select:none;user-select:none;}
 @keyframes newShow{0%{opacity:0;transform:translateY(4px);}15%{opacity:.80;transform:translateY(0);}75%{opacity:.72;}100%{opacity:0;transform:translateY(-3px);}}
 
 /* ── blinkies sidebar ── */
-.sb-blinkies{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:4px;}
+.sb-blinkies{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:4px;}
 
 /* ── photo box ── */
-.photo-box{padding:10px 10px 8px;text-align:center;}
-.photo-frame{position:relative;width:100%;overflow:hidden;border:1px solid rgba(35,60,100,.16);border-radius:6px;background:#010104;
+.photo-box{padding:14px 14px 12px;text-align:center;}
+.photo-frame{position:relative;width:100%;margin:0 auto;overflow:hidden;border:1px solid rgba(35,60,100,.16);border-radius:var(--radius);background:#010104;
   box-shadow:0 0 22px rgba(12,30,55,.10),inset 0 0 18px rgba(0,0,0,.60);}
 .photo-frame img{display:block;width:100%;height:auto;object-fit:cover;filter:brightness(.85) contrast(1.08) saturate(.85) hue-rotate(200deg);transition:filter .4s ease;}
 .photo-frame:hover img{filter:brightness(.90) contrast(1.06) saturate(.92) hue-rotate(200deg);}
-.photo-frame::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0px,transparent 4px,rgba(0,0,0,.04) 4px,rgba(0,0,0,.04) 5px);pointer-events:none;z-index:2;border-radius:6px;}
-.photo-frame::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(30,60,110,.12),transparent 55%),radial-gradient(ellipse at 50% 100%,rgba(0,0,0,.50),transparent 60%);pointer-events:none;z-index:3;border-radius:6px;}
-.photo-caption{font-family:var(--mono);font-size:11px;color:rgba(50,90,125,.32);letter-spacing:.14em;text-transform:uppercase;margin-top:6px;}
+.photo-frame::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0px,transparent 4px,rgba(0,0,0,.04) 4px,rgba(0,0,0,.04) 5px);pointer-events:none;z-index:2;border-radius:var(--radius);}
+.photo-frame::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(30,60,110,.12),transparent 55%),radial-gradient(ellipse at 50% 100%,rgba(0,0,0,.50),transparent 60%);pointer-events:none;z-index:3;border-radius:var(--radius);}
+.photo-caption{font-family:var(--mono);font-size:11px;color:rgba(50,90,125,.32);letter-spacing:.14em;text-transform:uppercase;margin-top:8px;}
 
 /* ── about ── */
 .about-text p{color:rgba(130,158,182,.62);margin-bottom:12px;font-size:15.5px;line-height:1.88;}
 .about-text p:last-child{margin-bottom:0;}
 .about-text p:first-child::first-letter{font-family:var(--frak);font-size:54px;line-height:1;float:left;margin:2px 11px 0 0;color:rgba(100,150,190,.80);}
-.link-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-.site-link{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border:1px solid var(--border2);border-radius:4px;background:rgba(3,5,12,.70);color:rgba(90,135,175,.72);font-family:var(--mono);font-size:13px;letter-spacing:.10em;text-transform:uppercase;text-decoration:none;transition:background .18s ease,color .18s ease,border-color .18s ease;}
-.site-link:hover{background:rgba(8,18,35,.25);color:rgba(130,175,210,.85);border-color:rgba(45,80,120,.24);}
+.link-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.site-link{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid var(--border2);border-radius:8px;background:rgba(3,5,12,.70);color:rgba(90,135,175,.72);font-family:var(--mono);font-size:13px;letter-spacing:.10em;text-transform:uppercase;text-decoration:none;transition:background .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease;}
+.site-link:hover{background:rgba(8,18,35,.25);color:rgba(130,175,210,.85);border-color:rgba(45,80,120,.24);box-shadow:0 0 12px rgba(30,65,110,.08);}
 
 /* ── favorites/tabs ── */
 .fav-tabs{display:flex;gap:0;margin-bottom:-1px;}
-.ftab{font-family:var(--mono);font-size:12px;letter-spacing:.10em;text-transform:uppercase;color:rgba(50,85,120,.40);padding:5px 12px;border:1px solid transparent;border-radius:4px 4px 0 0;cursor:pointer;user-select:none;transition:color .15s ease;}
-.ftab.on{color:rgba(100,150,190,.78);border:1px solid var(--border);border-bottom-color:var(--box-bg);background:var(--box-bg);border-radius:4px 4px 0 0;}
+.ftab{font-family:var(--mono);font-size:12px;letter-spacing:.10em;text-transform:uppercase;color:rgba(50,85,120,.40);padding:6px 14px;border:1px solid transparent;border-radius:var(--radius) var(--radius) 0 0;cursor:pointer;user-select:none;transition:color .15s ease,background .15s ease;}
+.ftab.on{color:rgba(100,150,190,.78);border:1px solid var(--glass-border);border-bottom-color:var(--glass-bg);background:var(--glass-bg);border-radius:var(--radius) var(--radius) 0 0;}
 .ftab:not(.on):hover{color:rgba(80,125,165,.65);}
 .fav-panel{display:none;}.fav-panel.on{display:block;}
 ul.fav{list-style:none;display:grid;gap:5px;}
-ul.fav li{padding:7px 10px 7px 12px;border-left:2px solid rgba(30,55,90,.18);border-radius:0 4px 4px 0;background:rgba(2,4,10,.42);display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;transition:border-color .20s ease;}
+ul.fav li{padding:8px 12px 8px 14px;border-left:2px solid rgba(30,55,90,.18);border-radius:0 8px 8px 0;background:rgba(2,4,10,.42);display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;transition:border-color .20s ease,background .20s ease;}
 ul.fav li:hover{border-left-color:rgba(70,115,160,.38);background:rgba(3,6,18,.50);}
 ul.fav li b{color:rgba(100,150,195,.75);font-size:15px;font-weight:600;}
 ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
@@ -256,12 +286,22 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .update-date{font-family:var(--mono);font-size:11.5px;color:rgba(50,90,125,.38);letter-spacing:.05em;white-space:nowrap;}
 .update-text{font-size:14px;color:rgba(105,140,168,.52);line-height:1.68;}
 
-/* ── video ── */
-.vid-ratio{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:1px solid var(--border);border-radius:6px;box-shadow:0 0 22px rgba(8,20,42,.12),inset 0 0 16px rgba(0,0,0,.50);}
-.vid-ratio::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(12,30,55,.12),transparent 52%);box-shadow:inset 0 0 32px rgba(0,0,0,.38);border-radius:6px;}
+/* ── video player (upgraded container) ── */
+.vid-container{position:relative;border-radius:var(--radius);overflow:hidden;
+  background:linear-gradient(180deg,rgba(3,6,16,.90),rgba(1,2,8,.95));
+  border:1px solid var(--glass-border);
+  box-shadow:0 8px 40px rgba(0,0,0,.65),0 0 0 1px rgba(30,60,100,.06),inset 0 1px 0 var(--glass-shine);}
+.vid-container::before{content:"";position:absolute;top:0;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,rgba(60,105,155,.12),transparent);pointer-events:none;z-index:5;}
+.vid-ratio{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius) var(--radius) 0 0;}
+.vid-ratio::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 0%,rgba(12,30,55,.12),transparent 52%);
+  box-shadow:inset 0 0 40px rgba(0,0,0,.42);border-radius:var(--radius) var(--radius) 0 0;}
 .vid-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;}
 .vid-shield{position:absolute;inset:0;z-index:2;cursor:pointer;background:transparent;}
-.now-playing-bar{font-family:var(--mono);font-size:12px;color:rgba(60,100,135,.38);letter-spacing:.10em;margin-top:7px;padding:5px 10px;background:rgba(2,4,10,.52);border-left:2px solid rgba(35,60,100,.20);border-radius:0 4px 4px 0;display:flex;justify-content:space-between;align-items:center;}
+.now-playing-bar{font-family:var(--mono);font-size:12px;color:rgba(60,100,135,.38);letter-spacing:.10em;padding:10px 16px;
+  background:linear-gradient(180deg,rgba(2,5,14,.65),rgba(1,3,10,.80));
+  border-top:1px solid rgba(30,55,90,.10);
+  display:flex;justify-content:space-between;align-items:center;}
 .np-anim{display:inline-flex;gap:2px;align-items:flex-end;height:14px;margin-right:4px;}
 .np-anim span{display:inline-block;width:3px;background:var(--accent);border-radius:1px;animation:npBar 1.4s ease-in-out infinite;}
 .np-anim span:nth-child(1){height:5px;animation-delay:0s;}
@@ -270,31 +310,42 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .np-anim span:nth-child(4){height:12px;animation-delay:.1s;}
 @keyframes npBar{0%,100%{transform:scaleY(.35);}50%{transform:scaleY(1);}}
 
-/* ── guestbook (right column) ── */
-.col-right{display:flex;flex-direction:column;}
+/* ── guestbook (centered, prominent) ── */
 #guestbook-box{
-  background:linear-gradient(180deg,rgba(4,6,16,.96) 0%,rgba(2,3,10,.98) 100%);
-  border:1px solid rgba(40,70,115,.14);
-  box-shadow:0 6px 40px rgba(0,0,0,.78),inset 0 1px 0 rgba(55,95,140,.04),inset 0 0 40px rgba(5,15,35,.20);
+  background:linear-gradient(180deg,rgba(4,7,18,.88) 0%,rgba(2,4,12,.94) 100%);
+  border:1px solid rgba(45,80,125,.16);
+  border-radius:var(--radius);
+  padding:24px 24px 20px;
+  box-shadow:
+    0 10px 50px rgba(0,0,0,.70),
+    0 0 60px rgba(20,50,90,.06),
+    inset 0 1px 0 rgba(60,105,155,.06),
+    inset 0 0 40px rgba(5,15,35,.18);
   position:relative;overflow:hidden;
+  backdrop-filter:blur(14px) saturate(1.15);
+  -webkit-backdrop-filter:blur(14px) saturate(1.15);
 }
 #guestbook-box::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 80% 30% at 50% 0%,rgba(30,65,110,.06),transparent 60%),
-  radial-gradient(ellipse 60% 20% at 50% 100%,rgba(20,45,80,.04),transparent 55%);
+  background:
+    radial-gradient(ellipse 80% 25% at 50% 0%,rgba(30,65,110,.07),transparent 60%),
+    radial-gradient(ellipse 60% 20% at 50% 100%,rgba(20,45,80,.04),transparent 55%);
 }
-#guestbook-box .box-title{position:relative;z-index:1;font-family:var(--frak);font-size:22px;color:rgba(100,155,200,.82);text-shadow:0 0 14px rgba(40,80,130,.25);border-bottom:1px solid rgba(40,70,110,.16);padding-bottom:8px;margin-bottom:12px;letter-spacing:.03em;}
-.guest-count-badge{font-family:var(--mono);font-size:11px;color:rgba(80,130,175,.50);letter-spacing:.10em;background:rgba(8,16,30,.65);border:1px solid rgba(45,75,115,.18);border-radius:12px;padding:2px 10px;margin-left:6px;vertical-align:middle;box-shadow:inset 0 1px 4px rgba(0,0,0,.30);}
-.guest-form{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;}
-.guest-row-fields{display:flex;gap:10px;flex-wrap:wrap;}
-.guest-field-name{flex:1 1 100%;}
-.guest-field-vibe{flex:1 1 100%;}
-.guest-field{display:flex;flex-direction:column;gap:4px;}
+#guestbook-box::before{content:"";position:absolute;top:0;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,rgba(60,105,155,.14),transparent);pointer-events:none;z-index:5;}
+#guestbook-box .box-title{position:relative;z-index:1;font-family:var(--frak);font-size:26px;color:rgba(100,155,200,.82);text-shadow:0 0 16px rgba(40,80,130,.28);border-bottom:1px solid rgba(40,70,110,.16);padding-bottom:10px;margin-bottom:16px;letter-spacing:.03em;}
+#guestbook-box .box-title::before{content:"✒";font-size:14px;opacity:.40;}
+.guest-count-badge{font-family:var(--mono);font-size:11px;color:rgba(80,130,175,.50);letter-spacing:.10em;background:rgba(8,16,30,.65);border:1px solid rgba(45,75,115,.18);border-radius:12px;padding:2px 10px;margin-left:8px;vertical-align:middle;box-shadow:inset 0 1px 4px rgba(0,0,0,.30);}
+.guest-form{display:flex;flex-direction:column;gap:12px;position:relative;z-index:1;}
+.guest-row-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:480px){.guest-row-fields{grid-template-columns:1fr;}}
+.guest-field-name{flex:1 1 auto;}
+.guest-field-vibe{flex:1 1 auto;}
+.guest-field{display:flex;flex-direction:column;gap:5px;}
 .guest-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(55,95,135,.42);}
 .guest-input{
   background:linear-gradient(180deg,rgba(3,6,16,.72),rgba(2,4,12,.82));
-  border:1px solid rgba(35,65,100,.18);border-radius:5px;
+  border:1px solid rgba(35,65,100,.18);border-radius:8px;
   color:rgba(130,170,200,.80);font-family:var(--fell);font-size:14px;
-  padding:9px 12px;outline:none;width:100%;
+  padding:10px 14px;outline:none;width:100%;
   transition:border-color .22s ease,box-shadow .22s ease,background .22s ease;
   resize:none;-webkit-user-select:text!important;user-select:text!important;appearance:none;-webkit-appearance:none;
   box-shadow:inset 0 2px 6px rgba(0,0,0,.30);
@@ -303,38 +354,38 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .guest-input:focus{
   border-color:rgba(60,105,155,.40);
   background:linear-gradient(180deg,rgba(4,8,20,.78),rgba(3,6,16,.88));
-  box-shadow:inset 0 2px 6px rgba(0,0,0,.30),0 0 12px rgba(35,70,115,.10),0 0 0 1px rgba(45,85,130,.08);
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.30),0 0 14px rgba(35,70,115,.12),0 0 0 1px rgba(45,85,130,.08);
 }
-.guest-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(80,140,190,.50)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+.guest-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(80,140,190,.50)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px;}
 .guest-select option{background:#030508;color:rgba(125,165,190,.75);}
-.guest-textarea{line-height:1.72;min-height:82px;}
-.guest-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:2px;}
-.guest-emoji-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap;flex:1 1 auto;}
+.guest-textarea{line-height:1.72;min-height:100px;}
+.guest-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:2px;}
+.guest-emoji-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex:1 1 auto;}
 .g-emoji{
   background:linear-gradient(180deg,rgba(6,12,24,.60),rgba(3,6,14,.72));
-  border:1px solid rgba(35,65,100,.18);border-radius:5px;
-  color:rgba(130,170,200,.72);font-size:14px;
-  width:28px;height:28px;cursor:pointer;display:grid;place-items:center;
+  border:1px solid rgba(35,65,100,.18);border-radius:6px;
+  color:rgba(130,170,200,.72);font-size:15px;
+  width:30px;height:30px;cursor:pointer;display:grid;place-items:center;
   transition:background .18s ease,transform .12s ease,border-color .18s ease,box-shadow .18s ease;padding:0;
 }
-.g-emoji:hover{background:rgba(12,24,45,.35);border-color:rgba(55,95,140,.30);transform:scale(1.15);box-shadow:0 0 8px rgba(35,70,115,.12);}
+.g-emoji:hover{background:rgba(12,24,45,.35);border-color:rgba(55,95,140,.30);transform:scale(1.15);box-shadow:0 0 10px rgba(35,70,115,.14);}
 .guest-chars{font-family:var(--mono);font-size:12px;color:rgba(50,85,120,.34);letter-spacing:.06em;margin-left:4px;}
 .guest-chars.low{color:rgba(150,50,68,.55);}
 .guest-submit{
   display:inline-flex;align-items:center;gap:8px;flex-shrink:0;
-  padding:8px 16px;
-  border:1px solid rgba(40,75,115,.24);border-radius:5px;
+  padding:10px 20px;
+  border:1px solid rgba(40,75,115,.24);border-radius:8px;
   background:linear-gradient(180deg,rgba(8,18,35,.75),rgba(4,10,22,.85));
   color:rgba(100,150,195,.80);
   font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
   cursor:pointer;
   transition:background .22s ease,color .22s ease,border-color .22s ease,box-shadow .22s ease,transform .12s ease;
-  box-shadow:0 2px 8px rgba(0,0,0,.35);
+  box-shadow:0 2px 10px rgba(0,0,0,.40);
 }
 .guest-submit:hover{
   background:linear-gradient(180deg,rgba(15,30,55,.35),rgba(8,18,38,.45));
   color:rgba(140,185,220,.92);border-color:rgba(55,95,140,.35);
-  box-shadow:0 2px 14px rgba(20,50,85,.18),0 0 0 1px rgba(50,90,135,.06);
+  box-shadow:0 4px 18px rgba(20,50,85,.20),0 0 0 1px rgba(50,90,135,.08);
   transform:translateY(-1px);
 }
 .guest-submit:active{transform:translateY(0);opacity:.80;}
@@ -343,34 +394,38 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .guest-feedback{font-family:var(--mono);font-size:12px;letter-spacing:.08em;min-height:18px;padding:2px 0;}
 .guest-feedback.ok{color:rgba(55,160,100,.62);}
 .guest-feedback.err{color:rgba(160,50,68,.62);}
-.guest-divider{display:flex;align-items:center;gap:10px;margin:16px 0 14px;position:relative;z-index:1;}
+.guest-divider{display:flex;align-items:center;gap:10px;margin:18px 0 16px;position:relative;z-index:1;}
 .guest-divider::before,.guest-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(40,75,115,.18),transparent);}
 .guest-divider-sym{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:rgba(55,90,125,.30);white-space:nowrap;}
 .guest-loading{font-family:var(--mono);font-size:12px;color:rgba(55,95,130,.38);letter-spacing:.14em;text-align:center;padding:16px 0;animation:blinkF 1.8s step-start infinite;}
-.guest-list{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;padding-right:3px;scrollbar-width:thin;scrollbar-color:rgba(30,55,85,.26) transparent;position:relative;z-index:1;}
-.guest-list::-webkit-scrollbar{width:3px;}
+.guest-list{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:rgba(30,55,85,.26) transparent;position:relative;z-index:1;}
+.guest-list::-webkit-scrollbar{width:4px;}
 .guest-list::-webkit-scrollbar-thumb{background:rgba(30,55,85,.26);border-radius:2px;}
 .guest-entry{
-  padding:11px 13px;
-  border:1px solid rgba(30,55,90,.14);border-left:3px solid rgba(40,70,110,.22);
-  border-radius:0 6px 6px 0;
-  background:linear-gradient(135deg,rgba(4,8,18,.52),rgba(2,4,12,.48));
+  padding:13px 16px;
+  border:1px solid rgba(30,55,90,.12);border-left:3px solid rgba(40,70,110,.22);
+  border-radius:0 var(--radius) var(--radius) 0;
+  background:linear-gradient(135deg,rgba(4,8,18,.50),rgba(2,4,12,.45));
   animation:entryIn .44s cubic-bezier(.22,1,.36,1) both;
   position:relative;
   transition:border-left-color .22s ease,background .22s ease,box-shadow .22s ease;
 }
 @keyframes entryIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-.guest-entry:hover{border-left-color:rgba(75,120,165,.40);background:linear-gradient(135deg,rgba(5,10,22,.55),rgba(3,6,16,.52));box-shadow:0 0 14px rgba(20,45,80,.06);}
-.guest-entry.is-new{border-left-color:rgba(85,140,185,.52);box-shadow:0 0 16px rgba(40,80,125,.10);}
+.guest-entry:hover{border-left-color:rgba(75,120,165,.40);background:linear-gradient(135deg,rgba(5,10,22,.55),rgba(3,6,16,.52));box-shadow:0 0 16px rgba(20,45,80,.06);}
+.guest-entry.is-new{border-left-color:rgba(85,140,185,.52);box-shadow:0 0 18px rgba(40,80,125,.12);}
 .entry-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
-.entry-vibe{font-size:15px;line-height:1;flex-shrink:0;filter:drop-shadow(0 0 4px rgba(50,100,150,.25));}
-.entry-name{font-family:var(--frak);font-size:17px;color:rgba(105,155,195,.78);text-shadow:0 0 8px rgba(40,80,125,.18);line-height:1;flex:1;}
+.entry-vibe{font-size:16px;line-height:1;flex-shrink:0;filter:drop-shadow(0 0 4px rgba(50,100,150,.25));}
+.entry-name{font-family:var(--frak);font-size:18px;color:rgba(105,155,195,.78);text-shadow:0 0 8px rgba(40,80,125,.18);line-height:1;flex:1;}
 .entry-date{font-family:var(--mono);font-size:10px;color:rgba(50,85,120,.36);white-space:nowrap;flex-shrink:0;margin-left:auto;}
-.entry-msg{font-size:13.5px;color:rgba(110,148,175,.58);line-height:1.72;word-break:break-word;}
+.entry-msg{font-size:14px;color:rgba(110,148,175,.58);line-height:1.72;word-break:break-word;}
 .guest-empty{font-family:var(--fell);font-style:italic;font-size:14px;color:rgba(55,95,130,.32);text-align:center;padding:22px 0;line-height:1.78;}
 
+.vid-container .box-title{padding:14px 20px 10px;margin-bottom:0;border-bottom:none;}
+.box-title-sm{font-size:18px;}
+.section-gap{margin-top:16px;}
+
 /* ── footer ── */
-#footer{text-align:center;margin-top:24px;padding-top:14px;border-top:1px solid var(--border2);}
+#footer{text-align:center;margin-top:28px;padding-top:16px;border-top:1px solid var(--border2);}
 .footer-text{font-family:var(--mono);font-size:12px;color:rgba(45,75,110,.34);letter-spacing:.10em;}
 .footer-text a{color:rgba(60,105,145,.40);text-decoration:none;}
 .footer-text a:hover{color:rgba(100,150,190,.65);}
@@ -381,7 +436,17 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(30,55,85,.35),rgba(15,30,55,.25));border:1px solid rgba(30,55,85,.16);border-radius:3px;}
 
 /* ── responsive ── */
-@media(max-width:480px){.site-name{font-size:clamp(44px,14vw,68px);}.box{padding:10px 11px;}.columns{gap:10px;}.counter{gap:3px;}.cnt-digit{width:22px;height:30px;font-size:20px;}.cnt-sep{font-size:12px;}.mood-tag{font-size:10px;padding:2px 6px;}.blinkie{font-size:10px;padding:1px 5px;}}
+@media(max-width:480px){
+  .site-name{font-size:clamp(44px,14vw,68px);}
+  .box{padding:14px 14px;}
+  #guestbook-box{padding:18px 14px 16px;}
+  .counter{gap:3px;}
+  .cnt-digit{width:24px;height:32px;font-size:20px;}
+  .cnt-sep{font-size:12px;}
+  .mood-tag{font-size:10px;padding:2px 6px;}
+  .blinkie{font-size:10px;padding:1px 5px;}
+  .vid-container{border-radius:8px;}
+}
 </style>
 </head>
 <body>
@@ -403,6 +468,8 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 </div>
 
 <div id="page">
+
+  <!-- HEADER -->
   <div id="header">
     <div class="header-poles" aria-hidden="true">
       <div class="h-pole"><div class="h-pole-glow"></div><div class="h-pole-stem" style="height:22px;"></div></div>
@@ -415,6 +482,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
     <p class="header-motto">"be strong."</p>
   </div>
 
+  <!-- MARQUEE -->
   <div class="marquee-box" aria-hidden="true">
     <div class="marquee-inner">
       <span>oh god forgive me for my sins <em>✦</em> still here <em>✦</em> fallen page <em>✦</em> sometimes i just wanna keep sinning and having fun <em>✦</em> i'm not that good, hehe <em>✦</em> PIZZA · shh · NEPTUNE <em>✦</em> 777 <em>✦</em> snoop dogg <em>✦</em> durak <em>✦</em> lipton <em>✦</em> </span>
@@ -422,220 +490,226 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
     </div>
   </div>
 
+  <!-- BLINKIES -->
   <div class="blinkie-strip" aria-hidden="true">
     <span class="blinkie bk-red">FALLEN</span><span class="blinkie bk-gold">positive</span><span class="blinkie bk-plum">sarcastic</span><span class="blinkie bk-ash">paradoxical</span><span class="blinkie bk-rust"> skeptical </span><span class="blinkie bk-red">STILL HERE</span><span class="blinkie bk-gold"> tired </span><span class="blinkie bk-plum">SINNING</span><span class="blinkie bk-ash">NOT THAT GOOD</span><span class="blinkie bk-rust">POET</span>
   </div>
 
   <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
 
-  <div class="columns">
-    <!-- LEFT SIDEBAR -->
-    <aside>
-      <div class="box portrait-box">
-        <div class="portrait-art" aria-hidden="true">
-          <svg viewBox="0 0 512 256" fill="none">
-            <defs>
-              <radialGradient id="pw" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#040e1c"/><stop offset=".70" stop-color="#020810"/><stop offset="1" stop-color="#010108"/></radialGradient>
-              <linearGradient id="pv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ba8c4"/><stop offset="1" stop-color="#2a4e6e"/></linearGradient>
-              <filter id="pf" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.5" result="b"/><feColorMatrix in="b" type="matrix" values="0 .55 .80 0 0  0 .48 .72 0 0  0 .42 .68 0 0  0 0 0 .74 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              <filter id="ps" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,.92)"/></filter>
-            </defs>
-            <path filter="url(#ps)" d="M250 30C202 34 164 54 136 82C112 106 98 140 98 172C98 208 118 228 140 234C124 212 134 192 160 182C130 176 116 154 118 128C122 92 162 58 212 48C184 64 164 88 156 110C170 96 194 82 214 74C194 96 186 126 192 152C202 194 232 206 250 216C224 188 226 154 252 118C236 84 238 52 250 30Z" fill="url(#pw)"/>
-            <path filter="url(#ps)" d="M262 30C310 34 348 54 376 82C400 106 414 140 414 172C414 208 394 228 372 234C388 212 378 192 352 182C382 176 396 154 394 128C390 92 350 58 300 48C328 64 348 88 356 110C342 96 318 82 298 74C318 96 326 126 320 152C310 194 280 206 262 216C288 188 286 154 260 118C276 84 274 52 262 30Z" fill="url(#pw)"/>
-            <g filter="url(#pf)" stroke="url(#pv)" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M242 88C208 98 176 120 162 150" stroke-width="6"/><path d="M220 62C188 76 160 98 146 124" stroke-width="4.8"/><path d="M250 120C224 134 206 158 206 182" stroke-width="4.8"/><path d="M190 186C166 196 148 210 148 228" stroke-width="4"/><path d="M176 144C164 148 150 158 144 172" stroke-width="3.2"/><path d="M210 110C200 116 192 124 188 134" stroke-width="2.8"/><path d="M270 88C304 98 336 120 350 150" stroke-width="6"/><path d="M292 62C324 76 352 98 366 124" stroke-width="4.8"/><path d="M262 120C288 134 306 158 306 182" stroke-width="4.8"/><path d="M322 186C346 196 364 210 364 228" stroke-width="4"/><path d="M336 144C348 148 362 158 368 172" stroke-width="3.2"/><path d="M302 110C312 116 320 124 324 134" stroke-width="2.8"/>
-            </g>
-            <path filter="url(#pf)" d="M256 98C242 120 236 138 238 156C242 190 256 214 256 214C256 214 270 190 274 156C276 138 270 120 256 98Z" fill="url(#pv)" opacity=".84"/>
-          </svg>
-        </div>
-        <div class="handle">Kara · Nick</div>
-        <div class="handle-sub">age 19 · fallen earth</div>
-        <div class="handle-status">crazy · chill · lover</div>
+  <!-- CARD GRID: portrait, mood, dossier, photo -->
+  <div class="card-grid">
+    <div class="box portrait-box">
+      <div class="portrait-art" aria-hidden="true">
+        <svg viewBox="0 0 512 256" fill="none">
+          <defs>
+            <radialGradient id="pw" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#040e1c"/><stop offset=".70" stop-color="#020810"/><stop offset="1" stop-color="#010108"/></radialGradient>
+            <linearGradient id="pv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ba8c4"/><stop offset="1" stop-color="#2a4e6e"/></linearGradient>
+            <filter id="pf" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.5" result="b"/><feColorMatrix in="b" type="matrix" values="0 .55 .80 0 0  0 .48 .72 0 0  0 .42 .68 0 0  0 0 0 .74 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <filter id="ps" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,.92)"/></filter>
+          </defs>
+          <path filter="url(#ps)" d="M250 30C202 34 164 54 136 82C112 106 98 140 98 172C98 208 118 228 140 234C124 212 134 192 160 182C130 176 116 154 118 128C122 92 162 58 212 48C184 64 164 88 156 110C170 96 194 82 214 74C194 96 186 126 192 152C202 194 232 206 250 216C224 188 226 154 252 118C236 84 238 52 250 30Z" fill="url(#pw)"/>
+          <path filter="url(#ps)" d="M262 30C310 34 348 54 376 82C400 106 414 140 414 172C414 208 394 228 372 234C388 212 378 192 352 182C382 176 396 154 394 128C390 92 350 58 300 48C328 64 348 88 356 110C342 96 318 82 298 74C318 96 326 126 320 152C310 194 280 206 262 216C288 188 286 154 260 118C276 84 274 52 262 30Z" fill="url(#pw)"/>
+          <g filter="url(#pf)" stroke="url(#pv)" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M242 88C208 98 176 120 162 150" stroke-width="6"/><path d="M220 62C188 76 160 98 146 124" stroke-width="4.8"/><path d="M250 120C224 134 206 158 206 182" stroke-width="4.8"/><path d="M190 186C166 196 148 210 148 228" stroke-width="4"/><path d="M176 144C164 148 150 158 144 172" stroke-width="3.2"/><path d="M210 110C200 116 192 124 188 134" stroke-width="2.8"/><path d="M270 88C304 98 336 120 350 150" stroke-width="6"/><path d="M292 62C324 76 352 98 366 124" stroke-width="4.8"/><path d="M262 120C288 134 306 158 306 182" stroke-width="4.8"/><path d="M322 186C346 196 364 210 364 228" stroke-width="4"/><path d="M336 144C348 148 362 158 368 172" stroke-width="3.2"/><path d="M302 110C312 116 320 124 324 134" stroke-width="2.8"/>
+          </g>
+          <path filter="url(#pf)" d="M256 98C242 120 236 138 238 156C242 190 256 214 256 214C256 214 270 190 274 156C276 138 270 120 256 98Z" fill="url(#pv)" opacity=".84"/>
+        </svg>
       </div>
+      <div class="handle">Kara · Nick</div>
+      <div class="handle-sub">age 19 · fallen earth</div>
+      <div class="handle-status">crazy · chill · lover</div>
+    </div>
 
-      <div class="box">
-        <div class="box-title">current mood</div>
-        <p class="mood-quote">"<span class="t-teal">positive</span> super tired 24/7"</p>
-        <div class="mood-row">
-          <span class="mood-tag">☁ restless</span>
-          <span class="mood-tag">🕯 alive</span>
-          <span class="mood-tag">☽ falling</span>
-        </div>
+    <div class="box">
+      <div class="box-title">current mood</div>
+      <p class="mood-quote">"<span class="t-teal">positive</span> super tired 24/7"</p>
+      <div class="mood-row">
+        <span class="mood-tag">☁ restless</span>
+        <span class="mood-tag">🕯 alive</span>
+        <span class="mood-tag">☽ falling</span>
       </div>
+    </div>
 
-      <div class="box">
-        <div class="box-title">dossier</div>
-        <dl class="stat-grid">
-          <dt>mbti</dt><dd><span class="t-shimmer">INFJ</span></dd>
-          <dt>ennea</dt><dd>5w6</dd>
-          <dt>zodiac</dt><dd>Sagittarius ♐</dd>
-          <dt>gender</dt><dd>male</dd>
-          <dt>blood</dt><dd>type P</dd>
-          <dt>locale</dt><dd><span class="t-ghost">fallen earth</span></dd>
-          <dt>status</dt><dd><span class="t-teal">"still here."</span></dd>
-        </dl>
+    <div class="box">
+      <div class="box-title">dossier</div>
+      <dl class="stat-grid">
+        <dt>mbti</dt><dd><span class="t-shimmer">INFJ</span></dd>
+        <dt>ennea</dt><dd>5w6</dd>
+        <dt>zodiac</dt><dd>Sagittarius ♐</dd>
+        <dt>gender</dt><dd>male</dd>
+        <dt>blood</dt><dd>type P</dd>
+        <dt>locale</dt><dd><span class="t-ghost">fallen earth</span></dd>
+        <dt>status</dt><dd><span class="t-teal">"still here."</span></dd>
+      </dl>
+    </div>
+
+    <div class="box photo-box">
+      <div class="photo-frame">
+        <img src="https://i.ibb.co/jtScmnD/e6a41db579997b6d204c93750bf06112.jpg" alt="Nanaha Redstar" loading="lazy" draggable="false"/>
       </div>
+      <div class="photo-caption">☽ &nbsp; Nanaha Redstar &nbsp; ☽</div>
+    </div>
+  </div>
 
-      <div class="box photo-box">
-        <div class="photo-frame">
-          <img src="https://i.ibb.co/jtScmnD/e6a41db579997b6d204c93750bf06112.jpg" alt="Nanaha Redstar" loading="lazy" draggable="false"/>
-        </div>
-        <div class="photo-caption">☽ &nbsp; Nanaha Redstar &nbsp; ☽</div>
+  <!-- CLOCK + COUNTER ROW -->
+  <div class="utility-row section-gap">
+    <div class="box">
+      <div class="clock-wrap">
+        <div class="clock-title">fallen time</div>
+        <div class="clock-display" id="clock-time">00<span class="clock-sep">:</span>00<span class="clock-sep">:</span>00</div>
+        <div class="clock-date" id="clock-date"></div>
       </div>
-
-      <div class="box" style="padding:10px 14px;">
-        <div class="clock-wrap">
-          <div class="clock-title">fallen time</div>
-          <div class="clock-display" id="clock-time">00<span class="clock-sep">:</span>00<span class="clock-sep">:</span>00</div>
-          <div class="clock-date" id="clock-date"></div>
+    </div>
+    <div class="box">
+      <div class="counter-wrap">
+        <div class="counter-title">souls visited</div>
+        <div class="counter">
+          <span class="cnt-digit"><span id="cnt-d0">0</span></span><span class="cnt-digit"><span id="cnt-d1">0</span></span><span class="cnt-digit"><span id="cnt-d2">0</span></span><span class="cnt-digit"><span id="cnt-d3">0</span></span><span class="cnt-digit"><span id="cnt-d4">0</span></span><span class="cnt-digit"><span id="cnt-d5">0</span></span>
         </div>
+        <div class="counter-new" id="cnt-new" aria-live="polite"></div>
       </div>
+    </div>
+  </div>
 
-      <div class="box" style="padding:12px 14px;">
-        <div class="counter-wrap">
-          <div class="counter-title">souls visited</div>
-          <div class="counter">
-            <span class="cnt-digit"><span id="cnt-d0">0</span></span><span class="cnt-digit"><span id="cnt-d1">0</span></span><span class="cnt-digit"><span id="cnt-d2">0</span></span><span class="cnt-digit"><span id="cnt-d3">0</span></span><span class="cnt-digit"><span id="cnt-d4">0</span></span><span class="cnt-digit"><span id="cnt-d5">0</span></span>
-          </div>
-          <div class="counter-new" id="cnt-new" aria-live="polite"></div>
-        </div>
+  <!-- SIDEBAR BLINKIES -->
+  <div class="box section-gap">
+    <div class="box-title box-title-sm">blinkies</div>
+    <div class="sb-blinkies">
+      <span class="blinkie bk-red">FALLEN</span><span class="blinkie bk-plum">SINNER</span><span class="blinkie bk-gold">POET</span><span class="blinkie bk-ash">ALIVE</span><span class="blinkie bk-rust">ANIME</span><span class="blinkie bk-red">MANGA</span><span class="blinkie bk-plum">NATURE</span><span class="blinkie bk-gold">Jenna Ortega</span><span class="blinkie bk-ash">NBSPLV</span><span class="blinkie bk-rust">Emma Myers</span>
+    </div>
+  </div>
+
+  <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
+
+  <!-- ABOUT -->
+  <div class="box">
+    <div class="box-title">about · <span class="t-shimmer">fallen</span></div>
+    <div class="about-text">
+      <p>Oh God, it's so nice — there are so many people around us. Oh God, <em><span class="t-crimson">forgive me, Lord, for my sins.</span></em> Sometimes I just wanna <span class="t-teal">keep sinning</span> and having fun. I'm not that good, hehe.</p>
+      <p>Welcome to my little corner of the <span class="t-ghost">fallen earth</span>. This is where I keep my thoughts, my poetry, my favorites — <strong>everything that makes me, me.</strong> Stay as long as you like, <span class="t-shimmer">wandering soul</span>.</p>
+    </div>
+    <div class="link-row">
+      <a class="site-link" href="https://allpoetry.com/Kara-21" target="_blank" rel="noopener noreferrer">✒ allpoetry</a>
+      <a class="site-link" href="gallery.html">⊞ gallery</a>
+    </div>
+  </div>
+
+  <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
+
+  <!-- FAVORITES -->
+  <div class="box">
+    <div class="fav-tabs" role="tablist">
+      <div class="ftab on" role="tab" aria-selected="true" data-t="anime" tabindex="0">anime</div>
+      <div class="ftab" role="tab" aria-selected="false" data-t="screen" tabindex="-1">shows &amp; films</div>
+    </div>
+    <div class="box-title" id="fav-hed">favorites — <span class="t-shimmer">anime</span></div>
+    <div class="fav-panel on" id="fp-anime" role="tabpanel">
+      <ul class="fav">
+        <li><b>Kara no Kyoukai</b><span>just the best anime / manga / novel.</span></li>
+        <li><b>Steins;Gate</b><span>Kurisu Makise — love science fiction.</span></li>
+        <li><b>Re:Zero</b><span>the fantasy world and idea of story is peak.</span></li>
+        <li><b>High School DxD</b><span>demons, energy, characters — peak!!</span></li>
+        <li><b>Death Note</b><span>L vs Kira so funny haha.</span></li>
+        <li><b>Monster</b><span>Dr. Tenma — symbol of humanity.</span></li>
+        <li><b>Moriarty the Patriot</b><span>perfect art!</span></li>
+      </ul>
+    </div>
+    <div class="fav-panel" id="fp-screen" role="tabpanel">
+      <ul class="fav">
+        <li><b>Peaky Blinders</b></li><li><b>Money Heist</b></li><li><b>Breaking Bad</b></li><li><b>Squid Game</b></li><li><b>Night Teeth</b></li><li><b>Scarface</b></li><li><b>Fast &amp; Furious</b></li><li><b>Wednesday</b></li><li><b>The End of The F***ing World</b></li><li><b>Wayne</b></li><li><b>Dexter</b></li><li><b>Cobra Kai</b></li><li><b>The Office</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
+
+  <!-- UPDATES -->
+  <div class="box">
+    <div class="box-title">...</div>
+    <div class="updates">
+      <div class="update-entry">
+        <span class="update-date" id="today-date"></span>
+        <span class="update-text">reborn. <span class="t-teal">still here.</span> still sinning. ☽</span>
       </div>
-
-      <div class="box" style="padding:10px 12px;">
-        <div class="box-title" style="font-size:18px;">blinkies</div>
-        <div class="sb-blinkies">
-          <span class="blinkie bk-red">FALLEN</span><span class="blinkie bk-plum">SINNER</span><span class="blinkie bk-gold">POET</span><span class="blinkie bk-ash">ALIVE</span><span class="blinkie bk-rust">ANIME</span><span class="blinkie bk-red">MANGA</span><span class="blinkie bk-plum">NATURE</span><span class="blinkie bk-gold">Jenna Ortega</span><span class="blinkie bk-ash">NBSPLV</span><span class="blinkie bk-rust">Emma Myers</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main>
-      <div class="box">
-        <div class="box-title">about · <span class="t-shimmer">fallen</span></div>
-        <div class="about-text">
-          <p>Oh God, it's so nice — there are so many people around us. Oh God, <em><span class="t-crimson">forgive me, Lord, for my sins.</span></em> Sometimes I just wanna <span class="t-teal">keep sinning</span> and having fun. I'm not that good, hehe.</p>
-          <p>Welcome to my little corner of the <span class="t-ghost">fallen earth</span>. This is where I keep my thoughts, my poetry, my favorites — <strong>everything that makes me, me.</strong> Stay as long as you like, <span class="t-shimmer">wandering soul</span>.</p>
-        </div>
-        <div class="link-row">
-          <a class="site-link" href="https://allpoetry.com/Kara-21" target="_blank" rel="noopener noreferrer">✒ allpoetry</a>
-          <a class="site-link" href="gallery.html">⊞ gallery</a>
-        </div>
-      </div>
-
-      <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
-
-      <div class="box">
-        <div class="fav-tabs" role="tablist">
-          <div class="ftab on" role="tab" aria-selected="true" data-t="anime" tabindex="0">anime</div>
-          <div class="ftab" role="tab" aria-selected="false" data-t="screen" tabindex="-1">shows &amp; films</div>
-        </div>
-        <div class="box-title" id="fav-hed">favorites — <span class="t-shimmer">anime</span></div>
-        <div class="fav-panel on" id="fp-anime" role="tabpanel">
-          <ul class="fav">
-            <li><b>Kara no Kyoukai</b><span>just the best anime / manga / novel.</span></li>
-            <li><b>Steins;Gate</b><span>Kurisu Makise — love science fiction.</span></li>
-            <li><b>Re:Zero</b><span>the fantasy world and idea of story is peak.</span></li>
-            <li><b>High School DxD</b><span>demons, energy, characters — peak!!</span></li>
-            <li><b>Death Note</b><span>L vs Kira so funny haha.</span></li>
-            <li><b>Monster</b><span>Dr. Tenma — symbol of humanity.</span></li>
-            <li><b>Moriarty the Patriot</b><span>perfect art!</span></li>
-          </ul>
-        </div>
-        <div class="fav-panel" id="fp-screen" role="tabpanel">
-          <ul class="fav">
-            <li><b>Peaky Blinders</b></li><li><b>Money Heist</b></li><li><b>Breaking Bad</b></li><li><b>Squid Game</b></li><li><b>Night Teeth</b></li><li><b>Scarface</b></li><li><b>Fast &amp; Furious</b></li><li><b>Wednesday</b></li><li><b>The End of The F***ing World</b></li><li><b>Wayne</b></li><li><b>Dexter</b></li><li><b>Cobra Kai</b></li><li><b>The Office</b></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
-
-      <div class="box">
-        <div class="box-title">...</div>
-        <div class="updates">
-          <div class="update-entry">
-            <span class="update-date" id="today-date"></span>
-            <span class="update-text">reborn. <span class="t-teal">still here.</span> still sinning. ☽</span>
-          </div>
-          <div class="update-entry">
-            <span class="update-date">forever ago</span>
-            <span class="update-text">first entry. <span class="t-ghost">oh god it's so nice.</span></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
-
-      <div class="box">
-        <div class="box-title">now playing</div>
-        <div class="vid-ratio">
-          <iframe src="https://www.youtube.com/embed/F02iMCEEQWs?si=Xrhk_ADcqBIpDBmz" title="now playing" frameborder="0" loading="lazy" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-          <div class="vid-shield" id="vid-shield"></div>
-        </div>
-        <p class="now-playing-bar">
-          <span><span class="np-anim"><span></span><span></span><span></span><span></span></span> fallen · now playing</span>
-        </p>
-      </div>
-    </main>
-
-    <!-- RIGHT SIDEBAR — GUESTBOOK -->
-    <div class="col-right">
-      <div class="box" id="guestbook-box" style="margin-bottom:0;">
-        <div class="box-title">guestbook <span class="guest-count-badge" id="g-count-badge"></span></div>
-        <div class="guest-form" id="guest-form">
-          <div class="guest-row-fields">
-            <div class="guest-field guest-field-name">
-              <label class="guest-label" for="g-name">☽ name</label>
-              <input class="guest-input" id="g-name" type="text" maxlength="32" placeholder="wanderer..." autocomplete="off" spellcheck="false"/>
-            </div>
-            <div class="guest-field guest-field-vibe">
-              <label class="guest-label" for="g-vibe">✦ vibe</label>
-              <select class="guest-input guest-select" id="g-vibe">
-                <option value="☽">☽ fallen</option>
-                <option value="🕯">🕯 ember</option>
-                <option value="⛧">⛧ sinful</option>
-                <option value="✦">✦ wandering</option>
-                <option value="☁">☁ restless</option>
-                <option value="♐">♐ cursed</option>
-                <option value="🖤">🖤 dark</option>
-                <option value="☩">☩ forgiven</option>
-              </select>
-            </div>
-          </div>
-          <div class="guest-field">
-            <label class="guest-label" for="g-msg">✒ message</label>
-            <textarea class="guest-input guest-textarea" id="g-msg" maxlength="300" placeholder="say something to kara..." rows="4"></textarea>
-          </div>
-          <div class="guest-bottom">
-            <div class="guest-emoji-row">
-              <button class="g-emoji" type="button" data-e="☽">☽</button>
-              <button class="g-emoji" type="button" data-e="✦">✦</button>
-              <button class="g-emoji" type="button" data-e="🕯">🕯</button>
-              <button class="g-emoji" type="button" data-e="⛧">⛧</button>
-              <button class="g-emoji" type="button" data-e="♐">♐</button>
-              <button class="g-emoji" type="button" data-e="🖤">🖤</button>
-              <button class="g-emoji" type="button" data-e="☩">☩</button>
-              <button class="g-emoji" type="button" data-e="☁">☁</button>
-              <span class="guest-chars" id="g-chars">300</span>
-            </div>
-            <button class="guest-submit" id="g-submit" type="button">
-              <span class="gsub-icon">✒</span>
-              <span class="gsub-text">leave your mark</span>
-            </button>
-          </div>
-          <div class="guest-feedback" id="g-feedback" aria-live="polite"></div>
-        </div>
-        <div class="guest-divider"><span class="guest-divider-sym">· · · souls that passed · · ·</span></div>
-        <div class="guest-list" id="guest-list">
-          <div class="guest-loading" id="guest-loading">☽ summoning souls...</div>
-        </div>
+      <div class="update-entry">
+        <span class="update-date">forever ago</span>
+        <span class="update-text">first entry. <span class="t-ghost">oh god it's so nice.</span></span>
       </div>
     </div>
   </div>
 
   <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
 
+  <!-- VIDEO PLAYER -->
+  <div class="vid-container">
+    <div class="box-title">now playing</div>
+    <div class="vid-ratio">
+      <iframe src="https://www.youtube.com/embed/F02iMCEEQWs?si=Xrhk_ADcqBIpDBmz" title="now playing" frameborder="0" loading="lazy" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+      <div class="vid-shield" id="vid-shield"></div>
+    </div>
+    <p class="now-playing-bar">
+      <span><span class="np-anim"><span></span><span></span><span></span><span></span></span> fallen · now playing</span>
+    </p>
+  </div>
+
+  <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
+
+  <!-- GUESTBOOK (centered, prominent) -->
+  <div id="guestbook-box">
+    <div class="box-title">guestbook <span class="guest-count-badge" id="g-count-badge"></span></div>
+    <div class="guest-form" id="guest-form">
+      <div class="guest-row-fields">
+        <div class="guest-field guest-field-name">
+          <label class="guest-label" for="g-name">☽ name</label>
+          <input class="guest-input" id="g-name" type="text" maxlength="32" placeholder="wanderer..." autocomplete="off" spellcheck="false"/>
+        </div>
+        <div class="guest-field guest-field-vibe">
+          <label class="guest-label" for="g-vibe">✦ vibe</label>
+          <select class="guest-input guest-select" id="g-vibe">
+            <option value="☽">☽ fallen</option>
+            <option value="🕯">🕯 ember</option>
+            <option value="⛧">⛧ sinful</option>
+            <option value="✦">✦ wandering</option>
+            <option value="☁">☁ restless</option>
+            <option value="♐">♐ cursed</option>
+            <option value="🖤">🖤 dark</option>
+            <option value="☩">☩ forgiven</option>
+          </select>
+        </div>
+      </div>
+      <div class="guest-field">
+        <label class="guest-label" for="g-msg">✒ message</label>
+        <textarea class="guest-input guest-textarea" id="g-msg" maxlength="300" placeholder="say something to kara..." rows="4"></textarea>
+      </div>
+      <div class="guest-bottom">
+        <div class="guest-emoji-row">
+          <button class="g-emoji" type="button" data-e="☽">☽</button>
+          <button class="g-emoji" type="button" data-e="✦">✦</button>
+          <button class="g-emoji" type="button" data-e="🕯">🕯</button>
+          <button class="g-emoji" type="button" data-e="⛧">⛧</button>
+          <button class="g-emoji" type="button" data-e="♐">♐</button>
+          <button class="g-emoji" type="button" data-e="🖤">🖤</button>
+          <button class="g-emoji" type="button" data-e="☩">☩</button>
+          <button class="g-emoji" type="button" data-e="☁">☁</button>
+          <span class="guest-chars" id="g-chars">300</span>
+        </div>
+        <button class="guest-submit" id="g-submit" type="button">
+          <span class="gsub-icon">✒</span>
+          <span class="gsub-text">leave your mark</span>
+        </button>
+      </div>
+      <div class="guest-feedback" id="g-feedback" aria-live="polite"></div>
+    </div>
+    <div class="guest-divider"><span class="guest-divider-sym">· · · souls that passed · · ·</span></div>
+    <div class="guest-list" id="guest-list">
+      <div class="guest-loading" id="guest-loading">☽ summoning souls...</div>
+    </div>
+  </div>
+
+  <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
+
+  <!-- FOOTER -->
   <div id="footer">
     <p class="footer-text">© <span id="yr"></span> kara-21 / nick &nbsp;·&nbsp; fallen earth &nbsp;·&nbsp; best viewed in the dark &nbsp;·&nbsp; <a href="https://allpoetry.com/Kara-21" target="_blank" rel="noopener noreferrer">allpoetry</a></p>
   </div>
