@@ -188,7 +188,7 @@ body.lock{-webkit-user-select:none;user-select:none;}
   background:rgba(6,10,18,.92);
   display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
   box-shadow:inset 0 0 16px rgba(0,0,0,.55);}
-.portrait-art svg{width:130px;height:114px;filter:drop-shadow(0 0 16px rgba(50,110,170,.28));}
+.portrait-art img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius);}
 .portrait-art::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(30,65,115,.18),transparent 65%);animation:pBreath 5s ease-in-out infinite;}
 @keyframes pBreath{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.06);}}
 .portrait-art::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0px,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none;z-index:2;}
@@ -497,21 +497,8 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
   <!-- CARD GRID: portrait, mood, dossier, photo -->
   <div class="card-grid">
     <div class="box portrait-box">
-      <div class="portrait-art" aria-hidden="true">
-        <svg viewBox="0 0 512 256" fill="none">
-          <defs>
-            <radialGradient id="pw" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#040e1c"/><stop offset=".70" stop-color="#020810"/><stop offset="1" stop-color="#010108"/></radialGradient>
-            <linearGradient id="pv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cb8e4"/><stop offset="1" stop-color="#2a5580"/></linearGradient>
-            <filter id="pf" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2.5" result="b"/><feColorMatrix in="b" type="matrix" values=".80 .55 0 0 0  .72 .48 0 0 0  .68 .42 0 0 0  0 0 0 .74 0" result="c"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="ps" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,.92)"/></filter>
-          </defs>
-          <path filter="url(#ps)" d="M250 30C202 34 164 54 136 82C112 106 98 140 98 172C98 208 118 228 140 234C124 212 134 192 160 182C130 176 116 154 118 128C122 92 162 58 212 48C184 64 164 88 156 110C170 96 194 82 214 74C194 96 186 126 192 152C202 194 232 206 250 216C224 188 226 154 252 118C236 84 238 52 250 30Z" fill="url(#pw)"/>
-          <path filter="url(#ps)" d="M262 30C310 34 348 54 376 82C400 106 414 140 414 172C414 208 394 228 372 234C388 212 378 192 352 182C382 176 396 154 394 128C390 92 350 58 300 48C328 64 348 88 356 110C342 96 318 82 298 74C318 96 326 126 320 152C310 194 280 206 262 216C288 188 286 154 260 118C276 84 274 52 262 30Z" fill="url(#pw)"/>
-          <g filter="url(#pf)" stroke="url(#pv)" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M242 88C208 98 176 120 162 150" stroke-width="6"/><path d="M220 62C188 76 160 98 146 124" stroke-width="4.8"/><path d="M250 120C224 134 206 158 206 182" stroke-width="4.8"/><path d="M190 186C166 196 148 210 148 228" stroke-width="4"/><path d="M176 144C164 148 150 158 144 172" stroke-width="3.2"/><path d="M210 110C200 116 192 124 188 134" stroke-width="2.8"/><path d="M270 88C304 98 336 120 350 150" stroke-width="6"/><path d="M292 62C324 76 352 98 366 124" stroke-width="4.8"/><path d="M262 120C288 134 306 158 306 182" stroke-width="4.8"/><path d="M322 186C346 196 364 210 364 228" stroke-width="4"/><path d="M336 144C348 148 362 158 368 172" stroke-width="3.2"/><path d="M302 110C312 116 320 124 324 134" stroke-width="2.8"/>
-          </g>
-          <path filter="url(#pf)" d="M256 98C242 120 236 138 238 156C242 190 256 214 256 214C256 214 270 190 274 156C276 138 270 120 256 98Z" fill="url(#pv)" opacity=".84"/>
-        </svg>
+      <div class="portrait-art">
+        <img src="https://i.ibb.co/hFqNVY6s/012c2dd486f0f8706b66b9c382ae9d66.jpg" alt="Portrait of Kara">
       </div>
       <div class="handle">Kara · Nick</div>
       <div class="handle-sub">age 19 · fallen earth</div>
