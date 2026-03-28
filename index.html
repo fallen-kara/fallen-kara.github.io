@@ -1051,8 +1051,8 @@ const db=getFirestore(app);
   if(window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
 
   // px per second — same feeling on every screen
-  const SPEED_1 = 38;  // top row (left)
-  const SPEED_2 = 32;  // bottom row (right, reversed)
+  const SPEED_1 = 5;  // top row (left)
+  const SPEED_2 = 5;  // bottom row (right, reversed)
 
   function initMarquee(id, speed, reverse) {
     const track = document.getElementById(id);
