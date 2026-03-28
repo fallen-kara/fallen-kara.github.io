@@ -524,6 +524,8 @@ buildCards();
     progress=0;
   }
 
+  function easeInOut(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
+
   var transitionDuration=3000;
   var holdDuration=4000;
   var lastTime=0;
@@ -549,7 +551,7 @@ buildCards();
         holding=true;
         holdTimer=0;
       }
-      var t=progress<.5?2*progress*progress:1-Math.pow(-2*progress+2,2)/2;
+      var t=easeInOut(progress);
       var interp={
         h:lerp(currentColor.h,targetColor.h,t),
         s:lerp(currentColor.s,targetColor.s,t),
