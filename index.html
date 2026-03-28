@@ -251,7 +251,7 @@ body.lock{-webkit-user-select:none;user-select:none;}
 
 /* ── photo box ── */
 .photo-box{padding:14px 14px 12px;text-align:center;}
-.photo-frame{position:relative;width:100%;max-width:280px;margin:0 auto;overflow:hidden;border:1px solid rgba(35,60,100,.16);border-radius:var(--radius);background:#010104;
+.photo-frame{position:relative;width:100%;margin:0 auto;overflow:hidden;border:1px solid rgba(35,60,100,.16);border-radius:var(--radius);background:#010104;
   box-shadow:0 0 22px rgba(12,30,55,.10),inset 0 0 18px rgba(0,0,0,.60);}
 .photo-frame img{display:block;width:100%;height:auto;object-fit:cover;filter:brightness(.85) contrast(1.08) saturate(.85) hue-rotate(200deg);transition:filter .4s ease;}
 .photo-frame:hover img{filter:brightness(.90) contrast(1.06) saturate(.92) hue-rotate(200deg);}
@@ -420,7 +420,8 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .entry-msg{font-size:14px;color:rgba(110,148,175,.58);line-height:1.72;word-break:break-word;}
 .guest-empty{font-family:var(--fell);font-style:italic;font-size:14px;color:rgba(55,95,130,.32);text-align:center;padding:22px 0;line-height:1.78;}
 
-/* ── section spacing ── */
+.vid-container .box-title{padding:14px 20px 10px;margin-bottom:0;border-bottom:none;}
+.box-title-sm{font-size:18px;}
 .section-gap{margin-top:16px;}
 
 /* ── footer ── */
@@ -573,7 +574,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 
   <!-- SIDEBAR BLINKIES -->
   <div class="box section-gap">
-    <div class="box-title" style="font-size:18px;">blinkies</div>
+    <div class="box-title box-title-sm">blinkies</div>
     <div class="sb-blinkies">
       <span class="blinkie bk-red">FALLEN</span><span class="blinkie bk-plum">SINNER</span><span class="blinkie bk-gold">POET</span><span class="blinkie bk-ash">ALIVE</span><span class="blinkie bk-rust">ANIME</span><span class="blinkie bk-red">MANGA</span><span class="blinkie bk-plum">NATURE</span><span class="blinkie bk-gold">Jenna Ortega</span><span class="blinkie bk-ash">NBSPLV</span><span class="blinkie bk-rust">Emma Myers</span>
     </div>
@@ -642,7 +643,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 
   <!-- VIDEO PLAYER -->
   <div class="vid-container">
-    <div class="box-title" style="padding:14px 20px 10px;margin-bottom:0;border-bottom:none;">now playing</div>
+    <div class="box-title">now playing</div>
     <div class="vid-ratio">
       <iframe src="https://www.youtube.com/embed/F02iMCEEQWs?si=Xrhk_ADcqBIpDBmz" title="now playing" frameborder="0" loading="lazy" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
       <div class="vid-shield" id="vid-shield"></div>
