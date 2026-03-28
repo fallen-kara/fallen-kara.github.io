@@ -68,7 +68,6 @@ body.lock{-webkit-user-select:none;user-select:none;}
 }
 @keyframes ambPulse{0%{opacity:.80;}100%{opacity:1;}}
 
-/* scanline — pure CSS, no JS */
 #ambient::after{
   content:"";position:absolute;inset:0;
   background:repeating-linear-gradient(
@@ -78,7 +77,6 @@ body.lock{-webkit-user-select:none;user-select:none;}
   );
   pointer-events:none;
 }
-/* noise grain */
 #ambient::before{
   content:"";position:absolute;inset:0;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
@@ -188,7 +186,6 @@ body.lock{-webkit-user-select:none;user-select:none;}
   100%{background-position:200% center;}
 }
 
-/* floating orbs beside title */
 .hdr-orbs{display:flex;align-items:center;justify-content:center;gap:14px;margin:12px 0 3px;}
 .h-orb{
   width:9px;height:9px;border-radius:50%;flex-shrink:0;
@@ -203,7 +200,7 @@ body.lock{-webkit-user-select:none;user-select:none;}
 .header-sub{font-family:var(--mono);font-size:13px;letter-spacing:.30em;color:rgba(50,155,205,.48);text-transform:uppercase;margin-top:8px;}
 
 /* ═══════════════════════════════════════════
-   MARQUEE
+   MARQUEE — JS-driven constant px/s speed
 ═══════════════════════════════════════════ */
 .marquee-box{
   border-top:1px solid var(--border2);
@@ -211,28 +208,32 @@ body.lock{-webkit-user-select:none;user-select:none;}
   background:rgba(0,5,14,.60);
   padding:0;overflow:hidden;position:relative;margin:10px 0;
 }
-.marquee-box::before,.marquee-box::after{content:"";position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none;}
+.marquee-box::before,.marquee-box::after{
+  content:"";position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none;
+}
 .marquee-box::before{left:0;background:linear-gradient(90deg,rgba(5,12,26,.98),transparent);}
 .marquee-box::after{right:0;background:linear-gradient(-90deg,rgba(5,12,26,.98),transparent);}
 
-/* double scanline stripe on marquee */
 .marquee-stripe{
   padding:5px 0 4px;
   border-bottom:1px solid rgba(30,100,160,.08);
+  overflow:hidden;
 }
 .marquee-stripe:first-child{border-bottom:1px solid rgba(30,100,160,.10);}
 
-.marquee-inner{display:flex;white-space:nowrap;animation:mq 800s linear infinite;}
-.marquee-inner.rev{animation:mqR 900s linear infinite;}
-
-@media(min-width:769px){
-  .marquee-inner{animation-duration:2000s;}
-  .marquee-inner.rev{animation-duration:2200s;}
+/* The track — JS will set transform directly, no CSS animation */
+.marquee-inner{
+  display:flex;
+  white-space:nowrap;
+  will-change:transform;
 }
-.marquee-inner span{font-family:var(--mono);font-size:12px;color:rgba(50,155,205,.62);padding:0 20px;letter-spacing:.06em;}
+.marquee-inner span{
+  font-family:var(--mono);font-size:12px;
+  color:rgba(50,155,205,.62);
+  padding:0 20px;letter-spacing:.06em;
+  flex-shrink:0;
+}
 .marquee-inner span em{color:rgba(50,195,240,.50);font-style:normal;}
-@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-@keyframes mqR{from{transform:translateX(-50%);}to{transform:translateX(0);}}
 
 /* ═══════════════════════════════════════════
    BLINKIES
@@ -291,7 +292,7 @@ body.lock{-webkit-user-select:none;user-select:none;}
 }
 
 /* ═══════════════════════════════════════════
-   BOXES — base styles
+   BOXES
 ═══════════════════════════════════════════ */
 .box{
   background:var(--box-bg);
@@ -314,7 +315,6 @@ body.lock{-webkit-user-select:none;user-select:none;}
     0 0 28px rgba(20,120,200,.10);
   border-color:rgba(40,150,210,.28);
 }
-/* top highlight line */
 .box::after{
   content:"";position:absolute;top:0;left:12%;right:12%;height:1px;
   background:linear-gradient(90deg,transparent,rgba(40,185,235,.16),transparent);
@@ -516,8 +516,6 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 /* ═══════════════════════════════════════════
    RIGHT RAIL
 ═══════════════════════════════════════════ */
-
-/* COUNTER — retro LED display */
 .counter-box{padding:10px 10px 8px;text-align:center;}
 .counter-label-top{
   font-family:var(--mono);font-size:10px;
@@ -534,7 +532,6 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
   border:1px solid rgba(20,90,150,.22);
   position:relative;overflow:hidden;
 }
-/* LED grid effect */
 .counter::before{
   content:"";position:absolute;inset:0;
   background:repeating-linear-gradient(
@@ -550,7 +547,6 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .counter-new.show{animation:newSoul 3s ease forwards;}
 @keyframes newSoul{0%{opacity:0;transform:translateY(4px);}15%{opacity:.78;transform:translateY(0);}75%{opacity:.68;}100%{opacity:0;transform:translateY(-3px);}}
 
-/* PHOTO */
 .photo-box{padding:8px 8px 6px;text-align:center;}
 .photo-frame{
   position:relative;width:100%;overflow:hidden;
@@ -577,15 +573,13 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 }
 .photo-caption{font-family:var(--mono);font-size:10px;color:rgba(40,135,190,.40);letter-spacing:.16em;text-transform:uppercase;margin-top:5px;}
 
-/* BLINKIES rail */
 .sb-blinkies{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:4px;}
 
 /* ═══════════════════════════════════════════
-   GUESTBOOK — full width below columns
+   GUESTBOOK
 ═══════════════════════════════════════════ */
 .guestbook-wrap{margin-top:12px;}
 
-/* two-panel guestbook layout */
 .gb-inner{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -728,8 +722,8 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
   .handle{font-size:18px;}
   .counter{font-size:24px;}
   ul.fav li{padding:6px 8px 6px 10px;}
-  .guest-input{font-size:16px;}/* prevent zoom on iOS */
-  .site-link{padding:9px 14px;font-size:11px;}/* bigger tap target */
+  .guest-input{font-size:16px;}
+  .site-link{padding:9px 14px;font-size:11px;}
   .hdr-orbs{gap:10px;}
   .ftab{padding:6px 10px;}
 }
@@ -739,15 +733,14 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
   .guest-field-vibe{flex:1 1 auto;}
 }
 
-/* safe area for notched phones */
 @supports(padding:max(0px)){
   #page{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right));}
 }
 
-/* reduced motion */
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important;}
   #sparks{display:none;}
+  .marquee-inner{animation:none!important;}
 }
 </style>
 </head>
@@ -786,13 +779,13 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
   <!-- double marquee -->
   <div class="marquee-box" aria-hidden="true">
     <div class="marquee-stripe">
-      <div class="marquee-inner">
+      <div class="marquee-inner" id="mq1">
         <span>oh god forgive me for my sins <em>✦</em> still here <em>✦</em> fallen page <em>✦</em> sometimes i just wanna keep sinning and having fun <em>✦</em> i'm not that good, hehe <em>✦</em> PIZZA · shh · NEPTUNE <em>✦</em> 777 <em>✦</em> snoop dogg <em>✦</em> durak <em>✦</em> lipton <em>✦</em></span>
         <span>oh god forgive me for my sins <em>✦</em> still here <em>✦</em> fallen page <em>✦</em> sometimes i just wanna keep sinning and having fun <em>✦</em> i'm not that good, hehe <em>✦</em> PIZZA · shh · NEPTUNE <em>✦</em> 777 <em>✦</em> snoop dogg <em>✦</em> durak <em>✦</em> lipton <em>✦</em></span>
       </div>
     </div>
     <div class="marquee-stripe">
-      <div class="marquee-inner rev">
+      <div class="marquee-inner" id="mq2">
         <span>DOBERMAN · meow · COFFEE <em>✦</em> 999 <em>✦</em> chess <em>✦</em> water <em>✦</em> kiwi <em>✦</em> be strong <em>✦</em> fallen earth <em>✦</em> just_here0 <em>✦</em> fallin n prayin <em>✦</em> kara-21 <em>✦</em></span>
         <span>DOBERMAN · meow · COFFEE <em>✦</em> 999 <em>✦</em> chess <em>✦</em> water <em>✦</em> kiwi <em>✦</em> be strong <em>✦</em> fallen earth <em>✦</em> just_here0 <em>✦</em> fallin n prayin <em>✦</em> kara-21 <em>✦</em></span>
       </div>
@@ -935,7 +928,6 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
     <!-- RIGHT RAIL -->
     <aside class="col-right">
 
-      <!-- COUNTER — top of right rail -->
       <div class="box counter-box">
         <div class="counter-label-top">☽ souls visited ☽</div>
         <div class="counter" aria-label="visit counter">
@@ -945,7 +937,6 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
         <div class="counter-new" id="cnt-new" aria-live="polite"></div>
       </div>
 
-      <!-- PHOTO -->
       <div class="box photo-box">
         <div class="photo-frame">
           <img src="https://i.ibb.co/d4hH55JG/682eb483bbd4de34a29e6e8c01058a60.jpg" alt="Nanaha Redstar" loading="lazy" decoding="async" draggable="false" width="160"/>
@@ -953,7 +944,6 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
         <div class="photo-caption">☽ &nbsp;Nanaha Redstar&nbsp; ☽</div>
       </div>
 
-      <!-- BLINKIES -->
       <div class="box" style="padding:10px 11px;">
         <div class="box-title" style="font-size:17px;">blinkies</div>
         <div class="sb-blinkies">
@@ -966,14 +956,13 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 
   <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
 
-  <!-- GUESTBOOK — full width -->
+  <!-- GUESTBOOK -->
   <div class="guestbook-wrap">
     <div class="box" id="guestbook-box" style="padding:0;">
       <div style="padding:14px 16px 10px;">
         <div class="box-title">guestbook <span class="guest-count-badge" id="g-count-badge"></span></div>
       </div>
       <div class="gb-inner">
-        <!-- form side -->
         <div class="gb-form-panel">
           <div class="guest-form" id="guest-form">
             <div class="guest-row-fields">
@@ -1019,7 +1008,6 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
             <div class="guest-feedback" id="g-feedback" aria-live="polite" role="status"></div>
           </div>
         </div>
-        <!-- list side -->
         <div class="gb-list-panel">
           <div class="guest-list-title">· · · souls that passed · · ·</div>
           <div class="guest-list" id="guest-list">
@@ -1055,6 +1043,66 @@ import{getFirestore,doc,getDoc,collection,addDoc,query,orderBy,onSnapshot,server
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
 
+/* ══════════════════════════════════════════
+   MARQUEE — JS rAF, constant pixel/second speed
+   regardless of screen width or text length
+══════════════════════════════════════════ */
+(function(){
+  if(window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+
+  // px per second — same feeling on every screen
+  const SPEED_1 = 38;  // top row (left)
+  const SPEED_2 = 32;  // bottom row (right, reversed)
+
+  function initMarquee(id, speed, reverse) {
+    const track = document.getElementById(id);
+    if (!track) return;
+
+    // We need exactly 2 copies of the content so we can loop seamlessly.
+    // The HTML already has 2 <span> children — use first child width as loop point.
+    const children = track.children;
+    if (children.length < 2) return;
+
+    // Wait for fonts / layout
+    requestAnimationFrame(() => {
+      // Width of a single copy (first span)
+      const copyW = children[0].getBoundingClientRect().width;
+      if (copyW === 0) return;
+
+      let pos = 0;
+      let last = null;
+
+      function step(ts) {
+        if (last === null) last = ts;
+        const dt = Math.min(ts - last, 50); // cap delta to avoid jump after tab-switch
+        last = ts;
+
+        if (reverse) {
+          pos -= speed * (dt / 1000);
+          if (pos <= -copyW) pos += copyW;
+        } else {
+          pos -= speed * (dt / 1000);
+          if (pos <= -copyW) pos += copyW;
+        }
+
+        track.style.transform = `translateX(${pos}px)`;
+        requestAnimationFrame(step);
+      }
+
+      // For reverse: start offset
+      if (reverse) pos = 0;
+
+      requestAnimationFrame(step);
+    });
+  }
+
+  // Small delay so layout is settled
+  setTimeout(() => {
+    initMarquee("mq1", SPEED_1, false);
+    initMarquee("mq2", SPEED_2, true);
+  }, 100);
+})();
+
 /* ── loader typewriter ── */
 (function(){
   const el=document.getElementById("ld-type");if(!el)return;
@@ -1083,7 +1131,7 @@ const db=getFirestore(app);
   setTimeout(done,already?0:D);
 })();
 
-/* ── particles — cool cyan mist ── */
+/* ── particles ── */
 (function(){
   const c=document.getElementById("sparks");
   if(!c?.getContext)return;
@@ -1222,7 +1270,6 @@ document.getElementById("yr").textContent=new Date().getFullYear();
   let lastNewId=null;
   const colRef=collection(db,"guestbook");
 
-  /* isolate form from lockdown */
   const formEl=$("guest-form");
   if(formEl){
     formEl.addEventListener("click",e=>e.stopPropagation());
