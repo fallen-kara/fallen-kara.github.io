@@ -126,10 +126,10 @@ img{display:block;-webkit-user-drag:none;}
   box-shadow:0 0 0 transparent;
   opacity:0;
   transform:translateY(20px) scale(.96);
-  transition:transform .35s cubic-bezier(.22,1,.36,1),
-             box-shadow 3s ease,
-             border-color 3s ease,
-             filter .35s ease;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),
+             box-shadow 2.5s ease,
+             border-color 2.5s ease,
+             filter .4s ease;
   animation-fill-mode:forwards;
   will-change:transform;
 }
@@ -144,35 +144,35 @@ img{display:block;-webkit-user-drag:none;}
 
 @keyframes drift1{
   0%{transform:translateY(0);}
-  100%{transform:translateY(-8px);}
+  100%{transform:translateY(-4px);}
 }
 @keyframes drift2{
   0%{transform:translateY(0);}
-  100%{transform:translateY(-6px);}
+  100%{transform:translateY(-3px);}
 }
 @keyframes drift3{
   0%{transform:translateY(0);}
-  100%{transform:translateY(-10px);}
+  100%{transform:translateY(-5px);}
 }
 @keyframes drift4{
   0%{transform:translateY(0);}
-  100%{transform:translateY(-5px);}
+  100%{transform:translateY(-2.5px);}
 }
 @keyframes drift5{
   0%{transform:translateY(0);}
-  100%{transform:translateY(-7px);}
+  100%{transform:translateY(-3.5px);}
 }
 @keyframes drift6{
   0%{transform:translateY(0);}
-  100%{transform:translateY(-9px);}
+  100%{transform:translateY(-4.5px);}
 }
 @keyframes drift7{
   0%{transform:translateY(0);}
-  100%{transform:translateY(-6px);}
+  100%{transform:translateY(-3px);}
 }
 @keyframes drift8{
   0%{transform:translateY(0);}
-  100%{transform:translateY(-8px);}
+  100%{transform:translateY(-4px);}
 }
 
 .float-card[data-tag="shrine"] .card-img{
@@ -193,9 +193,9 @@ img{display:block;-webkit-user-drag:none;}
 
 .float-card:hover{
   animation-play-state:paused !important;
-  transform:scale(1.06) !important;
+  transform:scale(1.04) !important;
   z-index:10;
-  filter:brightness(1.12);
+  filter:brightness(1.08);
 }
 .float-card[data-tag="shrine"]:hover .card-img{filter:hue-rotate(280deg) saturate(1.4) brightness(1.12);}
 .float-card[data-tag="Winter"]:hover .card-img{filter:hue-rotate(200deg) saturate(1.0) brightness(1.05);}
@@ -205,9 +205,9 @@ img{display:block;-webkit-user-drag:none;}
 
 .card-img{
   width:100%;aspect-ratio:3/4;object-fit:cover;
-  transition:filter .35s ease,transform .35s ease;
+  transition:filter .5s ease,transform .5s ease;
 }
-.float-card:hover .card-img{transform:scale(1.04);}
+.float-card:hover .card-img{transform:scale(1.03);}
 
 .card-label{
   position:absolute;bottom:0;left:0;right:0;
@@ -462,10 +462,10 @@ function buildCards(){
     card.addEventListener('click',function(){openLB(i);});
     card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openLB(i);}});
 
-    var delay=80+i*55;
+    var delay=100+i*65;
     var animName=driftAnims[i%driftAnims.length];
-    var duration=5+((i*7)%17)*0.3;
-    var animDelay=((i*3)%11)*0.3;
+    var duration=7+((i*7)%17)*0.4;
+    var animDelay=((i*3)%11)*0.4;
 
     setTimeout(function(){
       card.classList.add('revealed');
@@ -498,24 +498,74 @@ buildCards();
     {h:55, s:55,l:52},  /* amber   */
     {h:155,s:45,l:50},  /* mint    */
   ];
-  function apply(c){
-    var glow='hsla('+c.h+','+c.s+'%,'+c.l+'%,.40)';
-    var bdr ='hsla('+c.h+','+c.s+'%,'+c.l+'%,.30)';
-    var inr ='hsla('+c.h+','+c.s+'%,'+c.l+'%,.06)';
+  var currentColor={h:270,s:55,l:52};
+  var targetColor={h:270,s:55,l:52};
+  var progress=1;
+  var prevIdx=-1;
+
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  function applyColor(c){
+    var glow='hsla('+Math.round(c.h)+','+c.s+'%,'+c.l+'%,.30)';
+    var bdr ='hsla('+Math.round(c.h)+','+c.s+'%,'+c.l+'%,.22)';
+    var inr ='hsla('+Math.round(c.h)+','+c.s+'%,'+c.l+'%,.04)';
     for(var i=0;i<cards.length;i++){
       cards[i].style.borderColor=bdr;
-      cards[i].style.boxShadow='0 0 18px '+glow+',inset 0 0 12px '+inr;
+      cards[i].style.boxShadow='0 0 14px '+glow+',inset 0 0 8px '+inr;
     }
   }
-  var prevIdx=-1;
-  function cycle(){
+
+  function pickNext(){
     var idx=Math.floor(Math.random()*palettes.length);
     if(palettes.length>1){while(idx===prevIdx)idx=Math.floor(Math.random()*palettes.length);}
     prevIdx=idx;
-    apply(palettes[idx]);
+    currentColor={h:targetColor.h,s:targetColor.s,l:targetColor.l};
+    targetColor=palettes[idx];
+    progress=0;
   }
-  setTimeout(cycle,1200);
-  setInterval(cycle,4500);
+
+  function easeInOut(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
+
+  var transitionDuration=3000;
+  var holdDuration=4000;
+  var lastTime=0;
+  var holding=false;
+  var holdTimer=0;
+
+  function animate(ts){
+    if(!lastTime)lastTime=ts;
+    var dt=ts-lastTime;
+    lastTime=ts;
+
+    if(holding){
+      holdTimer+=dt;
+      if(holdTimer>=holdDuration){
+        holding=false;
+        holdTimer=0;
+        pickNext();
+      }
+    }else{
+      progress+=dt/transitionDuration;
+      if(progress>=1){
+        progress=1;
+        holding=true;
+        holdTimer=0;
+      }
+      var t=easeInOut(progress);
+      var interp={
+        h:lerp(currentColor.h,targetColor.h,t),
+        s:lerp(currentColor.s,targetColor.s,t),
+        l:lerp(currentColor.l,targetColor.l,t)
+      };
+      applyColor(interp);
+    }
+    requestAnimationFrame(animate);
+  }
+
+  setTimeout(function(){
+    pickNext();
+    requestAnimationFrame(animate);
+  },1200);
 })();
 
 var lightbox=document.getElementById('lightbox'),lbImg=document.getElementById('lbImg');
