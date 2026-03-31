@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="color-scheme" content="dark"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
 <title>&#9769; fallen &middot; gallery &middot; kara-21</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -12,6 +13,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i.ibb.co" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=VT323&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -115,18 +117,20 @@ img{display:block;-webkit-user-drag:none;}
   background:rgba(6,10,18,.85);
   border:2px solid rgba(30,60,100,.22);
   box-shadow:0 0 14px rgba(40,80,140,.15);
-  transition:filter .3s ease,transform .3s ease;
-  will-change:transform;
+  transition:filter .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1),box-shadow .35s cubic-bezier(.4,0,.2,1);
+  will-change:transform,left,top;
   opacity:0;
+  contain:layout style;
 }
 .cosmos-card.visible{
   opacity:1;
-  transition:opacity .8s ease,filter .3s ease,transform .3s ease;
+  transition:opacity .9s ease,filter .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1),box-shadow .35s cubic-bezier(.4,0,.2,1);
 }
 .cosmos-card:hover{
   z-index:20;
-  filter:brightness(1.15);
-  transform:scale(1.08) !important;
+  filter:brightness(1.18) saturate(1.08);
+  transform:scale(1.09) !important;
+  box-shadow:0 8px 32px rgba(0,0,0,.55),0 0 24px rgba(60,120,190,.22);
 }
 .cosmos-card img{
   width:100%;height:100%;object-fit:cover;
@@ -158,10 +162,10 @@ img{display:block;-webkit-user-drag:none;}
 #lightbox{
   position:fixed;inset:0;z-index:100;
   display:flex;align-items:center;justify-content:center;
-  background:rgba(4,6,12,.92);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:rgba(4,6,12,.94);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   opacity:0;visibility:hidden;
-  transition:opacity .22s ease,visibility .22s ease;
+  transition:opacity .28s cubic-bezier(.4,0,.2,1),visibility .28s ease;
 }
 #lightbox.open{opacity:1;visibility:visible;}
 .lb-shell{
@@ -169,10 +173,13 @@ img{display:block;-webkit-user-drag:none;}
   width:96vw;max-width:1100px;
   max-height:92dvh;
   background:rgba(8,12,20,.97);
-  border:1px solid var(--border2);border-radius:6px;
+  border:1px solid var(--border2);border-radius:8px;
   overflow:hidden;
-  box-shadow:0 12px 80px rgba(0,0,0,.80);
+  box-shadow:0 16px 80px rgba(0,0,0,.85),0 0 0 1px rgba(30,55,95,.20);
+  transform:scale(.97);
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1);
 }
+#lightbox.open .lb-shell{transform:scale(1);}
 .lb-img-area{
   flex:1;min-height:0;overflow:hidden;
   background:rgba(0,0,0,.60);position:relative;
