@@ -423,22 +423,31 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 
 /* ── side images ── */
 .side-img{
-  position:fixed;top:50%;z-index:1;
-  width:clamp(120px,12vw,200px);
-  transform:translateY(-50%);
+  position:fixed;z-index:1;
+  width:clamp(140px,14vw,220px);
   pointer-events:none;
-  opacity:.38;
-  filter:brightness(.78) contrast(1.08) saturate(.55) sepia(.08);
+  opacity:.40;
+  filter:brightness(.74) contrast(1.10) saturate(.52) sepia(.06);
   border-radius:6px;
+  border:1px solid rgba(55,110,175,.08);
   transition:opacity .4s ease;
-  mask-image:linear-gradient(to bottom,transparent 0%,black 18%,black 82%,transparent 100%),linear-gradient(to right,transparent 0%,black 14%,black 86%,transparent 100%);
+  box-shadow:0 0 24px 6px rgba(25,60,115,.10),0 0 48px 12px rgba(15,40,85,.05);
+  mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%),linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);
   mask-composite:intersect;
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 18%,black 82%,transparent 100%),linear-gradient(to right,transparent 0%,black 14%,black 86%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%),linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);
   -webkit-mask-composite:source-in;
+  animation:sideFloat 8s ease-in-out infinite;
 }
-.side-img-left{left:12px;}
-.side-img-right{right:12px;}
-@media(max-width:1100px){.side-img{opacity:.24;width:clamp(80px,10vw,140px);}}
+.side-img-left{left:6px;}
+.side-img-right{right:6px;}
+.side-img-left.side-top{top:12%;}
+.side-img-left.side-bot{top:52%;}
+.side-img-right.side-top{top:12%;}
+.side-img-right.side-bot{top:52%;}
+.side-img.side-top{animation-delay:0s;}
+.side-img.side-bot{animation-delay:-4s;}
+@keyframes sideFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@media(max-width:1100px){.side-img{opacity:.22;width:clamp(90px,10vw,150px);}}
 @media(max-width:860px){.side-img{display:none;}}
 
 /* ── responsive ── */
@@ -458,8 +467,10 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 <body>
 <div id="ambient" aria-hidden="true"></div>
 <canvas id="sparks" aria-hidden="true"></canvas>
-<img class="side-img side-img-left" src="https://i.ibb.co/7qg6T7p/863e3caba983f00e57ba17202818a30c.jpg" alt="" aria-hidden="true" draggable="false"/>
-<img class="side-img side-img-right" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false"/>
+<img class="side-img side-img-left side-top" src="https://i.ibb.co/7qg6T7p/863e3caba983f00e57ba17202818a30c.jpg" alt="" aria-hidden="true" draggable="false"/>
+<img class="side-img side-img-left side-bot" src="https://i.ibb.co/SwT2Czv3/https-images-genius-com-9fb35bbed1f4df47206de77db633e087-1000x1000x1.png" alt="" aria-hidden="true" draggable="false"/>
+<img class="side-img side-img-right side-top" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false"/>
+<img class="side-img side-img-right side-bot" src="https://i.ibb.co/nM506PgK/d6c6354b8cca563d08b4570ec2283f9c.jpg" alt="" aria-hidden="true" draggable="false"/>
 
 <div id="loader" role="status">
   <div class="ld-bg" aria-hidden="true"></div>
@@ -514,9 +525,9 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
       <div class="portrait-art">
         <img src="https://i.ibb.co/hFqNVY6s/012c2dd486f0f8706b66b9c382ae9d66.jpg" alt="Portrait of Kara" fetchpriority="high" decoding="async">
       </div>
-      <div class="handle">Kara · Nick</div>
-      <div class="handle-sub">age 19 · fallen earth</div>
-      <div class="handle-status">crazy · chill · lover</div>
+      <div class="handle">Kara</div>
+      <div class="handle-sub">just_here0. · fallen earth</div>
+      <div class="handle-status">fallin n prayin 💕</div>
     </div>
 
     <div class="box mood-box">
