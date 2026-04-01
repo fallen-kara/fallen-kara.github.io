@@ -476,10 +476,10 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 <body>
 <div id="ambient" aria-hidden="true"></div>
 <canvas id="sparks" aria-hidden="true"></canvas>
-<img class="side-img side-img-left side-top" src="https://i.ibb.co/Xk25F2C6/76d1de85ad0f8d398939c676cb1c8453.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async"/>
-<img class="side-img side-img-left side-bot" src="https://i.ibb.co/v6RkvcXG/683b8cbd99c52a8afa46138a6caae877.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async"/>
-<img class="side-img side-img-right side-top" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async"/>
-<img class="side-img side-img-right side-bot" src="https://i.ibb.co/nM506PgK/d6c6354b8cca563d08b4570ec2283f9c.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async"/>
+<img class="side-img side-img-left side-top" src="https://i.ibb.co/Xk25F2C6/76d1de85ad0f8d398939c676cb1c8453.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
+<img class="side-img side-img-left side-bot" src="https://i.ibb.co/v6RkvcXG/683b8cbd99c52a8afa46138a6caae877.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
+<img class="side-img side-img-right side-top" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
+<img class="side-img side-img-right side-bot" src="https://i.ibb.co/nM506PgK/d6c6354b8cca563d08b4570ec2283f9c.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
 
 <div id="loader" role="status">
   <div class="ld-bg" aria-hidden="true"></div>
@@ -801,17 +801,18 @@ const db  = getFirestore(app);
 // ── particles (cool teal sparks) ──
 (function(){
   var c=document.getElementById("sparks");if(!c||!c.getContext)return;
-  var ctx=c.getContext("2d"),W=0,H=0,particles=[],MAX_PARTICLES=120;
+  var ctx=c.getContext("2d"),W=0,H=0,particles=[],MAX_PARTICLES=120,rafId=0;
   function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
   resize();window.addEventListener("resize",resize,{passive:true});
   function rand(a,b){return a+(b-a)*Math.random();}
   function mkP(){return{x:rand(W*.05,W*.95),y:H+rand(10,40),vx:rand(-.3,.3),vy:rand(-.4,-1.1),life:1,decay:rand(.003,.008),r:rand(0.8,2.0),hue:rand(200,230),sat:rand(35,60),lum:rand(38,55),wobble:rand(0,Math.PI*2),wobbleSpeed:rand(.015,.04),wobbleAmp:rand(.15,.6)};}
   for(var i=0;i<50;i++){var p=mkP();p.y=rand(0,H);p.life=rand(.1,1);particles.push(p);}
   var last=0;
-  function frame(ts){
-    if(document.hidden){requestAnimationFrame(frame);return;}
-    if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);if(Math.random()<.22&&particles.length<MAX_PARTICLES)particles.push(mkP());for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.wobble+=p.wobbleSpeed;p.x+=p.vx+Math.sin(p.wobble)*p.wobbleAmp;p.y+=p.vy;p.life-=p.decay;if(p.life<=0||p.y<-20){particles.splice(i,1);continue;}var a=p.life*.38;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fillStyle="hsla("+p.hue+","+p.sat+"%,"+p.lum+"%,"+a+")";ctx.fill();}}requestAnimationFrame(frame);}
-  requestAnimationFrame(frame);
+  function frame(ts){if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);if(Math.random()<.22&&particles.length<MAX_PARTICLES)particles.push(mkP());for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.wobble+=p.wobbleSpeed;p.x+=p.vx+Math.sin(p.wobble)*p.wobbleAmp;p.y+=p.vy;p.life-=p.decay;if(p.life<=0||p.y<-20){particles.splice(i,1);continue;}var a=p.life*.38;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fillStyle="hsla("+p.hue+","+p.sat+"%,"+p.lum+"%,"+a+")";ctx.fill();}}rafId=requestAnimationFrame(frame);}
+  function start(){last=0;rafId=requestAnimationFrame(frame);}
+  function stop(){cancelAnimationFrame(rafId);}
+  document.addEventListener("visibilitychange",function(){document.hidden?stop():start();});
+  start();
 })();
 
 // ── misc ──
