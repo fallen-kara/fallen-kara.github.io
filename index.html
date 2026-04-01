@@ -4,20 +4,16 @@
 <meta charset="UTF-8"/>
 <meta name="color-scheme" content="dark"/>
 <meta name="referrer" content="strict-origin-when-cross-origin"/>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="fallen page · kara-21 · soul archive — poetry, favorites, guestbook"/>
-<meta name="theme-color" content="#0a0d12"/>
-<link rel="icon" type="image/x-icon" href="favicon.ico"/>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<link rel="manifest" href="site.webmanifest"/>
 <title>☩ fallen ☩ kara-21</title>
-<link rel="preload" as="image" href="https://i.pinimg.com/originals/e7/a7/9b/e7a79b3eb6ac27ec022d1ef485318ba7.gif" crossorigin/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="preconnect" href="https://i.ibb.co" crossorigin/>
-<link rel="preconnect" href="https://i.pinimg.com" crossorigin/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i.ibb.co" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=VT323&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 /* ── reset & root ── */
@@ -97,11 +93,11 @@ body.lock{-webkit-user-select:none;user-select:none;}
 @keyframes ldProgPulse{0%{opacity:.5;}100%{opacity:1;}}
 .ld-prog-fill{position:absolute;top:0;left:0;height:100%;width:0%;
   background:linear-gradient(90deg,rgba(30,80,150,.50),rgba(60,125,200,.80),rgba(100,175,235,1),rgba(60,125,200,.80),rgba(30,80,150,.50));
-  background-size:200% auto;animation:ldPFill 4.2s cubic-bezier(.25,.46,.45,.94) forwards,ldPShine 1.4s linear infinite;
+  background-size:200% auto;animation:ldPFill 5.2s cubic-bezier(.25,.46,.45,.94) forwards,ldPShine 1.4s linear infinite;
   box-shadow:0 0 8px 2px rgba(70,140,215,.35);}
 @keyframes ldPFill{0%{width:0%;}60%{width:78%;}100%{width:100%;}}
 @keyframes ldPShine{0%{background-position:120% center;}100%{background-position:-120% center;}}
-.ld-sub{font-family:var(--mono);font-size:11px;color:rgba(48,90,145,.45);letter-spacing:.20em;text-transform:uppercase;animation:ldSubFade 4.2s ease-in-out forwards;}
+.ld-sub{font-family:var(--mono);font-size:11px;color:rgba(48,90,145,.45);letter-spacing:.20em;text-transform:uppercase;animation:ldSubFade 5.2s ease-in-out forwards;}
 @keyframes ldSubFade{0%{opacity:0;}15%{opacity:.55;}75%{opacity:.55;}100%{opacity:0;}}
 
 /* ── page wrapper — single-column centered ── */
@@ -427,31 +423,22 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 
 /* ── side images ── */
 .side-img{
-  position:fixed;z-index:1;
-  width:clamp(140px,14vw,220px);
+  position:fixed;top:50%;z-index:1;
+  width:clamp(120px,12vw,200px);
+  transform:translateY(-50%);
   pointer-events:none;
-  opacity:.40;
-  filter:brightness(.74) contrast(1.10) saturate(.52) sepia(.06);
+  opacity:.38;
+  filter:brightness(.78) contrast(1.08) saturate(.55) sepia(.08);
   border-radius:6px;
-  border:1px solid rgba(55,110,175,.08);
   transition:opacity .4s ease;
-  box-shadow:0 0 24px 6px rgba(25,60,115,.10),0 0 48px 12px rgba(15,40,85,.05);
-  mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%),linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,black 18%,black 82%,transparent 100%),linear-gradient(to right,transparent 0%,black 14%,black 86%,transparent 100%);
   mask-composite:intersect;
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%),linear-gradient(to right,transparent 0%,black 10%,black 90%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 18%,black 82%,transparent 100%),linear-gradient(to right,transparent 0%,black 14%,black 86%,transparent 100%);
   -webkit-mask-composite:source-in;
-  animation:sideFloat 8s ease-in-out infinite;
 }
-.side-img-left{left:6px;}
-.side-img-right{right:6px;}
-.side-img-left.side-top{top:12%;}
-.side-img-left.side-bot{top:52%;}
-.side-img-right.side-top{top:12%;}
-.side-img-right.side-bot{top:52%;}
-.side-img.side-top{animation-delay:0s;}
-.side-img.side-bot{animation-delay:-4s;}
-@keyframes sideFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-@media(max-width:1100px){.side-img{opacity:.22;width:clamp(90px,10vw,150px);}}
+.side-img-left{left:12px;}
+.side-img-right{right:12px;}
+@media(max-width:1100px){.side-img{opacity:.24;width:clamp(80px,10vw,140px);}}
 @media(max-width:860px){.side-img{display:none;}}
 
 /* ── responsive ── */
@@ -466,20 +453,13 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
   .blinkie{font-size:10px;padding:1px 5px;}
   .vid-container{border-radius:8px;}
 }
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
-  .marquee-inner{animation:none!important;}
-  #loader{transition-duration:.01ms!important;}
-}
 </style>
 </head>
 <body>
 <div id="ambient" aria-hidden="true"></div>
 <canvas id="sparks" aria-hidden="true"></canvas>
-<img class="side-img side-img-left side-top" src="https://i.ibb.co/Xk25F2C6/76d1de85ad0f8d398939c676cb1c8453.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
-<img class="side-img side-img-left side-bot" src="https://i.ibb.co/v6RkvcXG/683b8cbd99c52a8afa46138a6caae877.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
-<img class="side-img side-img-right side-top" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
-<img class="side-img side-img-right side-bot" src="https://i.ibb.co/nM506PgK/d6c6354b8cca563d08b4570ec2283f9c.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
+<img class="side-img side-img-left" src="https://i.ibb.co/7qg6T7p/863e3caba983f00e57ba17202818a30c.jpg" alt="" aria-hidden="true" draggable="false"/>
+<img class="side-img side-img-right" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false"/>
 
 <div id="loader" role="status">
   <div class="ld-bg" aria-hidden="true"></div>
@@ -534,9 +514,9 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
       <div class="portrait-art">
         <img src="https://i.ibb.co/hFqNVY6s/012c2dd486f0f8706b66b9c382ae9d66.jpg" alt="Portrait of Kara" fetchpriority="high" decoding="async">
       </div>
-      <div class="handle">Kara</div>
-      <div class="handle-sub">just_here0. · fallen earth</div>
-      <div class="handle-status">fallin n prayin 💕</div>
+      <div class="handle">Kara · Nick</div>
+      <div class="handle-sub">age 19 · fallen earth</div>
+      <div class="handle-status">crazy · chill · lover</div>
     </div>
 
     <div class="box mood-box">
@@ -779,40 +759,27 @@ const db  = getFirestore(app);
   setTimeout(step,600);
 })();
 
-// ── loader dismiss (waits for GIF to load for smoother experience) ──
+// ── loader dismiss ──
 (function(){
-  var K="fallen_v7",MIN_TIME=4200,F=1100;
+  var K="fallen_v7",D=5400,F=1100;
   var loader=document.getElementById("loader"),page=document.getElementById("page");
-  var startTime=performance.now();
   function done(){try{sessionStorage.setItem(K,"1");}catch(e){}if(loader)loader.classList.add("gone");if(page)page.classList.add("show");setTimeout(function(){if(loader&&loader.parentNode)loader.parentNode.removeChild(loader);},F+120);}
   var already=false;try{already=!!sessionStorage.getItem(K);}catch(e){}
-  if(already){done();return;}
-  // Preload the loader GIF, then wait for min display time
-  var gifReady=false,timerReady=false;
-  function tryDone(){if(gifReady&&timerReady)done();}
-  var gifImg=new Image();
-  gifImg.onload=gifImg.onerror=function(){gifReady=true;tryDone();};
-  gifImg.src="https://i.pinimg.com/originals/e7/a7/9b/e7a79b3eb6ac27ec022d1ef485318ba7.gif";
-  setTimeout(function(){timerReady=true;tryDone();},MIN_TIME);
-  // Safety fallback: dismiss after 7s no matter what
-  setTimeout(done,7000);
+  setTimeout(done,already?0:D);
 })();
 
 // ── particles (cool teal sparks) ──
 (function(){
   var c=document.getElementById("sparks");if(!c||!c.getContext)return;
-  var ctx=c.getContext("2d"),W=0,H=0,particles=[],MAX_PARTICLES=120,rafId=0;
+  var ctx=c.getContext("2d"),W=0,H=0,particles=[];
   function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
   resize();window.addEventListener("resize",resize,{passive:true});
   function rand(a,b){return a+(b-a)*Math.random();}
   function mkP(){return{x:rand(W*.05,W*.95),y:H+rand(10,40),vx:rand(-.3,.3),vy:rand(-.4,-1.1),life:1,decay:rand(.003,.008),r:rand(0.8,2.0),hue:rand(200,230),sat:rand(35,60),lum:rand(38,55),wobble:rand(0,Math.PI*2),wobbleSpeed:rand(.015,.04),wobbleAmp:rand(.15,.6)};}
   for(var i=0;i<50;i++){var p=mkP();p.y=rand(0,H);p.life=rand(.1,1);particles.push(p);}
   var last=0;
-  function frame(ts){if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);if(Math.random()<.22&&particles.length<MAX_PARTICLES)particles.push(mkP());for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.wobble+=p.wobbleSpeed;p.x+=p.vx+Math.sin(p.wobble)*p.wobbleAmp;p.y+=p.vy;p.life-=p.decay;if(p.life<=0||p.y<-20){particles.splice(i,1);continue;}var a=p.life*.38;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fillStyle="hsla("+p.hue+","+p.sat+"%,"+p.lum+"%,"+a+")";ctx.fill();}}rafId=requestAnimationFrame(frame);}
-  function start(){last=0;rafId=requestAnimationFrame(frame);}
-  function stop(){cancelAnimationFrame(rafId);}
-  document.addEventListener("visibilitychange",function(){document.hidden?stop():start();});
-  start();
+  function frame(ts){if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);if(Math.random()<.22)particles.push(mkP());for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.wobble+=p.wobbleSpeed;p.x+=p.vx+Math.sin(p.wobble)*p.wobbleAmp;p.y+=p.vy;p.life-=p.decay;if(p.life<=0||p.y<-20){particles.splice(i,1);continue;}var a=p.life*.38;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fillStyle="hsla("+p.hue+","+p.sat+"%,"+p.lum+"%,"+a+")";ctx.fill();}}requestAnimationFrame(frame);}
+  requestAnimationFrame(frame);
 })();
 
 // ── misc ──
@@ -873,7 +840,7 @@ const db  = getFirestore(app);
   // devtools detection — clear page if devtools opened
   var _dt=false;
   function chkDT(){
-    var w=window.outerWidth-window.innerWidth>300,h=window.outerHeight-window.innerHeight>300;
+    var w=window.outerWidth-window.innerWidth>160,h=window.outerHeight-window.innerHeight>160;
     if((w||h)&&!_dt){_dt=true;document.title='☩';document.body.innerHTML='<div style="background:#060810;color:#111;position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:14px;letter-spacing:.2em">☩</div>';}
   }
   setInterval(chkDT,800);window.addEventListener('resize',chkDT);
@@ -1002,3 +969,4 @@ const db  = getFirestore(app);
 </script>
 </body>
 </html>
+
