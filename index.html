@@ -4,16 +4,20 @@
 <meta charset="UTF-8"/>
 <meta name="color-scheme" content="dark"/>
 <meta name="referrer" content="strict-origin-when-cross-origin"/>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="fallen page · kara-21 · soul archive — poetry, favorites, guestbook"/>
+<meta name="theme-color" content="#0a0d12"/>
+<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="manifest" href="site.webmanifest"/>
 <title>☩ fallen ☩ kara-21</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://i.ibb.co" crossorigin>
+<link rel="preload" as="image" href="https://i.pinimg.com/originals/e7/a7/9b/e7a79b3eb6ac27ec022d1ef485318ba7.gif" crossorigin/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://i.ibb.co" crossorigin/>
+<link rel="preconnect" href="https://i.pinimg.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=VT323&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 /* ── reset & root ── */
@@ -93,11 +97,11 @@ body.lock{-webkit-user-select:none;user-select:none;}
 @keyframes ldProgPulse{0%{opacity:.5;}100%{opacity:1;}}
 .ld-prog-fill{position:absolute;top:0;left:0;height:100%;width:0%;
   background:linear-gradient(90deg,rgba(30,80,150,.50),rgba(60,125,200,.80),rgba(100,175,235,1),rgba(60,125,200,.80),rgba(30,80,150,.50));
-  background-size:200% auto;animation:ldPFill 5.2s cubic-bezier(.25,.46,.45,.94) forwards,ldPShine 1.4s linear infinite;
+  background-size:200% auto;animation:ldPFill 4.2s cubic-bezier(.25,.46,.45,.94) forwards,ldPShine 1.4s linear infinite;
   box-shadow:0 0 8px 2px rgba(70,140,215,.35);}
 @keyframes ldPFill{0%{width:0%;}60%{width:78%;}100%{width:100%;}}
 @keyframes ldPShine{0%{background-position:120% center;}100%{background-position:-120% center;}}
-.ld-sub{font-family:var(--mono);font-size:11px;color:rgba(48,90,145,.45);letter-spacing:.20em;text-transform:uppercase;animation:ldSubFade 5.2s ease-in-out forwards;}
+.ld-sub{font-family:var(--mono);font-size:11px;color:rgba(48,90,145,.45);letter-spacing:.20em;text-transform:uppercase;animation:ldSubFade 4.2s ease-in-out forwards;}
 @keyframes ldSubFade{0%{opacity:0;}15%{opacity:.55;}75%{opacity:.55;}100%{opacity:0;}}
 
 /* ── page wrapper — single-column centered ── */
@@ -462,15 +466,20 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
   .blinkie{font-size:10px;padding:1px 5px;}
   .vid-container{border-radius:8px;}
 }
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+  .marquee-inner{animation:none!important;}
+  #loader{transition-duration:.01ms!important;}
+}
 </style>
 </head>
 <body>
 <div id="ambient" aria-hidden="true"></div>
 <canvas id="sparks" aria-hidden="true"></canvas>
-<img class="side-img side-img-left side-top" src="https://i.ibb.co/Xk25F2C6/76d1de85ad0f8d398939c676cb1c8453.jpg" alt="" aria-hidden="true" draggable="false"/>
-<img class="side-img side-img-left side-bot" src="https://i.ibb.co/v6RkvcXG/683b8cbd99c52a8afa46138a6caae877.jpg" alt="" aria-hidden="true" draggable="false"/>
-<img class="side-img side-img-right side-top" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false"/>
-<img class="side-img side-img-right side-bot" src="https://i.ibb.co/nM506PgK/d6c6354b8cca563d08b4570ec2283f9c.jpg" alt="" aria-hidden="true" draggable="false"/>
+<img class="side-img side-img-left side-top" src="https://i.ibb.co/Xk25F2C6/76d1de85ad0f8d398939c676cb1c8453.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
+<img class="side-img side-img-left side-bot" src="https://i.ibb.co/v6RkvcXG/683b8cbd99c52a8afa46138a6caae877.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
+<img class="side-img side-img-right side-top" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
+<img class="side-img side-img-right side-bot" src="https://i.ibb.co/nM506PgK/d6c6354b8cca563d08b4570ec2283f9c.jpg" alt="" aria-hidden="true" draggable="false" decoding="async"/>
 
 <div id="loader" role="status">
   <div class="ld-bg" aria-hidden="true"></div>
@@ -770,27 +779,40 @@ const db  = getFirestore(app);
   setTimeout(step,600);
 })();
 
-// ── loader dismiss ──
+// ── loader dismiss (waits for GIF to load for smoother experience) ──
 (function(){
-  var K="fallen_v7",D=5400,F=1100;
+  var K="fallen_v7",MIN_TIME=4200,F=1100;
   var loader=document.getElementById("loader"),page=document.getElementById("page");
+  var startTime=performance.now();
   function done(){try{sessionStorage.setItem(K,"1");}catch(e){}if(loader)loader.classList.add("gone");if(page)page.classList.add("show");setTimeout(function(){if(loader&&loader.parentNode)loader.parentNode.removeChild(loader);},F+120);}
   var already=false;try{already=!!sessionStorage.getItem(K);}catch(e){}
-  setTimeout(done,already?0:D);
+  if(already){done();return;}
+  // Preload the loader GIF, then wait for min display time
+  var gifReady=false,timerReady=false;
+  function tryDone(){if(gifReady&&timerReady)done();}
+  var gifImg=new Image();
+  gifImg.onload=gifImg.onerror=function(){gifReady=true;tryDone();};
+  gifImg.src="https://i.pinimg.com/originals/e7/a7/9b/e7a79b3eb6ac27ec022d1ef485318ba7.gif";
+  setTimeout(function(){timerReady=true;tryDone();},MIN_TIME);
+  // Safety fallback: dismiss after 7s no matter what
+  setTimeout(done,7000);
 })();
 
 // ── particles (cool teal sparks) ──
 (function(){
   var c=document.getElementById("sparks");if(!c||!c.getContext)return;
-  var ctx=c.getContext("2d"),W=0,H=0,particles=[];
+  var ctx=c.getContext("2d"),W=0,H=0,particles=[],MAX_PARTICLES=120,rafId=0;
   function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
   resize();window.addEventListener("resize",resize,{passive:true});
   function rand(a,b){return a+(b-a)*Math.random();}
   function mkP(){return{x:rand(W*.05,W*.95),y:H+rand(10,40),vx:rand(-.3,.3),vy:rand(-.4,-1.1),life:1,decay:rand(.003,.008),r:rand(0.8,2.0),hue:rand(200,230),sat:rand(35,60),lum:rand(38,55),wobble:rand(0,Math.PI*2),wobbleSpeed:rand(.015,.04),wobbleAmp:rand(.15,.6)};}
   for(var i=0;i<50;i++){var p=mkP();p.y=rand(0,H);p.life=rand(.1,1);particles.push(p);}
   var last=0;
-  function frame(ts){if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);if(Math.random()<.22)particles.push(mkP());for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.wobble+=p.wobbleSpeed;p.x+=p.vx+Math.sin(p.wobble)*p.wobbleAmp;p.y+=p.vy;p.life-=p.decay;if(p.life<=0||p.y<-20){particles.splice(i,1);continue;}var a=p.life*.38;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fillStyle="hsla("+p.hue+","+p.sat+"%,"+p.lum+"%,"+a+")";ctx.fill();}}requestAnimationFrame(frame);}
-  requestAnimationFrame(frame);
+  function frame(ts){if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);if(Math.random()<.22&&particles.length<MAX_PARTICLES)particles.push(mkP());for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.wobble+=p.wobbleSpeed;p.x+=p.vx+Math.sin(p.wobble)*p.wobbleAmp;p.y+=p.vy;p.life-=p.decay;if(p.life<=0||p.y<-20){particles.splice(i,1);continue;}var a=p.life*.38;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fillStyle="hsla("+p.hue+","+p.sat+"%,"+p.lum+"%,"+a+")";ctx.fill();}}rafId=requestAnimationFrame(frame);}
+  function start(){last=0;rafId=requestAnimationFrame(frame);}
+  function stop(){cancelAnimationFrame(rafId);}
+  document.addEventListener("visibilitychange",function(){document.hidden?stop():start();});
+  start();
 })();
 
 // ── misc ──
