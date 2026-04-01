@@ -5,15 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="color-scheme" content="dark"/>
 <meta name="referrer" content="strict-origin-when-cross-origin"/>
+<meta name="description" content="fallen gallery · kara-21 · anime, seasons, shrine — image collection"/>
+<meta name="theme-color" content="#0a0d12"/>
 <title>&#9769; fallen &middot; gallery &middot; kara-21</title>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://i.ibb.co" crossorigin>
+<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="manifest" href="site.webmanifest"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://i.ibb.co" crossorigin/>
+<link rel="preconnect" href="https://i.postimg.cc" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=VT323&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -272,7 +275,7 @@ img{display:block;-webkit-user-drag:none;}
   <div class="subtitle">&#9769; kara-21 &#9769;</div>
 </div>
 
-<div class="cosmos" id="cosmos"></div>
+<div class="cosmos" id="cosmos" role="list"></div>
 
 <div id="lightbox" role="dialog" aria-modal="true">
   <div class="lb-shell">
@@ -298,7 +301,7 @@ img{display:block;-webkit-user-drag:none;}
   var cv=document.getElementById('sparks');
   if(!cv||!cv.getContext)return;
   if(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<4&&window.innerWidth<680)return;
-  var ctx=cv.getContext('2d'),W=0,H=0,P=[];
+  var ctx=cv.getContext('2d'),W=0,H=0,P=[],MAX_P=80;
   function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
   rsz();window.addEventListener('resize',rsz,{passive:true});
   function rnd(a,b){return a+(b-a)*Math.random();}
@@ -306,8 +309,9 @@ img{display:block;-webkit-user-drag:none;}
   for(var i=0;i<28;i++){var p=mk();p.y=rnd(0,H);p.l=rnd(.1,1);P.push(p);}
   var last=0;
   function frame(ts){
+    if(document.hidden){requestAnimationFrame(frame);return;}
     if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);
-      if(Math.random()<.20)P.push(mk());
+      if(Math.random()<.20&&P.length<MAX_P)P.push(mk());
       for(var i=P.length-1;i>=0;i--){
         var p=P[i];p.wb+=p.ws;p.x+=p.vx+Math.sin(p.wb)*p.wa;p.y+=p.vy;p.l-=p.d;
         if(p.l<=0||p.y<-16){P.splice(i,1);continue;}
@@ -388,7 +392,7 @@ function buildCosmos(){
 
     var img=document.createElement('img');
     img.loading='lazy';img.decoding='async';
-    img.alt=esc(item.name||'image');
+    img.alt=item.name||'image';
     img.src=item.src;
     img.draggable=false;
 
@@ -448,6 +452,7 @@ buildCosmos();
   },{passive:true});
 
   function animate(ts){
+    if(document.hidden){last=0;requestAnimationFrame(animate);return;}
     if(!last)last=ts;
     var dt=Math.min((ts-last)/16.67,3);
     last=ts;
@@ -524,6 +529,7 @@ buildCosmos();
   var holdTimer=0;
 
   function animate(ts){
+    if(document.hidden){lastTime=0;requestAnimationFrame(animate);return;}
     if(!lastTime)lastTime=ts;
     var dt=ts-lastTime;
     lastTime=ts;
