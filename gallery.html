@@ -5,18 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="color-scheme" content="dark"/>
 <meta name="referrer" content="strict-origin-when-cross-origin"/>
-<meta name="description" content="fallen gallery · kara-21 · anime, seasons, shrine — image collection"/>
-<meta name="theme-color" content="#0a0d12"/>
 <title>&#9769; fallen &middot; gallery &middot; kara-21</title>
-<link rel="icon" type="image/x-icon" href="favicon.ico"/>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<link rel="manifest" href="site.webmanifest"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="preconnect" href="https://i.ibb.co" crossorigin/>
-<link rel="preconnect" href="https://i.postimg.cc" crossorigin/>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i.ibb.co" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=VT323&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -275,7 +272,7 @@ img{display:block;-webkit-user-drag:none;}
   <div class="subtitle">&#9769; kara-21 &#9769;</div>
 </div>
 
-<div class="cosmos" id="cosmos" role="list"></div>
+<div class="cosmos" id="cosmos"></div>
 
 <div id="lightbox" role="dialog" aria-modal="true">
   <div class="lb-shell">
@@ -301,7 +298,7 @@ img{display:block;-webkit-user-drag:none;}
   var cv=document.getElementById('sparks');
   if(!cv||!cv.getContext)return;
   if(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<4&&window.innerWidth<680)return;
-  var ctx=cv.getContext('2d'),W=0,H=0,P=[],MAX_P=80,rafId=0;
+  var ctx=cv.getContext('2d'),W=0,H=0,P=[];
   function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
   rsz();window.addEventListener('resize',rsz,{passive:true});
   function rnd(a,b){return a+(b-a)*Math.random();}
@@ -310,7 +307,7 @@ img{display:block;-webkit-user-drag:none;}
   var last=0;
   function frame(ts){
     if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);
-      if(Math.random()<.20&&P.length<MAX_P)P.push(mk());
+      if(Math.random()<.20)P.push(mk());
       for(var i=P.length-1;i>=0;i--){
         var p=P[i];p.wb+=p.ws;p.x+=p.vx+Math.sin(p.wb)*p.wa;p.y+=p.vy;p.l-=p.d;
         if(p.l<=0||p.y<-16){P.splice(i,1);continue;}
@@ -323,12 +320,9 @@ img{display:block;-webkit-user-drag:none;}
         ctx.beginPath();ctx.arc(p.x,p.y,p.r*2.6*p.l,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
       }
     }
-    rafId=requestAnimationFrame(frame);
+    requestAnimationFrame(frame);
   }
-  function start(){last=0;rafId=requestAnimationFrame(frame);}
-  function stop(){cancelAnimationFrame(rafId);}
-  document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
-  start();
+  requestAnimationFrame(frame);
 })();
 
 /* ── image data ── */
@@ -394,7 +388,7 @@ function buildCosmos(){
 
     var img=document.createElement('img');
     img.loading='lazy';img.decoding='async';
-    img.alt=item.name||'image';
+    img.alt=esc(item.name||'image');
     img.src=item.src;
     img.draggable=false;
 
@@ -442,7 +436,7 @@ buildCosmos();
 (function(){
   var W=cosmos.offsetWidth||window.innerWidth;
   var H=cosmosH;
-  var last=0,rafId=0;
+  var last=0;
 
   function updateBounds(){
     W=cosmos.offsetWidth||window.innerWidth;
@@ -476,12 +470,9 @@ buildCosmos();
       c.el.style.top=c.y+'px';
       c.el.style.transform='rotate('+c.rot.toFixed(2)+'deg)';
     }
-    rafId=requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   }
-  function start(){last=0;rafId=requestAnimationFrame(animate);}
-  function stop(){cancelAnimationFrame(rafId);}
-  document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
-  start();
+  requestAnimationFrame(animate);
 })();
 
 /* ── color-cycling borders ── */
@@ -532,8 +523,6 @@ buildCosmos();
   var holding=false;
   var holdTimer=0;
 
-  var rafId=0;
-
   function animate(ts){
     if(!lastTime)lastTime=ts;
     var dt=ts-lastTime;
@@ -561,15 +550,12 @@ buildCosmos();
       };
       applyColor(interp);
     }
-    rafId=requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   }
-  function start(){lastTime=0;rafId=requestAnimationFrame(animate);}
-  function stop(){cancelAnimationFrame(rafId);}
-  document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
 
   setTimeout(function(){
     pickNext();
-    start();
+    requestAnimationFrame(animate);
   },800);
 })();
 
@@ -635,7 +621,7 @@ window.addEventListener('keydown',function(e){
   },true);
   var _dt=false;
   function chkDT(){
-    var w=window.outerWidth-window.innerWidth>300,h=window.outerHeight-window.innerHeight>300;
+    var w=window.outerWidth-window.innerWidth>160,h=window.outerHeight-window.innerHeight>160;
     if((w||h)&&!_dt){_dt=true;document.title='\u2629';document.body.innerHTML='<div style="background:#060810;color:#111;position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:14px;letter-spacing:.2em">\u2629</div>';}
   }
   setInterval(chkDT,800);window.addEventListener('resize',chkDT);
