@@ -14,7 +14,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.ibb.co" crossorigin>
-<link rel="preconnect" href="https://i.postimg.cc" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=VT323&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -109,9 +108,6 @@ img{display:block;-webkit-user-drag:none;}
   min-height:250vh;
   overflow:visible;
   z-index:2;
-  --card-border:rgba(30,60,100,.22);
-  --card-glow:0 0 14px rgba(40,80,140,.15);
-  --card-inner:transparent;
 }
 
 .cosmos-card{
@@ -120,12 +116,12 @@ img{display:block;-webkit-user-drag:none;}
   overflow:hidden;
   cursor:pointer;
   background:rgba(5,8,16,.88);
-  border:2px solid var(--card-border);
-  box-shadow:var(--card-glow);
+  border:2px solid rgba(30,60,100,.22);
+  box-shadow:0 0 14px rgba(40,80,140,.15);
   transition:filter .45s cubic-bezier(.25,.1,.25,1),transform .45s cubic-bezier(.25,.1,.25,1),box-shadow .45s cubic-bezier(.25,.1,.25,1);
-  will-change:transform;
+  will-change:transform,left,top;
   opacity:0;
-  contain:layout style paint;
+  contain:layout style;
 }
 .cosmos-card.visible{
   opacity:1;
@@ -168,12 +164,11 @@ img{display:block;-webkit-user-drag:none;}
   position:fixed;inset:0;z-index:100;
   display:flex;align-items:center;justify-content:center;
   background:rgba(3,5,10,.95);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   opacity:0;visibility:hidden;
   transition:opacity .38s cubic-bezier(.25,.1,.25,1),visibility .38s ease;
-  will-change:opacity;
-  contain:layout style;
 }
-#lightbox.open{opacity:1;visibility:visible;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+#lightbox.open{opacity:1;visibility:visible;}
 .lb-shell{
   display:flex;flex-direction:column;
   width:96vw;max-width:1100px;
@@ -298,8 +293,6 @@ img{display:block;-webkit-user-drag:none;}
 
 <script>
 'use strict';
-var lbOpen=false;var _lbSeq=0;var imgCache={};
-function preloadImg(src){if(!src||imgCache[src])return;var img=new Image();img.src=src;imgCache[src]=img;}
 
 /* ── sparks particles ── */
 (function(){
@@ -312,20 +305,13 @@ function preloadImg(src){if(!src||imgCache[src])return;var img=new Image();img.s
   function rnd(a,b){return a+(b-a)*Math.random();}
   function mk(){return{x:rnd(W*.05,W*.95),y:H+rnd(5,28),vx:rnd(-.22,.22),vy:rnd(-.35,-.90),l:1,d:rnd(.003,.007),r:rnd(.8,2.0),h:rnd(200,232),s:rnd(28,52),lm:rnd(36,54),wb:rnd(0,Math.PI*2),ws:rnd(.012,.035),wa:rnd(.12,.55)};}
   for(var i=0;i<28;i++){var p=mk();p.y=rnd(0,H);p.l=rnd(.1,1);P.push(p);}
-  var paused=false,raf=0,last=0;
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden){paused=true;if(raf){cancelAnimationFrame(raf);raf=0;}}
-    else{paused=false;last=0;raf=requestAnimationFrame(frame);}
-  });
+  var last=0;
   function frame(ts){
-    if(paused)return;
-    raf=requestAnimationFrame(frame);
-    if(lbOpen)return;
     if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);
       if(Math.random()<.18&&P.length<70)P.push(mk());
       for(var i=P.length-1;i>=0;i--){
         var p=P[i];p.wb+=p.ws;p.x+=p.vx+Math.sin(p.wb)*p.wa;p.y+=p.vy;p.l-=p.d;
-        if(p.l<=0||p.y<-16){P[i]=P[P.length-1];P.pop();continue;}
+        if(p.l<=0||p.y<-16){P.splice(i,1);continue;}
         var a=p.l*.38;
         ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.l,0,Math.PI*2);
         ctx.fillStyle='hsla('+p.h+','+p.s+'%,'+p.lm+'%,'+a+')';ctx.fill();
@@ -335,8 +321,9 @@ function preloadImg(src){if(!src||imgCache[src])return;var img=new Image();img.s
         ctx.beginPath();ctx.arc(p.x,p.y,p.r*2.8*p.l,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
       }
     }
+    requestAnimationFrame(frame);
   }
-  raf=requestAnimationFrame(frame);
+  requestAnimationFrame(frame);
 })();
 
 /* ── image data ── */
@@ -403,8 +390,7 @@ function buildCosmos(){
     var img=document.createElement('img');
     img.loading='lazy';img.decoding='async';
     img.alt=esc(item.name||'image');
-    if('IntersectionObserver' in window){img.dataset.src=item.src;img.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22'+cardW+'%22 height=%22'+cardH+'%22%3E%3Crect fill=%22%23080b14%22 width=%22100%25%22 height=%22100%25%22/%3E%3C/svg%3E';}
-    else{img.src=item.src;}
+    img.src=item.src;
     img.draggable=false;
 
     var label=document.createElement('div');
@@ -428,7 +414,9 @@ function buildCosmos(){
     var rot=rnd(-2.5,2.5);
     var rotSpeed=rnd(-.006,.006);
 
-    card.style.transform='translate3d('+x+'px,'+y+'px,0) rotate('+rot+'deg)';
+    card.style.left=x+'px';
+    card.style.top=y+'px';
+    card.style.transform='rotate('+rot+'deg)';
 
     cards.push({el:card,x:x,y:y,vx:vx,vy:vy,rot:rot,rotSpeed:rotSpeed,hovered:false});
 
@@ -436,7 +424,7 @@ function buildCosmos(){
     setTimeout(function(){card.classList.add('visible');},250+i*100);
 
     /* pause drift on hover */
-    card.addEventListener('mouseenter',function(){cards[i].hovered=true;preloadImg(images[i].src);});
+    card.addEventListener('mouseenter',function(){cards[i].hovered=true;});
     card.addEventListener('mouseleave',function(){cards[i].hovered=false;});
 
     frag.appendChild(card);
@@ -444,21 +432,6 @@ function buildCosmos(){
   cosmos.appendChild(frag);
 }
 buildCosmos();
-
-/* ── intersection observer for card visibility ── */
-if('IntersectionObserver' in window){
-  var visObs=new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        var card=entry.target;
-        var img=card.querySelector('img');
-        if(img&&img.dataset.src){img.src=img.dataset.src;delete img.dataset.src;}
-        visObs.unobserve(card);
-      }
-    });
-  },{rootMargin:'200px'});
-  cards.forEach(function(c){visObs.observe(c.el);});
-}
 
 /* ── cosmos floating animation ── */
 (function(){
@@ -475,16 +448,7 @@ if('IntersectionObserver' in window){
     isMobile=window.innerWidth<600;
   },{passive:true});
 
-  var paused=false,raf=0;
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden){paused=true;if(raf){cancelAnimationFrame(raf);raf=0;}}
-    else{paused=false;last=0;raf=requestAnimationFrame(animate);}
-  });
-
   function animate(ts){
-    if(paused)return;
-    raf=requestAnimationFrame(animate);
-    if(lbOpen)return;
     if(!last)last=ts;
     var dt=Math.min((ts-last)/16.67,3);
     last=ts;
@@ -503,10 +467,13 @@ if('IntersectionObserver' in window){
       if(c.y<0){c.y=0;c.vy=Math.abs(c.vy);}
       else if(c.y>H-cardH){c.y=H-cardH;c.vy=-Math.abs(c.vy);}
 
-      c.el.style.transform='translate3d('+c.x.toFixed(1)+'px,'+c.y.toFixed(1)+'px,0) rotate('+c.rot.toFixed(2)+'deg)';
+      c.el.style.left=c.x+'px';
+      c.el.style.top=c.y+'px';
+      c.el.style.transform='rotate('+c.rot.toFixed(2)+'deg)';
     }
+    requestAnimationFrame(animate);
   }
-  raf=requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 })();
 
 /* ── color-cycling borders ── */
@@ -531,9 +498,13 @@ if('IntersectionObserver' in window){
   function lerp(a,b,t){return a+(b-a)*t;}
 
   function applyColor(c){
-    var h=Math.round(c.h);
-    cosmos.style.setProperty('--card-border','hsla('+h+','+c.s+'%,'+c.l+'%,.35)');
-    cosmos.style.setProperty('--card-glow','0 0 18px hsla('+h+','+c.s+'%,'+c.l+'%,.25),inset 0 0 10px hsla('+h+','+c.s+'%,'+c.l+'%,.06)');
+    var glow='hsla('+Math.round(c.h)+','+c.s+'%,'+c.l+'%,.25)';
+    var bdr ='hsla('+Math.round(c.h)+','+c.s+'%,'+c.l+'%,.35)';
+    var inr ='hsla('+Math.round(c.h)+','+c.s+'%,'+c.l+'%,.06)';
+    for(var i=0;i<cards.length;i++){
+      cards[i].el.style.borderColor=bdr;
+      cards[i].el.style.boxShadow='0 0 18px '+glow+',inset 0 0 10px '+inr;
+    }
   }
 
   function pickNext(){
@@ -553,16 +524,7 @@ if('IntersectionObserver' in window){
   var holding=false;
   var holdTimer=0;
 
-  var cPaused=false,cRaf=0;
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden){cPaused=true;if(cRaf){cancelAnimationFrame(cRaf);cRaf=0;}}
-    else{cPaused=false;lastTime=0;cRaf=requestAnimationFrame(animate);}
-  });
-
   function animate(ts){
-    if(cPaused)return;
-    cRaf=requestAnimationFrame(animate);
-    if(lbOpen){lastTime=0;return;}
     if(!lastTime)lastTime=ts;
     var dt=ts-lastTime;
     lastTime=ts;
@@ -589,11 +551,12 @@ if('IntersectionObserver' in window){
       };
       applyColor(interp);
     }
+    requestAnimationFrame(animate);
   }
 
   setTimeout(function(){
     pickNext();
-    cRaf=requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   },800);
 })();
 
@@ -604,41 +567,26 @@ var lbClose=document.getElementById('lbClose'),lbPrev=document.getElementById('l
 var lbIdx=0;
 
 function openLB(idx){
-  lbOpen=true;
-  var seq=++_lbSeq;
   lbIdx=Math.max(0,Math.min(idx,images.length-1));
   var item=images[lbIdx];
+  lbImg.src=item.src;lbImg.alt=esc(item.name||'');
   lbTitle.textContent=item.name||'Untitled';
   lbTag.textContent=item.tag||'';
   lbCounter.textContent=(lbIdx+1)+' / '+images.length;
-  lbImg.classList.add('fading');
   lightbox.classList.add('open');
   document.body.style.overflow='hidden';
-  var tmp=new Image();tmp.src=item.src;
-  (tmp.decode?tmp.decode():Promise.resolve()).then(function(){
-    if(seq!==_lbSeq)return;
-    lbImg.src=item.src;lbImg.alt=esc(item.name||'');
-    requestAnimationFrame(function(){lbImg.classList.remove('fading');});
-  }).catch(function(){
-    if(seq!==_lbSeq)return;
-    lbImg.src=item.src;lbImg.alt=esc(item.name||'');
-    lbImg.classList.remove('fading');
-  });
-  preloadImg(images[(lbIdx+1)%images.length].src);
-  preloadImg(images[(lbIdx-1+images.length)%images.length].src);
 }
 function closeLB(){
-  lbOpen=false;
   lightbox.classList.remove('open');
   document.body.style.overflow='';
-  setTimeout(function(){lbImg.src='';},380);
+  setTimeout(function(){lbImg.src='';},140);
 }
 function lbGo(dir){
   lbImg.classList.add('fading');
-  var nextIdx=(lbIdx+dir+images.length)%images.length;
-  preloadImg(images[nextIdx].src);
   setTimeout(function(){
-    openLB(nextIdx);
+    lbIdx=(lbIdx+dir+images.length)%images.length;
+    openLB(lbIdx);
+    lbImg.classList.remove('fading');
   },95);
 }
 
@@ -684,3 +632,4 @@ window.addEventListener('keydown',function(e){
 </script>
 </body>
 </html>
+
