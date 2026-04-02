@@ -268,6 +268,19 @@ body.lock{-webkit-user-select:none;user-select:none;}
 .site-link:hover{background:rgba(12,22,38,.80);color:rgba(95,155,205,.82);border-color:rgba(45,80,130,.30);}
 
 /* ── favorites/tabs ── */
+.fav-layout{display:flex;gap:16px;align-items:stretch;}
+.fav-img-wrap{flex:0 0 140px;position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid rgba(35,65,110,.22);box-shadow:0 2px 14px rgba(0,0,0,.50),0 0 20px rgba(25,55,100,.08);align-self:center;}
+.fav-img-wrap::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(8,11,16,.10) 0%,transparent 30%,transparent 70%,rgba(8,11,16,.25) 100%),
+             radial-gradient(ellipse at 50% 50%,transparent 50%,rgba(8,11,16,.18) 100%);
+  border-radius:inherit;}
+.fav-img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.88) saturate(.85);transition:filter .4s ease,transform .5s ease;}
+.fav-img-wrap:hover .fav-img{filter:brightness(.95) saturate(.95);transform:scale(1.03);}
+.fav-content{flex:1;min-width:0;}
+@media(max-width:540px){
+  .fav-layout{flex-direction:column;align-items:center;}
+  .fav-img-wrap{flex:0 0 auto;width:120px;height:160px;}
+}
 .fav-tabs{display:flex;gap:0;margin-bottom:-1px;}
 .ftab{font-family:var(--mono);font-size:12px;letter-spacing:.10em;text-transform:uppercase;color:rgba(45,85,135,.40);padding:6px 14px;border:1px solid transparent;border-radius:var(--radius) var(--radius) 0 0;cursor:pointer;user-select:none;transition:color .25s ease,background .25s ease;}
 .ftab.on{color:rgba(70,130,190,.75);border:1px solid var(--glass-border);border-bottom-color:var(--glass-bg);background:var(--glass-bg);border-radius:var(--radius) var(--radius) 0 0;}
@@ -667,26 +680,33 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 
   <!-- FAVORITES -->
   <div class="box">
-    <div class="fav-tabs" role="tablist">
-      <div class="ftab on" role="tab" aria-selected="true" data-t="anime" tabindex="0">anime</div>
-      <div class="ftab" role="tab" aria-selected="false" data-t="screen" tabindex="-1">shows &amp; films</div>
-    </div>
-    <div class="box-title" id="fav-hed">favorites — <span class="t-shimmer">anime</span></div>
-    <div class="fav-panel on" id="fp-anime" role="tabpanel">
-      <ul class="fav">
-        <li><b>Kara no Kyoukai</b><span>just the best anime / manga / novel.</span></li>
-        <li><b>Steins;Gate</b><span>Kurisu Makise — love science fiction.</span></li>
-        <li><b>Re:Zero</b><span>the fantasy world and idea of story is peak.</span></li>
-        <li><b>High School DxD</b><span>demons, energy, characters — peak!!</span></li>
-        <li><b>Death Note</b><span>L vs Kira so funny haha.</span></li>
-        <li><b>Monster</b><span>Dr. Tenma — symbol of humanity.</span></li>
-        <li><b>Moriarty the Patriot</b><span>perfect art!</span></li>
-      </ul>
-    </div>
-    <div class="fav-panel" id="fp-screen" role="tabpanel">
-      <ul class="fav">
-        <li><b>Peaky Blinders</b></li><li><b>Money Heist</b></li><li><b>Breaking Bad</b></li><li><b>Squid Game</b></li><li><b>Night Teeth</b></li><li><b>Scarface</b></li><li><b>Fast &amp; Furious</b></li><li><b>Wednesday</b></li><li><b>The End of The F***ing World</b></li><li><b>Wayne</b></li><li><b>Dexter</b></li><li><b>Cobra Kai</b></li><li><b>The Office</b></li>
-      </ul>
+    <div class="fav-layout">
+      <div class="fav-img-wrap">
+        <img class="fav-img" src="https://i.ibb.co/Cs1R3w5x/74130b445f43cbdf6113d299b1a25f9c.jpg" alt="anime artwork accompanying favorites list" loading="lazy">
+      </div>
+      <div class="fav-content">
+        <div class="fav-tabs" role="tablist">
+          <div class="ftab on" role="tab" aria-selected="true" data-t="anime" tabindex="0">anime</div>
+          <div class="ftab" role="tab" aria-selected="false" data-t="screen" tabindex="-1">shows &amp; films</div>
+        </div>
+        <div class="box-title" id="fav-hed">favorites — <span class="t-shimmer">anime</span></div>
+        <div class="fav-panel on" id="fp-anime" role="tabpanel">
+          <ul class="fav">
+            <li><b>Kara no Kyoukai</b><span>just the best anime / manga / novel.</span></li>
+            <li><b>Steins;Gate</b><span>Kurisu Makise — love science fiction.</span></li>
+            <li><b>Re:Zero</b><span>the fantasy world and idea of story is peak.</span></li>
+            <li><b>High School DxD</b><span>demons, energy, characters — peak!!</span></li>
+            <li><b>Death Note</b><span>L vs Kira so funny haha.</span></li>
+            <li><b>Monster</b><span>Dr. Tenma — symbol of humanity.</span></li>
+            <li><b>Moriarty the Patriot</b><span>perfect art!</span></li>
+          </ul>
+        </div>
+        <div class="fav-panel" id="fp-screen" role="tabpanel">
+          <ul class="fav">
+            <li><b>Peaky Blinders</b></li><li><b>Money Heist</b></li><li><b>Breaking Bad</b></li><li><b>Squid Game</b></li><li><b>Night Teeth</b></li><li><b>Scarface</b></li><li><b>Fast &amp; Furious</b></li><li><b>Wednesday</b></li><li><b>The End of The F***ing World</b></li><li><b>Wayne</b></li><li><b>Dexter</b></li><li><b>Cobra Kai</b></li><li><b>The Office</b></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
