@@ -635,9 +635,10 @@ function closeLB(){
 }
 function lbGo(dir){
   lbImg.classList.add('fading');
+  var nextIdx=(lbIdx+dir+images.length)%images.length;
+  preloadImg(images[nextIdx].src);
   setTimeout(function(){
-    lbIdx=(lbIdx+dir+images.length)%images.length;
-    openLB(lbIdx);
+    openLB(nextIdx);
   },95);
 }
 
