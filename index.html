@@ -310,35 +310,54 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .np-anim span:nth-child(4){height:12px;animation-delay:.1s;}
 @keyframes npBar{0%,100%{transform:scaleY(.35);}50%{transform:scaleY(1);}}
 
-/* ── guestbook (centered, prominent) ── */
+/* ── guestbook (two-panel layout) ── */
 #guestbook-box{
   background:rgba(10,16,26,.94);
   border:1px solid rgba(40,75,130,.22);
   border-radius:var(--radius);
-  padding:28px 28px 24px;
+  padding:24px 24px 20px;
   box-shadow:0 4px 24px rgba(0,0,0,.55),0 0 40px rgba(25,55,100,.06);
   position:relative;overflow:hidden;
 }
 #guestbook-box::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 90% 30% at 50% 0%,rgba(25,50,85,.08),transparent 60%),
-             radial-gradient(ellipse 60% 20% at 50% 100%,rgba(18,38,68,.04),transparent 50%);
+  background:radial-gradient(ellipse 90% 30% at 50% 0%,rgba(25,50,85,.10),transparent 60%),
+             radial-gradient(ellipse 60% 20% at 50% 100%,rgba(18,38,68,.06),transparent 50%);
 }
 #guestbook-box::before{content:none;}
-#guestbook-box .box-title{position:relative;z-index:1;font-family:var(--frak);font-size:28px;color:rgba(90,155,210,.82);text-shadow:0 0 12px rgba(35,80,140,.22),0 0 30px rgba(30,65,115,.08);border-bottom:1px solid rgba(40,75,125,.20);padding-bottom:12px;margin-bottom:18px;letter-spacing:.04em;}
+#guestbook-box .box-title{position:relative;z-index:1;font-family:var(--frak);font-size:28px;color:rgba(90,155,210,.82);text-shadow:0 0 12px rgba(35,80,140,.22),0 0 30px rgba(30,65,115,.08);border-bottom:1px solid rgba(40,75,125,.20);padding-bottom:12px;margin-bottom:18px;letter-spacing:.04em;animation:titleShimmer 6s ease-in-out infinite;}
+@keyframes titleShimmer{0%,100%{text-shadow:0 0 12px rgba(35,80,140,.22),0 0 30px rgba(30,65,115,.08);}50%{text-shadow:0 0 18px rgba(50,110,180,.35),0 0 40px rgba(40,85,150,.15),0 0 60px rgba(30,70,130,.06);}}
 #guestbook-box .box-title::before{content:"✒";font-size:14px;opacity:.45;margin-right:4px;}
 .guest-count-badge{font-family:var(--mono);font-size:11px;color:rgba(65,120,175,.50);letter-spacing:.10em;background:rgba(8,14,24,.65);border:1px solid rgba(40,75,125,.22);border-radius:3px;padding:3px 12px;margin-left:10px;vertical-align:middle;}
+/* two-column layout wrapper */
+.gb-layout{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;z-index:1;min-height:360px;}
+.gb-panel-form{padding-right:20px;}
+.gb-panel-souls{padding-left:20px;display:flex;flex-direction:column;}
+/* animated vertical divider between panels */
+.gb-vdivider{position:absolute;left:50%;top:0;bottom:0;width:1px;z-index:2;
+  background:linear-gradient(180deg,transparent,rgba(50,100,165,.28) 20%,rgba(50,100,165,.28) 80%,transparent);
+}
+.gb-vdivider::before{content:"☽";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-size:12px;color:rgba(70,130,190,.40);background:rgba(10,16,26,1);padding:6px 0;
+  animation:vdivOrb 5s ease-in-out infinite;
+}
+@keyframes vdivOrb{0%,100%{opacity:.4;text-shadow:0 0 0 transparent;transform:translate(-50%,-50%) scale(1);}50%{opacity:.7;text-shadow:0 0 10px rgba(50,110,180,.30);transform:translate(-50%,-50%) scale(1.15);}}
+.gb-souls-header{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:rgba(55,100,150,.40);text-transform:uppercase;margin-bottom:12px;text-align:center;animation:dividerGlow 6s ease-in-out infinite;}
+@keyframes dividerGlow{0%,100%{text-shadow:0 0 0 transparent;}50%{text-shadow:0 0 10px rgba(50,100,160,.16);}}
 .guest-form{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;}
-.guest-row-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:480px){.guest-row-fields{grid-template-columns:1fr;}}
+.guest-row-fields{display:grid;grid-template-columns:1fr;gap:10px;}
 .guest-field-name{flex:1 1 auto;}
 .guest-field-vibe{flex:1 1 auto;}
-.guest-field{display:flex;flex-direction:column;gap:5px;}
+.guest-field{display:flex;flex-direction:column;gap:5px;animation:fieldFadeIn .7s cubic-bezier(.22,1,.36,1) both;}
+.guest-field:nth-child(1){animation-delay:.05s;}
+.guest-field:nth-child(2){animation-delay:.12s;}
+.guest-field:nth-child(3){animation-delay:.19s;}
+@keyframes fieldFadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 .guest-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(60,110,160,.48);}
 .guest-input{
   background:rgba(6,12,22,.82);
   border:1px solid rgba(40,75,125,.22);border-radius:3px;
   color:rgba(135,175,210,.82);font-family:var(--fell);font-size:14px;
-  padding:11px 15px;outline:none;width:100%;
+  padding:10px 13px;outline:none;width:100%;
   transition:border-color .3s ease,background .3s ease,box-shadow .3s ease;
   resize:none;-webkit-user-select:text!important;user-select:text!important;appearance:none;-webkit-appearance:none;
 }
@@ -350,69 +369,89 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 }
 .guest-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(80,140,200,.50)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px;}
 .guest-select option{background:#0a1018;color:rgba(130,170,205,.75);}
-.guest-textarea{line-height:1.72;min-height:100px;}
-.guest-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:2px;}
-.guest-emoji-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex:1 1 auto;}
+.guest-textarea{line-height:1.72;min-height:90px;}
+.guest-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:2px;}
+.guest-emoji-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap;flex:1 1 auto;}
 .g-emoji{
   background:rgba(8,14,24,.72);
   border:1px solid rgba(40,75,125,.22);border-radius:3px;
-  color:rgba(95,150,200,.72);font-size:15px;
-  width:32px;height:32px;cursor:pointer;display:grid;place-items:center;
+  color:rgba(95,150,200,.72);font-size:14px;
+  width:30px;height:30px;cursor:pointer;display:grid;place-items:center;
   transition:background .25s ease,color .25s ease,border-color .25s ease,transform .2s ease;padding:0;
 }
-.g-emoji:hover{background:rgba(16,28,48,.82);border-color:rgba(55,100,150,.32);color:rgba(115,170,220,.85);transform:scale(1.1);}
-.guest-chars{font-family:var(--mono);font-size:12px;color:rgba(50,95,145,.34);letter-spacing:.06em;margin-left:4px;}
+.g-emoji:hover{background:rgba(16,28,48,.82);border-color:rgba(55,100,150,.32);color:rgba(115,170,220,.85);transform:scale(1.15) rotate(-5deg);}
+.guest-chars{font-family:var(--mono);font-size:11px;color:rgba(50,95,145,.34);letter-spacing:.06em;margin-left:3px;}
 .guest-chars.low{color:rgba(150,70,80,.55);}
 .guest-submit{
   display:inline-flex;align-items:center;gap:8px;flex-shrink:0;
-  padding:11px 22px;
+  padding:10px 18px;
   border:1px solid rgba(40,75,125,.30);border-radius:3px;
   background:rgba(12,22,38,.84);
   color:rgba(75,135,195,.80);
-  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
-  cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;position:relative;overflow:hidden;
   transition:background .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;
+  animation:submitBreathe 4s ease-in-out infinite;
 }
+@keyframes submitBreathe{0%,100%{box-shadow:0 0 0 transparent;}50%{box-shadow:0 0 16px rgba(40,90,150,.10),0 0 4px rgba(50,100,160,.08);}}
+.guest-submit::after{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(60,120,180,.06) 0%,transparent 60%);opacity:0;transition:opacity .4s ease;pointer-events:none;}
+.guest-submit:hover::after{opacity:1;}
 .guest-submit:hover{
   background:rgba(16,30,50,.88);
   color:rgba(100,165,220,.90);border-color:rgba(50,95,150,.38);
   box-shadow:0 0 14px rgba(30,65,120,.12);
 }
-.guest-submit:active{opacity:.80;}
-.guest-submit:disabled{opacity:.30;cursor:default;pointer-events:none;}
-.gsub-icon{font-size:14px;}
-.guest-feedback{font-family:var(--mono);font-size:12px;letter-spacing:.08em;min-height:18px;padding:3px 0;}
-.guest-feedback.ok{color:rgba(60,165,135,.68);}
-.guest-feedback.err{color:rgba(165,75,85,.65);}
-.guest-divider{display:flex;align-items:center;gap:12px;margin:22px 0 18px;position:relative;z-index:1;}
-.guest-divider::before,.guest-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(45,85,140,.22),transparent);}
-.guest-divider-sym{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:rgba(55,100,150,.36);white-space:nowrap;animation:dividerGlow 6s ease-in-out infinite;}
-@keyframes dividerGlow{0%,100%{text-shadow:0 0 0 transparent;}50%{text-shadow:0 0 10px rgba(50,100,160,.16);}}
+.guest-submit:active{transform:scale(.97);opacity:.85;}
+.guest-submit:disabled{opacity:.30;cursor:default;pointer-events:none;animation:none;}
+.gsub-icon{font-size:13px;}
+.guest-feedback{font-family:var(--mono);font-size:11px;letter-spacing:.08em;min-height:16px;padding:3px 0;}
+.guest-feedback.ok{color:rgba(60,165,135,.68);animation:fbPulse .6s ease;}
+.guest-feedback.err{color:rgba(165,75,85,.65);animation:fbShake .4s ease;}
+@keyframes fbPulse{0%{opacity:0;transform:translateY(4px);}100%{opacity:1;transform:translateY(0);}}
+@keyframes fbShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
 .guest-loading{font-family:var(--mono);font-size:12px;color:rgba(50,95,150,.38);letter-spacing:.14em;text-align:center;padding:16px 0;animation:blinkF 1.8s step-start infinite;}
-.guest-list{display:flex;flex-direction:column;gap:12px;max-height:480px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:rgba(30,60,100,.26) transparent;position:relative;z-index:1;}
+.guest-list{display:flex;flex-direction:column;gap:10px;flex:1;max-height:420px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:rgba(30,60,100,.26) transparent;position:relative;z-index:1;}
 .guest-list::-webkit-scrollbar{width:4px;}
 .guest-list::-webkit-scrollbar-thumb{background:rgba(30,60,100,.30);border-radius:3px;}
 .guest-entry{
-  padding:14px 18px;
+  padding:12px 14px;
   border:1px solid rgba(35,65,110,.16);border-left:3px solid rgba(40,75,125,.26);
   border-radius:0 var(--radius) var(--radius) 0;
   background:rgba(8,14,24,.52);
-  animation:entryIn .6s cubic-bezier(.22,1,.36,1) both,soulBreathe 5s ease-in-out infinite;
+  animation:entrySlide .6s cubic-bezier(.22,1,.36,1) both,soulBreathe 5s ease-in-out infinite;
   position:relative;
-  transition:border-left-color .4s cubic-bezier(.4,0,.2,1),background .4s cubic-bezier(.4,0,.2,1),box-shadow .4s ease;
+  transition:border-left-color .4s cubic-bezier(.4,0,.2,1),background .4s cubic-bezier(.4,0,.2,1),box-shadow .4s ease,transform .3s ease;
 }
-@keyframes entryIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.guest-entry::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 20% 30%,rgba(40,85,140,.06),transparent 70%);
+  transition:opacity .4s ease;
+}
+.guest-entry:hover::before{opacity:1;}
+@keyframes entrySlide{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
 @keyframes soulBreathe{0%,100%{box-shadow:0 0 0 transparent;border-left-color:rgba(40,75,125,.26);}50%{box-shadow:0 0 12px rgba(30,65,120,.06);border-left-color:rgba(50,95,155,.36);}}
-.guest-entry:hover{border-left-color:rgba(55,105,165,.42);background:rgba(12,22,38,.58);box-shadow:0 0 16px rgba(30,65,120,.10);}
-.guest-entry.is-new{border-left-color:rgba(65,125,185,.50);animation:entryIn .6s cubic-bezier(.22,1,.36,1) both,newSoulPulse 2.5s ease-in-out 3;}
+.guest-entry:hover{border-left-color:rgba(55,105,165,.42);background:rgba(12,22,38,.58);box-shadow:0 0 16px rgba(30,65,120,.10);transform:translateX(-2px);}
+.guest-entry.is-new{border-left-color:rgba(65,125,185,.50);animation:entrySlide .6s cubic-bezier(.22,1,.36,1) both,newSoulPulse 2.5s ease-in-out 3;}
 @keyframes newSoulPulse{0%,100%{box-shadow:0 0 0 transparent;}50%{box-shadow:0 0 18px rgba(40,85,145,.14);}}
-.entry-head{display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap;}
-.entry-vibe{font-size:17px;line-height:1;flex-shrink:0;filter:drop-shadow(0 0 5px rgba(50,110,165,.30));animation:vibeFloat 4s ease-in-out infinite;}
+.entry-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
+.entry-vibe{font-size:16px;line-height:1;flex-shrink:0;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:rgba(30,60,100,.12);border:1px solid rgba(40,80,130,.15);filter:drop-shadow(0 0 5px rgba(50,110,165,.30));animation:vibeFloat 4s ease-in-out infinite,vibeGlow 6s ease-in-out infinite;}
 @keyframes vibeFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-2px);}}
-.entry-name{font-family:var(--frak);font-size:18px;color:rgba(100,160,210,.82);text-shadow:0 0 10px rgba(40,85,140,.20);line-height:1;flex:1;}
-.entry-date{font-family:var(--mono);font-size:10px;color:rgba(55,100,150,.40);white-space:nowrap;flex-shrink:0;margin-left:auto;}
-.entry-msg{font-size:14px;color:rgba(105,150,190,.62);line-height:1.78;word-break:break-word;}
+@keyframes vibeGlow{0%,100%{border-color:rgba(40,80,130,.15);box-shadow:0 0 0 transparent;}50%{border-color:rgba(50,100,160,.28);box-shadow:0 0 8px rgba(40,85,140,.10);}}
+.entry-name{font-family:var(--frak);font-size:17px;color:rgba(100,160,210,.82);text-shadow:0 0 10px rgba(40,85,140,.20);line-height:1;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.entry-date{font-family:var(--mono);font-size:9px;color:rgba(55,100,150,.40);white-space:nowrap;flex-shrink:0;margin-left:auto;}
+.entry-msg{font-size:13px;color:rgba(105,150,190,.62);line-height:1.72;word-break:break-word;}
 .guest-empty{font-family:var(--fell);font-style:italic;font-size:14px;color:rgba(55,100,150,.36);text-align:center;padding:24px 0;line-height:1.78;}
+/* mobile: stack panels vertically */
+@media(max-width:600px){
+  .gb-layout{grid-template-columns:1fr;gap:0;}
+  .gb-panel-form{padding-right:0;padding-bottom:16px;}
+  .gb-panel-souls{padding-left:0;padding-top:16px;border-top:1px solid rgba(40,75,125,.15);}
+  .gb-vdivider{display:none;}
+  .guest-row-fields{grid-template-columns:1fr 1fr;}
+  .guest-list{max-height:380px;}
+  @keyframes entrySlide{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  .guest-entry:hover{transform:none;}
+}
+@media(max-width:400px){.guest-row-fields{grid-template-columns:1fr;}}
 
 .vid-container .box-title{padding:14px 20px 10px;margin-bottom:0;border-bottom:none;}
 .box-title-sm{font-size:18px;}
@@ -458,7 +497,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 @media(max-width:480px){
   .site-name{font-size:clamp(44px,14vw,68px);}
   .box{padding:14px 14px;}
-  #guestbook-box{padding:18px 14px 16px;}
+  #guestbook-box{padding:16px 12px 14px;}
   .counter{gap:3px;}
   .cnt-digit{width:24px;height:32px;font-size:20px;}
   .cnt-sep{font-size:12px;}
@@ -684,55 +723,62 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 
   <div class="divider"><span class="div-sym">☩ ✦ ☩</span></div>
 
-  <!-- GUESTBOOK (centered, prominent) -->
+  <!-- GUESTBOOK (two-panel layout) -->
   <div id="guestbook-box">
     <div class="box-title">guestbook <span class="guest-count-badge" id="g-count-badge"></span></div>
-    <div class="guest-form" id="guest-form">
-      <div class="guest-row-fields">
-        <div class="guest-field guest-field-name">
-          <label class="guest-label" for="g-name">☽ name</label>
-          <input class="guest-input" id="g-name" type="text" maxlength="32" placeholder="wanderer..." autocomplete="off" spellcheck="false"/>
-        </div>
-        <div class="guest-field guest-field-vibe">
-          <label class="guest-label" for="g-vibe">✦ vibe</label>
-          <select class="guest-input guest-select" id="g-vibe">
-            <option value="☽">☽ fallen</option>
-            <option value="🕯">🕯 ember</option>
-            <option value="⛧">⛧ sinful</option>
-            <option value="✦">✦ wandering</option>
-            <option value="☁">☁ restless</option>
-            <option value="♐">♐ cursed</option>
-            <option value="🖤">🖤 dark</option>
-            <option value="☩">☩ forgiven</option>
-          </select>
+    <div class="gb-layout">
+      <div class="gb-panel-form">
+        <div class="guest-form" id="guest-form">
+          <div class="guest-row-fields">
+            <div class="guest-field guest-field-name">
+              <label class="guest-label" for="g-name">☽ name</label>
+              <input class="guest-input" id="g-name" type="text" maxlength="32" placeholder="wanderer..." autocomplete="off" spellcheck="false"/>
+            </div>
+            <div class="guest-field guest-field-vibe">
+              <label class="guest-label" for="g-vibe">✦ vibe</label>
+              <select class="guest-input guest-select" id="g-vibe">
+                <option value="☽">☽ fallen</option>
+                <option value="🕯">🕯 ember</option>
+                <option value="⛧">⛧ sinful</option>
+                <option value="✦">✦ wandering</option>
+                <option value="☁">☁ restless</option>
+                <option value="♐">♐ cursed</option>
+                <option value="🖤">🖤 dark</option>
+                <option value="☩">☩ forgiven</option>
+              </select>
+            </div>
+          </div>
+          <div class="guest-field">
+            <label class="guest-label" for="g-msg">✒ message</label>
+            <textarea class="guest-input guest-textarea" id="g-msg" maxlength="300" placeholder="say something to kara..." rows="3"></textarea>
+          </div>
+          <div class="guest-bottom">
+            <div class="guest-emoji-row">
+              <button class="g-emoji" type="button" data-e="☽">☽</button>
+              <button class="g-emoji" type="button" data-e="✦">✦</button>
+              <button class="g-emoji" type="button" data-e="🕯">🕯</button>
+              <button class="g-emoji" type="button" data-e="⛧">⛧</button>
+              <button class="g-emoji" type="button" data-e="♐">♐</button>
+              <button class="g-emoji" type="button" data-e="🖤">🖤</button>
+              <button class="g-emoji" type="button" data-e="☩">☩</button>
+              <button class="g-emoji" type="button" data-e="☁">☁</button>
+              <span class="guest-chars" id="g-chars">300</span>
+            </div>
+            <button class="guest-submit" id="g-submit" type="button">
+              <span class="gsub-icon">✒</span>
+              <span class="gsub-text">leave your mark</span>
+            </button>
+          </div>
+          <div class="guest-feedback" id="g-feedback" aria-live="polite"></div>
         </div>
       </div>
-      <div class="guest-field">
-        <label class="guest-label" for="g-msg">✒ message</label>
-        <textarea class="guest-input guest-textarea" id="g-msg" maxlength="300" placeholder="say something to kara..." rows="4"></textarea>
-      </div>
-      <div class="guest-bottom">
-        <div class="guest-emoji-row">
-          <button class="g-emoji" type="button" data-e="☽">☽</button>
-          <button class="g-emoji" type="button" data-e="✦">✦</button>
-          <button class="g-emoji" type="button" data-e="🕯">🕯</button>
-          <button class="g-emoji" type="button" data-e="⛧">⛧</button>
-          <button class="g-emoji" type="button" data-e="♐">♐</button>
-          <button class="g-emoji" type="button" data-e="🖤">🖤</button>
-          <button class="g-emoji" type="button" data-e="☩">☩</button>
-          <button class="g-emoji" type="button" data-e="☁">☁</button>
-          <span class="guest-chars" id="g-chars">300</span>
+      <div class="gb-vdivider"></div>
+      <div class="gb-panel-souls">
+        <div class="gb-souls-header">· · · souls that passed · · ·</div>
+        <div class="guest-list" id="guest-list">
+          <div class="guest-loading" id="guest-loading">☽ summoning souls...</div>
         </div>
-        <button class="guest-submit" id="g-submit" type="button">
-          <span class="gsub-icon">✒</span>
-          <span class="gsub-text">leave your mark</span>
-        </button>
       </div>
-      <div class="guest-feedback" id="g-feedback" aria-live="polite"></div>
-    </div>
-    <div class="guest-divider"><span class="guest-divider-sym">· · · souls that passed · · ·</span></div>
-    <div class="guest-list" id="guest-list">
-      <div class="guest-loading" id="guest-loading">☽ summoning souls...</div>
     </div>
   </div>
 
@@ -949,7 +995,7 @@ const db  = getFirestore(app);
       var data=d.data?d.data():d;
       var el=document.createElement('div');
       el.className='guest-entry'+(d.id===lastNewId?' is-new':'');
-      el.style.animationDelay=(i*0.04)+'s,'+(i*0.7)+'s';
+      el.style.animationDelay=(i*0.06)+'s,'+(i*0.7)+'s';
       el.innerHTML='<div class="entry-head"><span class="entry-vibe">'+san(data.vibe,4)+'</span><span class="entry-name">'+san(data.name,32)+'</span><span class="entry-date">'+fmt(data.ts||Date.now())+'</span></div><div class="entry-msg">'+san(data.msg,300)+'</div>';
       frag.appendChild(el);
     });
