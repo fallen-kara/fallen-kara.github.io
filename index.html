@@ -488,9 +488,20 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 .side-img-right{right:12px;}
 .side-top{top:12%;animation:sideFloatA 7s ease-in-out infinite;}
 .side-bot{top:54%;animation:sideFloatB 8s ease-in-out infinite;}
+.side-gb{bottom:8%;top:auto;animation:sideFloatGB 9s ease-in-out infinite;}
+.side-gb.side-img-left{
+  width:clamp(130px,13vw,210px);
+  height:clamp(170px,18vw,280px);
+  object-fit:cover;object-position:center 30%;
+  transform-origin:center;
+}
+.side-gb.side-img-right{
+  width:clamp(110px,11vw,180px);
+}
 @keyframes sideFloatA{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 @keyframes sideFloatB{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
-@media(max-width:1100px){.side-img{opacity:.48;width:clamp(80px,10vw,130px);}}
+@keyframes sideFloatGB{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-6px) scale(1.01);}}
+@media(max-width:1100px){.side-img{opacity:.48;width:clamp(80px,10vw,130px);}.side-gb.side-img-left{width:clamp(100px,10vw,150px);}}
 @media(max-width:860px){.side-img{display:none;}}
 
 /* ── responsive ── */
@@ -516,6 +527,8 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 <img class="side-img side-img-left side-bot" src="https://i.ibb.co/7xHPmgHd/e5b3764300646f5a5a572585553ded8c.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
 <img class="side-img side-img-right side-top" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
 <img class="side-img side-img-right side-bot" src="https://i.ibb.co/8Lp6QJmT/4c0ac310182eae6a43c53f7a41ce35a8.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
+<img class="side-img side-img-left side-gb" src="https://i.ibb.co/BKg5HQ9Q/7c59ccfbd18b6b85ffbca634d91e7a9f.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
+<img class="side-img side-img-right side-gb" src="https://i.ibb.co/3y0Y25Q0/ebbbe42f15eb638a499218c709f1a45e.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
 
 <div id="loader" role="status">
   <div class="ld-bg" aria-hidden="true"></div>
