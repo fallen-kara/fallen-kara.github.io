@@ -92,11 +92,11 @@ body.lock{-webkit-user-select:none;user-select:none;}
 .ld-prog{width:min(260px,74vw);height:2px;background:rgba(20,45,90,.28);position:relative;overflow:hidden;border-radius:1px;}
 .ld-prog::before{content:"";position:absolute;inset:0;background:rgba(40,80,140,.18);animation:ldProgPulse 2s ease-in-out infinite alternate;}
 @keyframes ldProgPulse{0%{opacity:.5;}100%{opacity:1;}}
-.ld-prog-fill{position:absolute;top:0;left:0;height:100%;width:0%;
+.ld-prog-fill{position:absolute;top:0;left:0;height:100%;width:100%;transform:scaleX(0);transform-origin:left center;
   background:linear-gradient(90deg,rgba(30,80,150,.50),rgba(60,125,200,.80),rgba(100,175,235,1),rgba(60,125,200,.80),rgba(30,80,150,.50));
-  background-size:200% auto;animation:ldPFill 5.2s cubic-bezier(.25,.46,.45,.94) forwards,ldPShine 1.4s linear infinite;
-  box-shadow:0 0 8px 2px rgba(70,140,215,.35);}
-@keyframes ldPFill{0%{width:0%;}60%{width:78%;}100%{width:100%;}}
+  background-size:200% auto;animation:ldPFill 5.2s cubic-bezier(.4,0,.2,1) forwards,ldPShine 1.4s linear infinite;
+  box-shadow:0 0 8px 2px rgba(70,140,215,.35);will-change:transform;}
+@keyframes ldPFill{0%{transform:scaleX(0);}10%{transform:scaleX(.08);}25%{transform:scaleX(.22);}40%{transform:scaleX(.42);}55%{transform:scaleX(.60);}70%{transform:scaleX(.78);}85%{transform:scaleX(.91);}100%{transform:scaleX(1);}}
 @keyframes ldPShine{0%{background-position:120% center;}100%{background-position:-120% center;}}
 .ld-sub{font-family:var(--mono);font-size:11px;color:rgba(48,90,145,.45);letter-spacing:.20em;text-transform:uppercase;animation:ldSubFade 5.2s ease-in-out forwards;}
 @keyframes ldSubFade{0%{opacity:0;}15%{opacity:.55;}75%{opacity:.55;}100%{opacity:0;}}
