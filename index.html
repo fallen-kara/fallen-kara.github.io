@@ -579,7 +579,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
     <div class="box">
       <div class="clock-wrap">
         <div class="clock-title">fallen time</div>
-        <div class="clock-display" id="clock-time">00<span class="clock-sep">:</span>00<span class="clock-sep">:</span>00</div>
+        <div class="clock-display" id="clock-time"><span id="ck-h">00</span><span class="clock-sep">:</span><span id="ck-m">00</span><span class="clock-sep">:</span><span id="ck-s">00</span></div>
         <div class="clock-date" id="clock-date"></div>
       </div>
     </div>
@@ -792,7 +792,7 @@ const db  = getFirestore(app);
     if(document.hidden){paused=true;if(raf){cancelAnimationFrame(raf);raf=0;}}
     else{paused=false;raf=requestAnimationFrame(frame);}
   });
-  function frame(ts){if(paused)return;raf=requestAnimationFrame(frame);if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);if(Math.random()<.22)particles.push(mkP());for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.wobble+=p.wobbleSpeed;p.x+=p.vx+Math.sin(p.wobble)*p.wobbleAmp;p.y+=p.vy;p.life-=p.decay;if(p.life<=0||p.y<-20){particles.splice(i,1);continue;}var a=p.life*.38;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fillStyle="hsla("+p.hue+","+p.sat+"%,"+p.lum+"%,"+a+")";ctx.fill();}}}
+  function frame(ts){if(paused)return;raf=requestAnimationFrame(frame);if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);if(Math.random()<.22)particles.push(mkP());for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.wobble+=p.wobbleSpeed;p.x+=p.vx+Math.sin(p.wobble)*p.wobbleAmp;p.y+=p.vy;p.life-=p.decay;if(p.life<=0||p.y<-20){particles[i]=particles[particles.length-1];particles.pop();continue;}var a=p.life*.38;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fillStyle="hsla("+p.hue+","+p.sat+"%,"+p.lum+"%,"+a+")";ctx.fill();}}}
   raf=requestAnimationFrame(frame);
 })();
 
@@ -802,15 +802,17 @@ const db  = getFirestore(app);
 
 // ── clock ──
 (function(){
-  var timeEl=document.getElementById("clock-time");
+  var hEl=document.getElementById("ck-h"),mEl=document.getElementById("ck-m"),sEl=document.getElementById("ck-s");
   var dateEl=document.getElementById("clock-date");
-  if(!timeEl)return;
+  if(!hEl)return;
   var mo=["january","february","march","april","may","june","july","august","september","october","november","december"];
   var days=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
   function pad(n){return n<10?"0"+n:String(n);}
   function tick(){
     var now=new Date();
-    timeEl.innerHTML=pad(now.getHours())+'<span class="clock-sep">:</span>'+pad(now.getMinutes())+'<span class="clock-sep">:</span>'+pad(now.getSeconds());
+    hEl.textContent=pad(now.getHours());
+    mEl.textContent=pad(now.getMinutes());
+    sEl.textContent=pad(now.getSeconds());
     if(dateEl)dateEl.textContent=days[now.getDay()]+", "+mo[now.getMonth()]+" "+now.getDate();
   }
   tick();
@@ -933,17 +935,19 @@ const db  = getFirestore(app);
   function render(docs){
     if(!listEl)return;
     if(loadEl)loadEl.style.display='none';
-    listEl.innerHTML='';
     setBadge(docs.length);
     if(!docs.length){listEl.innerHTML='<div class="guest-empty">no souls have spoken yet —<br>be the first to leave a mark ☽</div>';return;}
+    var frag=document.createDocumentFragment();
     docs.forEach(function(d,i){
       var data=d.data?d.data():d;
       var el=document.createElement('div');
       el.className='guest-entry'+(d.id===lastNewId?' is-new':'');
       el.style.animationDelay=(i*0.04)+'s';
       el.innerHTML='<div class="entry-head"><span class="entry-vibe">'+san(data.vibe,4)+'</span><span class="entry-name">'+san(data.name,32)+'</span><span class="entry-date">'+fmt(data.ts||Date.now())+'</span></div><div class="entry-msg">'+san(data.msg,300)+'</div>';
-      listEl.appendChild(el);
+      frag.appendChild(el);
     });
+    listEl.innerHTML='';
+    listEl.appendChild(frag);
     if(lastNewId)listEl.scrollTop=0;
   }
 
