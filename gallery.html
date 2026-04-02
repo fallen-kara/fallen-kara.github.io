@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.ibb.co" crossorigin>
+<link rel="preconnect" href="https://i.postimg.cc" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=VT323&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -124,7 +125,7 @@ img{display:block;-webkit-user-drag:none;}
   transition:filter .45s cubic-bezier(.25,.1,.25,1),transform .45s cubic-bezier(.25,.1,.25,1),box-shadow .45s cubic-bezier(.25,.1,.25,1);
   will-change:transform;
   opacity:0;
-  contain:layout style;
+  contain:layout style paint;
 }
 .cosmos-card.visible{
   opacity:1;
@@ -167,11 +168,12 @@ img{display:block;-webkit-user-drag:none;}
   position:fixed;inset:0;z-index:100;
   display:flex;align-items:center;justify-content:center;
   background:rgba(3,5,10,.95);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   opacity:0;visibility:hidden;
   transition:opacity .38s cubic-bezier(.25,.1,.25,1),visibility .38s ease;
+  will-change:opacity;
+  contain:layout style;
 }
-#lightbox.open{opacity:1;visibility:visible;}
+#lightbox.open{opacity:1;visibility:visible;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
 .lb-shell{
   display:flex;flex-direction:column;
   width:96vw;max-width:1100px;
@@ -296,6 +298,8 @@ img{display:block;-webkit-user-drag:none;}
 
 <script>
 'use strict';
+var lbOpen=false;var _lbSeq=0;var imgCache={};
+function preloadImg(src){if(!src||imgCache[src])return;var img=new Image();img.src=src;imgCache[src]=img;}
 
 /* ── sparks particles ── */
 (function(){
@@ -316,11 +320,12 @@ img{display:block;-webkit-user-drag:none;}
   function frame(ts){
     if(paused)return;
     raf=requestAnimationFrame(frame);
+    if(lbOpen)return;
     if(ts-last>16){last=ts;ctx.clearRect(0,0,W,H);
       if(Math.random()<.18&&P.length<70)P.push(mk());
       for(var i=P.length-1;i>=0;i--){
         var p=P[i];p.wb+=p.ws;p.x+=p.vx+Math.sin(p.wb)*p.wa;p.y+=p.vy;p.l-=p.d;
-        if(p.l<=0||p.y<-16){P.splice(i,1);continue;}
+        if(p.l<=0||p.y<-16){P[i]=P[P.length-1];P.pop();continue;}
         var a=p.l*.38;
         ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.l,0,Math.PI*2);
         ctx.fillStyle='hsla('+p.h+','+p.s+'%,'+p.lm+'%,'+a+')';ctx.fill();
@@ -431,7 +436,7 @@ function buildCosmos(){
     setTimeout(function(){card.classList.add('visible');},250+i*100);
 
     /* pause drift on hover */
-    card.addEventListener('mouseenter',function(){cards[i].hovered=true;});
+    card.addEventListener('mouseenter',function(){cards[i].hovered=true;preloadImg(images[i].src);});
     card.addEventListener('mouseleave',function(){cards[i].hovered=false;});
 
     frag.appendChild(card);
@@ -479,6 +484,7 @@ if('IntersectionObserver' in window){
   function animate(ts){
     if(paused)return;
     raf=requestAnimationFrame(animate);
+    if(lbOpen)return;
     if(!last)last=ts;
     var dt=Math.min((ts-last)/16.67,3);
     last=ts;
@@ -555,6 +561,8 @@ if('IntersectionObserver' in window){
 
   function animate(ts){
     if(cPaused)return;
+    cRaf=requestAnimationFrame(animate);
+    if(lbOpen){lastTime=0;return;}
     if(!lastTime)lastTime=ts;
     var dt=ts-lastTime;
     lastTime=ts;
@@ -581,7 +589,6 @@ if('IntersectionObserver' in window){
       };
       applyColor(interp);
     }
-    cRaf=requestAnimationFrame(animate);
   }
 
   setTimeout(function(){
@@ -597,26 +604,40 @@ var lbClose=document.getElementById('lbClose'),lbPrev=document.getElementById('l
 var lbIdx=0;
 
 function openLB(idx){
+  lbOpen=true;
+  var seq=++_lbSeq;
   lbIdx=Math.max(0,Math.min(idx,images.length-1));
   var item=images[lbIdx];
-  lbImg.src=item.src;lbImg.alt=esc(item.name||'');
   lbTitle.textContent=item.name||'Untitled';
   lbTag.textContent=item.tag||'';
   lbCounter.textContent=(lbIdx+1)+' / '+images.length;
+  lbImg.classList.add('fading');
   lightbox.classList.add('open');
   document.body.style.overflow='hidden';
+  var tmp=new Image();tmp.src=item.src;
+  (tmp.decode?tmp.decode():Promise.resolve()).then(function(){
+    if(seq!==_lbSeq)return;
+    lbImg.src=item.src;lbImg.alt=esc(item.name||'');
+    requestAnimationFrame(function(){lbImg.classList.remove('fading');});
+  }).catch(function(){
+    if(seq!==_lbSeq)return;
+    lbImg.src=item.src;lbImg.alt=esc(item.name||'');
+    lbImg.classList.remove('fading');
+  });
+  preloadImg(images[(lbIdx+1)%images.length].src);
+  preloadImg(images[(lbIdx-1+images.length)%images.length].src);
 }
 function closeLB(){
+  lbOpen=false;
   lightbox.classList.remove('open');
   document.body.style.overflow='';
-  setTimeout(function(){lbImg.src='';},140);
+  setTimeout(function(){lbImg.src='';},380);
 }
 function lbGo(dir){
   lbImg.classList.add('fading');
   setTimeout(function(){
     lbIdx=(lbIdx+dir+images.length)%images.length;
     openLB(lbIdx);
-    lbImg.classList.remove('fading');
   },95);
 }
 
