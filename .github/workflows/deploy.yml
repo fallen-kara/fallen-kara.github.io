@@ -31,6 +31,7 @@ jobs:
 
       - name: Minify HTML files
         run: |
+          set -e
           for f in *.html; do
             html-minifier-terser \
               --collapse-whitespace \
