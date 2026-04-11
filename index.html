@@ -108,16 +108,36 @@ body.lock{-webkit-user-select:none;user-select:none;}
 @keyframes titlePulse{0%,100%{text-shadow:0 0 30px rgba(52,211,153,.06);}50%{text-shadow:0 0 50px rgba(52,211,153,.14),0 0 100px rgba(52,211,153,.04);}}
 .header-sub{font-family:var(--mono);font-size:12px;letter-spacing:.28em;color:rgba(255,255,255,.15);text-transform:uppercase;margin-top:12px;}
 .header-motto{font-family:var(--fell);font-style:italic;font-size:15px;color:rgba(255,255,255,.20);margin-top:8px;letter-spacing:.06em;}
-.hdr-accent-img{position:absolute;right:clamp(8px,3vw,32px);top:50%;transform:translateY(-50%);
-  width:clamp(160px,20vw,300px);height:clamp(140px,16vw,220px);object-fit:cover;border-radius:4px;
-  opacity:.45;filter:brightness(.85) saturate(.55) grayscale(.15);pointer-events:none;
-  mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%),linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%);
-  mask-composite:intersect;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 88%,transparent 100%),linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%);-webkit-mask-composite:source-in;
-  animation:hdrImgFloat 7s ease-in-out infinite;will-change:transform;}
+/* torii-frame wrapper */
+.hdr-img-frame{position:absolute;right:clamp(8px,3vw,32px);top:50%;transform:translateY(-50%);
+  animation:hdrImgFloat 7s ease-in-out infinite;will-change:transform;pointer-events:none;}
+/* top kasagi beam */
+.hdr-img-frame::before{content:"";position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  width:115%;height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(52,211,153,.06) 15%,rgba(52,211,153,.22) 40%,rgba(52,211,153,.30) 50%,rgba(52,211,153,.22) 60%,rgba(52,211,153,.06) 85%,transparent 100%);
+  box-shadow:0 0 10px rgba(52,211,153,.06),0 -1px 0 rgba(52,211,153,.08);z-index:1;}
+/* bottom nuki beam */
+.hdr-img-frame::after{content:"";position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
+  width:85%;height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(52,211,153,.04) 20%,rgba(52,211,153,.16) 45%,rgba(52,211,153,.20) 50%,rgba(52,211,153,.16) 55%,rgba(52,211,153,.04) 80%,transparent 100%);
+  box-shadow:0 0 8px rgba(52,211,153,.04);z-index:1;}
+.hdr-accent-img{display:block;
+  width:clamp(180px,22vw,320px);height:clamp(120px,13vw,180px);object-fit:cover;border-radius:3px;
+  opacity:.48;filter:brightness(.82) saturate(.50) grayscale(.12) sepia(.08);
+  border:1px solid rgba(52,211,153,.06);
+  box-shadow:0 0 24px rgba(52,211,153,.04),0 0 60px rgba(0,0,0,.5),inset 0 0 30px rgba(0,0,0,.15);
+  mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%),linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%);
+  mask-composite:intersect;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%),linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%);-webkit-mask-composite:source-in;}
 @keyframes hdrImgFloat{0%,100%{transform:translateY(-50%) translateX(0);}50%{transform:translateY(-50%) translateX(-3px);}}
-@media(max-width:1100px){.hdr-accent-img{opacity:.32;width:clamp(120px,16vw,220px);height:clamp(100px,12vw,170px);}}
-@media(max-width:680px){.hdr-accent-img{position:static;transform:none;display:block;margin:14px auto 0;
-  opacity:.35;width:clamp(140px,40vw,240px);height:clamp(110px,28vw,180px);animation:hdrImgFloatM 7s ease-in-out infinite;}}
+@media(max-width:1100px){.hdr-img-frame{right:clamp(4px,2vw,20px);}
+  .hdr-accent-img{opacity:.32;width:clamp(130px,17vw,230px);height:clamp(90px,11vw,155px);}
+  .hdr-img-frame::before{width:110%;}
+  .hdr-img-frame::after{width:80%;}}
+@media(max-width:680px){.hdr-img-frame{position:static;transform:none;display:block;margin:16px auto 0;
+  width:fit-content;animation:hdrImgFloatM 7s ease-in-out infinite;}
+  .hdr-accent-img{opacity:.38;width:clamp(160px,44vw,260px);height:clamp(95px,24vw,155px);}
+  .hdr-img-frame::before{width:120%;top:-8px;}
+  .hdr-img-frame::after{width:90%;bottom:-8px;}}
 @keyframes hdrImgFloatM{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
 
 /* ── text effects ── */
@@ -414,7 +434,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
     <h1 class="site-name">Fallen Page</h1>
     <p class="header-sub">☩ &nbsp; kara-21 &nbsp;·&nbsp; soul archive &nbsp;·&nbsp; fallen page &nbsp; ☩</p>
     <p class="header-motto">"be strong."</p>
-    <img class="hdr-accent-img" src="https://i.ibb.co/N2ZLT7vS/005.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
+    <div class="hdr-img-frame" aria-hidden="true"><img class="hdr-accent-img" src="https://i.ibb.co/N2ZLT7vS/005.jpg" alt="" draggable="false" loading="lazy"/></div>
   </div>
 
   <!-- MARQUEE -->
