@@ -106,6 +106,17 @@ body.lock{-webkit-user-select:none;user-select:none;}
 @keyframes titlePulse{0%,100%{text-shadow:0 0 30px rgba(52,211,153,.06);}50%{text-shadow:0 0 50px rgba(52,211,153,.14),0 0 100px rgba(52,211,153,.04);}}
 .header-sub{font-family:var(--mono);font-size:12px;letter-spacing:.28em;color:rgba(255,255,255,.15);text-transform:uppercase;margin-top:12px;}
 .header-motto{font-family:var(--fell);font-style:italic;font-size:15px;color:rgba(255,255,255,.20);margin-top:8px;letter-spacing:.06em;}
+.hdr-accent-img{position:absolute;right:clamp(8px,3vw,32px);top:50%;transform:translateY(-50%);
+  width:clamp(60px,8vw,110px);height:clamp(80px,10vw,150px);object-fit:cover;border-radius:4px;
+  opacity:.45;filter:brightness(.85) saturate(.55) grayscale(.15);pointer-events:none;
+  mask-image:linear-gradient(to bottom,transparent 2%,black 18%,black 82%,transparent 98%),linear-gradient(to right,transparent 2%,black 18%,black 82%,transparent 98%);
+  mask-composite:intersect;-webkit-mask-image:linear-gradient(to bottom,transparent 2%,black 18%,black 82%,transparent 98%),linear-gradient(to right,transparent 2%,black 18%,black 82%,transparent 98%);-webkit-mask-composite:source-in;
+  animation:hdrImgFloat 7s ease-in-out infinite;will-change:transform;}
+@keyframes hdrImgFloat{0%,100%{transform:translateY(-50%) translateX(0);}50%{transform:translateY(-50%) translateX(-3px);}}
+@media(max-width:1100px){.hdr-accent-img{opacity:.32;width:clamp(50px,7vw,85px);height:clamp(65px,9vw,115px);}}
+@media(max-width:680px){.hdr-accent-img{position:static;transform:none;display:block;margin:14px auto 0;
+  opacity:.35;width:clamp(70px,20vw,100px);height:clamp(90px,26vw,130px);animation:hdrImgFloatM 7s ease-in-out infinite;}}
+@keyframes hdrImgFloatM{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
 
 /* ── text effects ── */
 .t-teal{color:var(--accent);text-shadow:0 0 12px rgba(52,211,153,.15);display:inline;}
@@ -379,10 +390,10 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
 <body>
 <div id="ambient" aria-hidden="true"></div>
 <canvas id="sparks" aria-hidden="true"></canvas>
-<img class="side-img side-img-left side-top" src="https://i.ibb.co/Xk25F2C6/76d1de85ad0f8d398939c676cb1c8453.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
-<img class="side-img side-img-left side-bot" src="https://i.ibb.co/7xHPmgHd/e5b3764300646f5a5a572585553ded8c.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
-<img class="side-img side-img-right side-top" src="https://i.ibb.co/nMN7PwY5/f86696ae2e697352c0d2cc4b87c4efdb.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
-<img class="side-img side-img-right side-bot" src="https://i.ibb.co/8Lp6QJmT/4c0ac310182eae6a43c53f7a41ce35a8.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
+<img class="side-img side-img-left side-top" src="https://i.ibb.co/CKBZVyjL/04.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
+<img class="side-img side-img-left side-bot" src="https://i.ibb.co/ns7PZWYD/03.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
+<img class="side-img side-img-right side-top" src="https://i.ibb.co/39KD73SH/02.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
+<img class="side-img side-img-right side-bot" src="https://i.ibb.co/rKdwg7yQ/01.webp" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
 
 <div id="loader" role="status">
   <div class="ld-inner">
@@ -401,6 +412,7 @@ ul.fav li span{color:var(--text2);font-style:italic;font-size:13px;}
     <h1 class="site-name">Fallen Page</h1>
     <p class="header-sub">☩ &nbsp; kara-21 &nbsp;·&nbsp; soul archive &nbsp;·&nbsp; fallen page &nbsp; ☩</p>
     <p class="header-motto">"be strong."</p>
+    <img class="hdr-accent-img" src="https://i.ibb.co/N2ZLT7vS/005.jpg" alt="" aria-hidden="true" draggable="false" loading="lazy"/>
   </div>
 
   <!-- MARQUEE -->
