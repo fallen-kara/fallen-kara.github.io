@@ -275,7 +275,8 @@ body.lock{-webkit-user-select:none;user-select:none;}
 /* ── favorites ── */
 .fav-layout{display:flex;gap:16px;align-items:stretch;}
 .fav-img-wrap{flex:0 0 130px;position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);align-self:center;}
-.fav-img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85) saturate(.8);transition:filter .5s ease,transform .5s ease;}
+.fav-img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85) saturate(.8);transition:filter .5s ease,transform .5s ease,opacity .45s cubic-bezier(.4,0,.2,1);opacity:1;}
+.fav-img.fav-fade{opacity:0;}
 .fav-img-wrap:hover .fav-img{filter:brightness(.95) saturate(.9);transform:scale(1.02);}
 .fav-content{flex:1;min-width:0;}
 @media(max-width:540px){.fav-layout{flex-direction:column;align-items:center;}.fav-img-wrap{flex:0 0 auto;width:110px;height:150px;}}
@@ -775,7 +776,8 @@ const db  = getFirestore(app);
   var names={anime:'favorites — <span class="t-shimmer">anime</span>',screen:'favorites — <span class="t-shimmer">shows & films</span>'};
   var gifs={anime:'https://i.pinimg.com/originals/62/e7/84/62e784236417c0807686665e22414084.gif',screen:'https://i.pinimg.com/originals/9e/ed/0c/9eed0cac045da825afa87227300db71c.gif'};
   tabs.forEach(function(tab){tab.addEventListener("click",go);tab.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();go.call(tab);}});});
-  function go(){var k=this.dataset.t;tabs.forEach(function(t){t.classList.toggle("on",t.dataset.t===k);t.setAttribute("aria-selected",t.dataset.t===k?"true":"false");t.setAttribute("tabindex",t.dataset.t===k?"0":"-1");});panels.forEach(function(p){p.classList.toggle("on",p.id==="fp-"+k);});if(hed)hed.innerHTML=names[k]||"favorites";if(favImg&&gifs[k])favImg.src=gifs[k];}
+  var _favBusy=false;
+  function go(){var k=this.dataset.t;tabs.forEach(function(t){t.classList.toggle("on",t.dataset.t===k);t.setAttribute("aria-selected",t.dataset.t===k?"true":"false");t.setAttribute("tabindex",t.dataset.t===k?"0":"-1");});panels.forEach(function(p){p.classList.toggle("on",p.id==="fp-"+k);});if(hed)hed.innerHTML=names[k]||"favorites";if(favImg&&gifs[k]&&favImg.src!==gifs[k]){if(_favBusy)return;_favBusy=true;favImg.classList.add("fav-fade");var _ran=false;var _done=function(){if(_ran)return;_ran=true;clearTimeout(_fb);favImg.src=gifs[k];favImg.onload=function(){favImg.classList.remove("fav-fade");_favBusy=false;favImg.onload=null;};setTimeout(function(){if(_favBusy){favImg.classList.remove("fav-fade");_favBusy=false;}},2000);};favImg.addEventListener("transitionend",function(e){if(e.propertyName==="opacity")_done();},{once:true});var _fb=setTimeout(_done,600);}}
 })();
 
 // ── lockdown ──
