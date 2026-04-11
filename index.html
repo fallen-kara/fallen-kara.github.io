@@ -771,10 +771,11 @@ const db  = getFirestore(app);
 
 // ── tabs ──
 (function(){
-  var tabs=document.querySelectorAll(".ftab"),panels=document.querySelectorAll(".fav-panel"),hed=document.getElementById("fav-hed");
+  var tabs=document.querySelectorAll(".ftab"),panels=document.querySelectorAll(".fav-panel"),hed=document.getElementById("fav-hed"),favImg=document.querySelector(".fav-img");
   var names={anime:'favorites — <span class="t-shimmer">anime</span>',screen:'favorites — <span class="t-shimmer">shows & films</span>'};
+  var gifs={anime:'https://i.pinimg.com/originals/62/e7/84/62e784236417c0807686665e22414084.gif',screen:'https://i.pinimg.com/originals/9e/ed/0c/9eed0cac045da825afa87227300db71c.gif'};
   tabs.forEach(function(tab){tab.addEventListener("click",go);tab.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();go.call(tab);}});});
-  function go(){var k=this.dataset.t;tabs.forEach(function(t){t.classList.toggle("on",t.dataset.t===k);t.setAttribute("aria-selected",t.dataset.t===k?"true":"false");t.setAttribute("tabindex",t.dataset.t===k?"0":"-1");});panels.forEach(function(p){p.classList.toggle("on",p.id==="fp-"+k);});if(hed)hed.innerHTML=names[k]||"favorites";}
+  function go(){var k=this.dataset.t;tabs.forEach(function(t){t.classList.toggle("on",t.dataset.t===k);t.setAttribute("aria-selected",t.dataset.t===k?"true":"false");t.setAttribute("tabindex",t.dataset.t===k?"0":"-1");});panels.forEach(function(p){p.classList.toggle("on",p.id==="fp-"+k);});if(hed)hed.innerHTML=names[k]||"favorites";if(favImg&&gifs[k])favImg.src=gifs[k];}
 })();
 
 // ── lockdown ──
