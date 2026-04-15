@@ -183,6 +183,15 @@ body { background:#070503; display:flex; align-items:center; justify-content:cen
 </style>
 </head>
 <body>
+<iframe
+id="ytplayer"
+width="0"
+height="0"
+src="https://www.youtube.com/embed/_HOYfH1zaLg?autoplay=1&mute=1&loop=1&playlist=_HOYfH1zaLg&enablejsapi=1"
+frameborder="0"
+allow="autoplay"
+allowfullscreen>
+</iframe>
 <div class="bg"></div>
 <div class="wash"></div>
 <div class="grain"></div>
@@ -208,6 +217,40 @@ body { background:#070503; display:flex; align-items:center; justify-content:cen
 </main>
 
 <script>
+
+  <!-- ADD THIS right before </body> (do not remove your current code) -->
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+function onYouTubeIframeAPIReady() {
+
+  const player = new YT.Player('ytplayer', {
+    events: {
+      onReady: function(event) {
+
+        event.target.playVideo();
+        event.target.setVolume(0);
+        event.target.unMute();
+
+        let volume = 0;
+
+        const fade = setInterval(() => {
+          if (volume < 25) {
+            volume += 2;
+            event.target.setVolume(volume);
+          } else {
+            clearInterval(fade);
+          }
+        }, 700);
+
+      }
+    }
+  });
+
+}
+<
+  
 (function(){
   const n=window.innerWidth<600?8:15;
   for(let i=0;i<n;i++){
